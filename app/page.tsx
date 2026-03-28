@@ -153,7 +153,7 @@ export default function Home() {
           <div className="flex flex-col justify-center">
             <p className="text-lg text-gray-700 mb-4">
               <strong>所在地:</strong> 〒352-0004 埼玉県新座市野火止2-1-29<br />
-              <strong>最寄駅:</strong> JR武蔵野線「新座駅」より車3分・徒歩10分
+              <strong>最寄駅:</strong> JR武蔵野線「新座駅」より 車で3分 / 徒歩で10分
             </p>
             <Link
               href="/access"

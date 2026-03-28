@@ -24,7 +24,7 @@ export default function AccessPage() {
           〒352-0004 埼玉県新座市野火止2-1-29
         </p>
         <p className="text-gray-600">
-          <strong>最寄駅:</strong> JR武蔵野線「新座駅」より 車…3分 / 徒歩…10分
+          <strong>最寄駅:</strong> JR武蔵野線「新座駅」より 車で3分 / 徒歩で10分
         </p>
       </section>
 
