@@ -1,0 +1,142 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import Image from 'next/image';
+
+export const metadata: Metadata = {
+  title: '買取の案内',
+  description: '買取方法・買取可能商材・買取不可商材のご案内。',
+};
+
+export default function BusinessInfoPage() {
+  return (
+    <div className="max-w-5xl mx-auto px-4 py-10">
+      <h1 className="text-3xl font-bold text-gray-800 mb-10 border-b-2 border-green-700 pb-3 text-center">
+        買取の案内
+      </h1>
+
+      {/* 買取方法 */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold text-green-700 mb-6 border-l-4 border-green-700 pl-3">
+          買取方法について
+        </h2>
+        <div className="bg-white rounded-lg shadow-md p-6 md:p-8 space-y-5">
+          <div className="flex gap-4 items-start">
+            <span className="bg-green-700 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shrink-0">1</span>
+            <p className="text-lg text-gray-700">持ち込んで頂いた商材を当社スタッフが計量・査定致します。</p>
+          </div>
+          <div className="flex gap-4 items-start">
+            <span className="bg-green-700 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shrink-0">2</span>
+            <p className="text-lg text-gray-700">個々の単価に従って計算し、その場で買取り代金をお支払い致します。</p>
+          </div>
+          <div className="bg-yellow-50 p-5 rounded-lg text-base text-gray-600 space-y-2">
+            <p>●基本的にご予約等は必要ありませんが、大口の持込の場合は事前にご確認下さい。</p>
+            <p>●必ず仕分けを行い持って来て下さい。混載の場合、単価が異なりますのでご了承下さい。</p>
+          </div>
+        </div>
+      </section>
+
+      {/* 買取可能商材 */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold text-green-700 mb-6 border-l-4 border-green-700 pl-3">
+          買取可能取扱い商材
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            { label: '銅', href: '/nonmetal/dou', items: '1号銅(ピカ線)・2号銅・並銅・込銅・錫引線・赤釜・白釜・皮付銅・ダライ粉' },
+            { label: '電線', href: '/nonmetal/densen', items: '1本線・3本線・VA線・家電線・ハーネス' },
+            { label: 'バッテリー', href: '/nonmetal/battery', items: '車用・工業用・フォークリフト用・シールド・バイク用' },
+            { label: '真鍮・砲金', href: '/nonmetal/shinchuu', items: '真鍮・混真鍮・真鍮ダライ粉・砲金・バルブ砲金・砲金ダライ粉' },
+            { label: 'モーター', href: '/nonmetal/moter', items: 'MIX・セルモーター・コンプレッサー・ダイナモ' },
+            { label: 'ラジエター', href: '/nonmetal/radieter', items: 'エアコン・アルミ・真鍮or半銅' },
+            { label: '鉛', href: '/nonmetal/namari', items: '鉛・鉛錘・鉛活字・バランスウエイト' },
+            { label: 'ホイール', href: '/nonmetal/hoile', items: 'ホイール(付物有)・ホイール1P(付物無)' },
+            { label: '特殊金属', href: '/nonmetal/tokushu', items: '純ニッケル・ニクロム・純チタン・洋銀・純錫・半田・モリブデン・超硬' },
+            { label: 'その他', href: '/nonmetal/other', items: 'ステンレス・給湯器・エアコン・家庭用雑品・工業用雑品・安定器・基板' },
+          ].map((cat) => (
+            <Link
+              key={cat.label}
+              href={cat.href}
+              className="block bg-white rounded-lg shadow-md p-5 hover:shadow-lg transition-shadow"
+            >
+              <h3 className="font-bold text-green-700 text-lg mb-1">{cat.label}</h3>
+              <p className="text-sm text-gray-500">{cat.items}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* その他買取可能 */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold text-green-700 mb-6 border-l-4 border-green-700 pl-3">
+          その他家庭雑品（買取・引取可能な場合あり）
+        </h2>
+        <div className="bg-gray-50 rounded-lg p-6">
+          <p className="text-base text-gray-600 leading-relaxed">
+            パソコン関連機器 / ズボンプレッサー / 石油ストーブ / 浄水器 / 空気洗浄機 / ゲーム機 / ミシン /
+            ガスストーブ / 炊飯器 / 消火器 / 電子レンジ / アイロン / ミキサー / ポット / 電気温水器 / 扇風機 /
+            プリンター / ジューサー / コーヒーメーカー / ガスボンベ / 換気扇 / スキャナー / 電気ストーブ /
+            ホットプレート / 自転車 / ラジカセ / コピー機 / 配電盤 / ラジコン / マウンテンバイク /
+            CDラジカセ / オーブン / 各種ルーター / パトライト / アルミ調理器具 / 食器乾燥機 / トースター /
+            キーボード / インターホン / ステンレス調理器具 / ガスコンロ / 加湿器 / 掃除機 / 電動工具 /
+            草刈り機 / 冷風機 / 除湿器 / タイムレコーダー / ウォシュレット / 食器洗浄機 / コンポ / 電話器 /
+            各種カメラ / トランシーバー / 製氷機 / スピーカー / FAX / ワープロ / 溶接機 / フライヤー /
+            ビデオ / ドライヤー / DVDプレーヤー / 自動販売機 / レジスター / 照明器具(球無し) /
+            業務用ガスレンジ / アンプ / 電飾看板 / シュレッダー / 餅つき機 / 厨房用品 / カーステレオ /
+            医療機器 / 布団乾燥機 / フードカッター
+          </p>
+        </div>
+      </section>
+
+      {/* 買取不可 */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold text-red-600 mb-6 border-l-4 border-red-600 pl-3">
+          買取不可商材について
+        </h2>
+
+        <div className="bg-red-50 rounded-lg p-6 mb-6">
+          <p className="text-red-700 font-bold text-lg">
+            「ブラウン管モニター」「テレビ」「スピーカー」は一切の買取をしておりません。
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          {[
+            {
+              title: 'リサイクルできないもの',
+              items: '木、紙、ゴム、布（例：電気カーペット等）、ガラス（例：テレビ、パソコンモニター、蛍光灯等）、土、泥、コンクリート、断熱材、掃除機のホース、ビニール、大量のプラスティック',
+            },
+            {
+              title: '液体',
+              items: '水、油、燃料、あるいは液体を含むもの（例：燃料タンク、オイルホース等）',
+            },
+            {
+              title: '不衛生なもの',
+              items: '生ゴミ、ペットボトル、空き缶、食品トレー等の生活ゴミ、便器等',
+            },
+            {
+              title: '危険物',
+              items: '刃物、刀剣、針、及びそれらに似た形状で怪我の危険性があるもの、医療・生物系廃棄物',
+            },
+            {
+              title: '有毒物',
+              items: '強酸・強アルカリ（塩基）、有機水銀、PCBを含む可能性があるもの（例：キュービクル）等',
+            },
+            {
+              title: '発火・燃焼する可能性があるもの',
+              items: '電池、鉛バッテリー、UPS（無停電電源装置）、給油機等',
+            },
+            {
+              title: 'その他',
+              items: '冷蔵庫、金庫、密閉物（内容物を確認できないもの）',
+            },
+          ].map((section) => (
+            <div key={section.title} className="bg-white rounded-lg shadow-sm p-5 border-l-4 border-red-200">
+              <h3 className="font-bold text-gray-800 text-base mb-1">●{section.title}</h3>
+              <p className="text-base text-gray-600">{section.items}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
