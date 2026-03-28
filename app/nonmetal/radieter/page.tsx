@@ -1,12 +1,8 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
-import { getPricesByCategory } from '@/lib/getPrices';
-import { CategoryNav } from '@/components/CategoryNav';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'ラジエターの買取',
-  description: 'エアコン・アルミ・真鍮or半銅等のラジエターを高価買取。',
-};
+import Image from 'next/image';
+import { usePricesByCategory } from '@/lib/usePrices';
+import { CategoryNav } from '@/components/CategoryNav';
 
 const ITEMS = [
   { name: 'エアコン（ゴルフ）', image: '/images/000radi1.gif', desc: 'エアコンの内部にあるラジエーターです。アルミニウムのフィン(羽)の中に銅管が通っているもの。' },
@@ -16,8 +12,8 @@ const ITEMS = [
   { name: 'タカウイorアルミ', image: '/images/000radi5.gif', desc: '自動車用のラジエーターです。羽が銅、管が真鍮、あるいは羽が真鍮、管が銅でできているもの。' },
 ];
 
-export default async function RadieterPage() {
-  const items = await getPricesByCategory('ラジエター');
+export default function RadieterPage() {
+  const { items, loading } = usePricesByCategory('ラジエター');
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
@@ -36,7 +32,7 @@ export default async function RadieterPage() {
               <div className="p-5 text-center">
                 <h3 className="font-bold text-gray-800 text-xl mb-2">{item.name}</h3>
                 <p className="text-green-700 font-bold text-2xl mb-3">
-                    {priceItem?.price === '要問合せ' ? (
+                    {loading ? '...' : priceItem?.price === '要問合せ' ? (
                       <a href="tel:048-483-6687" className="text-orange-600">要問合せ</a>
                     ) : priceItem ? (
                       `${Number(priceItem.price).toLocaleString()}円/kg`

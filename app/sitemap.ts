@@ -1,6 +1,8 @@
 import type { MetadataRoute } from 'next';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://pura-recycle.com';
+export const dynamic = 'force-static';
+
+const SITE_URL = 'https://pura-recycle.com';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

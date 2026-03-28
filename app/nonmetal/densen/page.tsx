@@ -1,12 +1,8 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
-import { getPricesByCategory } from '@/lib/getPrices';
-import { CategoryNav } from '@/components/CategoryNav';
+'use client';
 
-export const metadata: Metadata = {
-  title: '電線の買取',
-  description: '1本線・3本線・VA線・家電線・ハーネス等の電線を高価買取。',
-};
+import Image from 'next/image';
+import { usePricesByCategory } from '@/lib/usePrices';
+import { CategoryNav } from '@/components/CategoryNav';
 
 const ITEMS = [
   { name: '1本線（高）', image: '/images/000ipponsen1.gif', desc: '1本線の上級品(60mm、100mm、150mm、200mm以上)等が相当します。被覆が容易に剥くことができないものは減額or買取りできないことがあります。' },
@@ -20,8 +16,8 @@ const ITEMS = [
   { name: 'ハーネス', image: '/images/000hanes.gif', desc: 'ワイヤーハーネス(ケーブルハーネス)とも呼ばれます。自動車の内部に含まれている電線で、内線が銅であるものに限ります。' },
 ];
 
-export default async function DensenPage() {
-  const items = await getPricesByCategory('電線');
+export default function DensenPage() {
+  const { items, loading } = usePricesByCategory('電線');
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
@@ -40,7 +36,7 @@ export default async function DensenPage() {
               <div className="p-5 text-center">
                 <h3 className="font-bold text-gray-800 text-xl mb-2">{item.name}</h3>
                 <p className="text-green-700 font-bold text-2xl mb-3">
-                    {priceItem?.price === '要問合せ' ? (
+                    {loading ? '...' : priceItem?.price === '要問合せ' ? (
                       <a href="tel:048-483-6687" className="text-orange-600">要問合せ</a>
                     ) : priceItem ? (
                       `${Number(priceItem.price).toLocaleString()}円/kg`

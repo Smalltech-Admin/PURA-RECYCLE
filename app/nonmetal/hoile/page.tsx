@@ -1,20 +1,16 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
-import { getPricesByCategory } from '@/lib/getPrices';
-import { CategoryNav } from '@/components/CategoryNav';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'ホイールの買取',
-  description: 'アルミホイール(付物有・付物無)を高価買取。',
-};
+import Image from 'next/image';
+import { usePricesByCategory } from '@/lib/usePrices';
+import { CategoryNav } from '@/components/CategoryNav';
 
 const ITEMS = [
   { name: 'ホイール線（フル）', image: '/images/000hoile1.gif', desc: '自動車のアルミホイールです。アルミ以外の付物があるもの。空気弁やバランスウェイト等、付属品が残っている状態のもの。2ピース構造のものは減額になります。' },
   { name: 'ホイールPP（フル含）', image: '/images/000hoile2.gif', desc: '自動車のアルミホイールです。リム部とディスク部が一体となった、ワンピース構造のもの。全ての付属物を取り除き、アルミだけにしたもの。メッキ加工品は付物有りとしての取り扱いになります。' },
 ];
 
-export default async function HoilePage() {
-  const items = await getPricesByCategory('ホイール線');
+export default function HoilePage() {
+  const { items, loading } = usePricesByCategory('ホイール線');
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
@@ -33,7 +29,7 @@ export default async function HoilePage() {
               <div className="p-5 text-center">
                 <h3 className="font-bold text-gray-800 text-xl mb-2">{item.name}</h3>
                 <p className="text-green-700 font-bold text-2xl mb-3">
-                    {priceItem?.price === '要問合せ' ? (
+                    {loading ? '...' : priceItem?.price === '要問合せ' ? (
                       <a href="tel:048-483-6687" className="text-orange-600">要問合せ</a>
                     ) : priceItem ? (
                       `${Number(priceItem.price).toLocaleString()}円/kg`

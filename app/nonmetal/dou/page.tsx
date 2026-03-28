@@ -1,12 +1,8 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
-import { getPricesByCategory } from '@/lib/getPrices';
-import { CategoryNav } from '@/components/CategoryNav';
+'use client';
 
-export const metadata: Metadata = {
-  title: '銅の買取',
-  description: '1号銅(ピカ銅)・2号銅・並銅・込銅・錫銅線・赤釜・白釜等の銅を高価買取。',
-};
+import Image from 'next/image';
+import { usePricesByCategory } from '@/lib/usePrices';
+import { CategoryNav } from '@/components/CategoryNav';
 
 const ITEMS = [
   { name: '1号銅（ピカ銅）', image: '/images/0001goudou.gif', desc: '線材直径1.3mm以上の純銅で、錫メッキ・エナメル塗装・表面劣化等のないもの。針金・紙・テープが付いた場合はピカ銅になりません。' },
@@ -20,8 +16,8 @@ const ITEMS = [
   { name: 'ダライ・切粉', image: '/images/000darainagetto.gif', desc: 'お問い合わせください。一部品種の買取りが出来ない場合があります。' },
 ];
 
-export default async function DouPage() {
-  const items = await getPricesByCategory('銅');
+export default function DouPage() {
+  const { items, loading } = usePricesByCategory('銅');
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
@@ -40,7 +36,7 @@ export default async function DouPage() {
               <div className="p-5 text-center">
                 <h3 className="font-bold text-gray-800 text-xl mb-2">{item.name}</h3>
                 <p className="text-green-700 font-bold text-2xl mb-3">
-                    {priceItem?.price === '要問合せ' ? (
+                    {loading ? '...' : priceItem?.price === '要問合せ' ? (
                       <a href="tel:048-483-6687" className="text-orange-600">要問合せ</a>
                     ) : priceItem ? (
                       `${Number(priceItem.price).toLocaleString()}円/kg`

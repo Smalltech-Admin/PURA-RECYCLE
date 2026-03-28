@@ -1,12 +1,8 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
-import { getPricesByCategory } from '@/lib/getPrices';
-import { CategoryNav } from '@/components/CategoryNav';
+'use client';
 
-export const metadata: Metadata = {
-  title: '特殊金属の買取',
-  description: '純ニッケル・ニクロム・純チタン・洋銀・純錫・半田・モリブデン・超硬等の特殊金属を買取。',
-};
+import Image from 'next/image';
+import { usePricesByCategory } from '@/lib/usePrices';
+import { CategoryNav } from '@/components/CategoryNav';
 
 const ITEMS = [
   { name: 'ユニッケル線', image: '/images/000t-kin1.gif', desc: 'モノにより成分が異なり、価格も変わります。要お問合せ下さい。' },
@@ -19,8 +15,8 @@ const ITEMS = [
   { name: '重電', image: '/images/000t-kin8.gif', desc: '切削工具に使用されるチップです。タングステンとコバルトからなる合金。' },
 ];
 
-export default async function TokushuPage() {
-  const items = await getPricesByCategory('特殊金属');
+export default function TokushuPage() {
+  const { items, loading } = usePricesByCategory('特殊金属');
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
@@ -43,7 +39,7 @@ export default async function TokushuPage() {
               <div className="p-5 text-center">
                 <h3 className="font-bold text-gray-800 text-xl mb-2">{item.name}</h3>
                 <p className="text-green-700 font-bold text-2xl mb-3">
-                    {priceItem?.price === '要問合せ' ? (
+                    {loading ? '...' : priceItem?.price === '要問合せ' ? (
                       <a href="tel:048-483-6687" className="text-orange-600">要問合せ</a>
                     ) : priceItem ? (
                       `${Number(priceItem.price).toLocaleString()}円/kg`

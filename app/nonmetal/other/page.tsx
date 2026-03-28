@@ -1,12 +1,8 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
-import { getPricesByCategory } from '@/lib/getPrices';
-import { CategoryNav } from '@/components/CategoryNav';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'その他非金属の買取',
-  description: 'ステンレス・給湯器・エアコン・家庭用雑品・工業用雑品・安定器・基板等を買取。',
-};
+import Image from 'next/image';
+import { usePricesByCategory } from '@/lib/usePrices';
+import { CategoryNav } from '@/components/CategoryNav';
 
 const ITEMS = [
   { name: 'ステンレス', image: '/images/000stainless.gif', desc: '基本的に磁石に着かないもの。ステンレス以外のダストが多い場合は減額になります。' },
@@ -18,8 +14,8 @@ const ITEMS = [
   { name: '基板', image: '/images/000kiban.gif', desc: 'パソコンをはじめ、各種電化製品等に搭載されている基板です。' },
 ];
 
-export default async function OtherPage() {
-  const items = await getPricesByCategory('その他');
+export default function OtherPage() {
+  const { items, loading } = usePricesByCategory('その他');
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
@@ -38,7 +34,7 @@ export default async function OtherPage() {
               <div className="p-5 text-center">
                 <h3 className="font-bold text-gray-800 text-xl mb-2">{item.name}</h3>
                 <p className="text-green-700 font-bold text-2xl mb-3">
-                    {priceItem?.price === '要問合せ' ? (
+                    {loading ? '...' : priceItem?.price === '要問合せ' ? (
                       <a href="tel:048-483-6687" className="text-orange-600">要問合せ</a>
                     ) : priceItem ? (
                       `${Number(priceItem.price).toLocaleString()}円/kg`

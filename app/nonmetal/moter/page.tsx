@@ -1,12 +1,8 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
-import { getPricesByCategory } from '@/lib/getPrices';
-import { CategoryNav } from '@/components/CategoryNav';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'モーターの買取',
-  description: 'MIX・セルモーター・コンプレッサー・ダイナモ等のモーターを高価買取。',
-};
+import Image from 'next/image';
+import { usePricesByCategory } from '@/lib/usePrices';
+import { CategoryNav } from '@/components/CategoryNav';
 
 const ITEMS = [
   { name: 'MIX', image: '/images/000moter1.gif', desc: '工業用や家電品に使われているモーターです。エアコンや冷蔵庫に含まれている黒モーターも買取りします。水中ポンプや電動工具等もモーターとして買取りします。' },
@@ -15,8 +11,8 @@ const ITEMS = [
   { name: 'ダイナモ', image: '/images/000moter4.gif', desc: '自動車の発電機です。リユース品として買取ります。留具、ボディが破損し、二次利用できないものは減額させていただきます。' },
 ];
 
-export default async function MoterPage() {
-  const items = await getPricesByCategory('モーター');
+export default function MoterPage() {
+  const { items, loading } = usePricesByCategory('モーター');
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
@@ -35,7 +31,7 @@ export default async function MoterPage() {
               <div className="p-5 text-center">
                 <h3 className="font-bold text-gray-800 text-xl mb-2">{item.name}</h3>
                 <p className="text-green-700 font-bold text-2xl mb-3">
-                    {priceItem?.price === '要問合せ' ? (
+                    {loading ? '...' : priceItem?.price === '要問合せ' ? (
                       <a href="tel:048-483-6687" className="text-orange-600">要問合せ</a>
                     ) : priceItem ? (
                       `${Number(priceItem.price).toLocaleString()}円/kg`

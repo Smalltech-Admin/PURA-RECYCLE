@@ -1,12 +1,8 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
-import { getPricesByCategory } from '@/lib/getPrices';
-import { CategoryNav } from '@/components/CategoryNav';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'タカウイ・真鍮の買取',
-  description: '真鍮・混真鍮・真鍮ダライ粉・砲金・バルブ砲金・砲金ダライ粉を高価買取。',
-};
+import Image from 'next/image';
+import { usePricesByCategory } from '@/lib/usePrices';
+import { CategoryNav } from '@/components/CategoryNav';
 
 const ITEMS = [
   { name: 'タカウイ', image: '/images/000shinchuu1.gif', desc: '銅と亜鉛の化合物で、真鍮100％で不純物がないもの。真鍮以外の異物が付いているものやメッキ品等は混真鍮として扱います。' },
@@ -17,8 +13,8 @@ const ITEMS = [
   { name: '砲金ダライ', image: '/images/000houkin3.gif', desc: 'ダライ粉については、要お問合せ下さい。金額の査定が行えない場合があります。' },
 ];
 
-export default async function ShinchuuPage() {
-  const items = await getPricesByCategory('タカウイ・真鍮');
+export default function ShinchuuPage() {
+  const { items, loading } = usePricesByCategory('タカウイ・真鍮');
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
@@ -37,7 +33,7 @@ export default async function ShinchuuPage() {
               <div className="p-5 text-center">
                 <h3 className="font-bold text-gray-800 text-xl mb-2">{item.name}</h3>
                 <p className="text-green-700 font-bold text-2xl mb-3">
-                    {priceItem?.price === '要問合せ' ? (
+                    {loading ? '...' : priceItem?.price === '要問合せ' ? (
                       <a href="tel:048-483-6687" className="text-orange-600">要問合せ</a>
                     ) : priceItem ? (
                       `${Number(priceItem.price).toLocaleString()}円/kg`

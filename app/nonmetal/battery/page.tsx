@@ -1,12 +1,8 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
-import { getPricesByCategory } from '@/lib/getPrices';
-import { CategoryNav } from '@/components/CategoryNav';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'バッテリーの買取',
-  description: '車用・工業用・フォークリフト用・シールドバッテリー・バイク用バッテリーを高価買取。',
-};
+import Image from 'next/image';
+import { usePricesByCategory } from '@/lib/usePrices';
+import { CategoryNav } from '@/components/CategoryNav';
 
 const ITEMS = [
   { name: '車用', image: '/images/000battery1.gif', desc: '大型車両のバッテリーも買取ります。動作しなくても買取ります。鉛の含まれていないものは取り扱いできません。' },
@@ -16,8 +12,8 @@ const ITEMS = [
   { name: 'バイク用', image: '/images/000battery5.gif', desc: '動作しなくても買取ります。鉛の含まれていないものは取り扱いできません。' },
 ];
 
-export default async function BatteryPage() {
-  const items = await getPricesByCategory('バッテリー');
+export default function BatteryPage() {
+  const { items, loading } = usePricesByCategory('バッテリー');
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
@@ -36,7 +32,7 @@ export default async function BatteryPage() {
               <div className="p-5 text-center">
                 <h3 className="font-bold text-gray-800 text-xl mb-2">{item.name}</h3>
                 <p className="text-green-700 font-bold text-2xl mb-3">
-                    {priceItem?.price === '要問合せ' ? (
+                    {loading ? '...' : priceItem?.price === '要問合せ' ? (
                       <a href="tel:048-483-6687" className="text-orange-600">要問合せ</a>
                     ) : priceItem ? (
                       `${Number(priceItem.price).toLocaleString()}円/kg`
