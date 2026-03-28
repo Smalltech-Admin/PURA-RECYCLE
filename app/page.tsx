@@ -74,7 +74,7 @@ export default function Home() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
           {NONMETAL_CARDS.map((card) => (
-            <Link key={card.image} href={card.href} className="block hover:opacity-80 transition-opacity">
+            <Link key={card.image} href={card.href} className="block rounded shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.03]">
               <Image
                 src={card.image}
                 alt={card.alt}
@@ -92,7 +92,7 @@ export default function Home() {
         <h2 className="text-2xl font-bold text-green-700 mb-4 text-center">【その他取扱い商材】</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {OTHER_CARDS.map((card) => (
-            <Link key={card.image} href={card.href} className="block hover:opacity-80 transition-opacity">
+            <Link key={card.image} href={card.href} className="block rounded shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.03]">
               <Image
                 src={card.image}
                 alt={card.alt}
@@ -112,7 +112,7 @@ export default function Home() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
           {VEHICLE_CARDS.map((card) => (
-            <Link key={card.image} href={card.href} className="block hover:opacity-80 transition-opacity">
+            <Link key={card.image} href={card.href} className="block rounded shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.03]">
               <Image
                 src={card.image}
                 alt={card.alt}

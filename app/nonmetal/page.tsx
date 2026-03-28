@@ -42,7 +42,7 @@ export default function NonmetalPage() {
           <Link
             key={cat.href}
             href={cat.href}
-            className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden group"
+            className="block bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.03] overflow-hidden group"
           >
             <Image
               src={cat.image}

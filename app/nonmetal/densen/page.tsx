@@ -31,7 +31,7 @@ export default function DensenPage() {
         {ITEMS.map((item) => {
           const priceItem = items.find((p) => p.subcategory === item.name);
           return (
-            <div key={item.name} className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div key={item.name} className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.03]">
               <Image src={item.image} alt={item.name} width={400} height={300} className="w-full h-auto" />
               <div className="p-5 text-center">
                 <h3 className="font-bold text-gray-800 text-xl mb-2">{item.name}</h3>
