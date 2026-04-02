@@ -33,10 +33,24 @@ const VEHICLE_CARDS = [
 export default function Home() {
   return (
     <>
-      {/* Hero Section - メイン画像プレースホルダー */}
-      <section className="bg-gray-200 py-48 md:py-64">
-        <div className="max-w-5xl mx-auto px-4 text-center">
-          <p className="text-white text-2xl md:text-4xl font-bold">ここにメイン画像を配置</p>
+      {/* Hero Section */}
+      <section className="relative w-full h-[50vh] md:h-[70vh] overflow-hidden">
+        <Image
+          src="/images/hero-sunflower.jpg"
+          alt="限りある地球資源のために"
+          fill
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center px-4">
+            <p className="text-white text-2xl md:text-4xl lg:text-5xl font-bold drop-shadow-lg leading-relaxed">
+              限りある地球資源のために、
+              <br />
+              そして地球環境のために。
+            </p>
+          </div>
         </div>
       </section>
 
