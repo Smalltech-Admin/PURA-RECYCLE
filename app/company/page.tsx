@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function CompanyPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8 border-b-2 border-green-700 pb-3 text-center">
+      <h1 className="text-3xl font-bold text-gray-800 mb-8 border-b-2 border-brand pb-3 text-center">
         会社概要
       </h1>
 
@@ -40,12 +40,12 @@ export default function CompanyPage() {
             ['産廃許可番号', '431360051697（埼玉県知事許可）'],
           ].map(([label, value], i) => (
             <tr key={label} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-              <th className="p-4 text-left text-green-700 font-bold w-1/3 border-b border-gray-200 align-top">
+              <th className="p-4 text-left text-brand-dark font-bold w-1/3 border-b border-gray-200 align-top">
                 {label}
               </th>
               <td className="p-4 border-b border-gray-200">
                 {label === 'TEL' ? (
-                  <a href="tel:048-483-6687" className="text-green-700 hover:underline font-bold">
+                  <a href="tel:048-483-6687" className="text-brand-dark hover:underline font-bold">
                     {value}
                   </a>
                 ) : (
@@ -59,7 +59,7 @@ export default function CompanyPage() {
 
       {/* 代表挨拶 */}
       <section>
-        <h2 className="text-2xl font-bold text-green-700 mb-6 border-l-4 border-green-700 pl-3">
+        <h2 className="text-2xl font-bold text-brand-dark mb-6 border-l-4 border-brand pl-3">
           代表挨拶
         </h2>
         <div className="bg-white rounded-lg shadow-md p-6 md:p-8">

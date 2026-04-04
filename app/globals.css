@@ -10,10 +10,37 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-brand: #86E24B;
+  --color-brand-dark: #6BC438;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Swiper carousel */
+.price-carousel {
+  overflow: hidden !important;
+  max-width: 100% !important;
+}
+
+.price-carousel .swiper-wrapper {
+  max-width: 100%;
+}
+
+.price-carousel .swiper-button-next,
+.price-carousel .swiper-button-prev {
+  color: #6BC438;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+}
+
+.price-carousel .swiper-button-next::after,
+.price-carousel .swiper-button-prev::after {
+  font-size: 14px;
+  font-weight: bold;
 }

@@ -10,22 +10,22 @@ export const metadata: Metadata = {
 export default function BusinessInfoPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-gray-800 mb-10 border-b-2 border-green-700 pb-3 text-center">
+      <h1 className="text-3xl font-bold text-gray-800 mb-10 border-b-2 border-brand pb-3 text-center">
         買取の案内
       </h1>
 
       {/* 買取方法 */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold text-green-700 mb-6 border-l-4 border-green-700 pl-3">
+        <h2 className="text-2xl font-bold text-brand-dark mb-6 border-l-4 border-brand pl-3">
           買取方法について
         </h2>
         <div className="bg-white rounded-lg shadow-md p-6 md:p-8 space-y-5">
           <div className="flex gap-4 items-start">
-            <span className="bg-green-700 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shrink-0">1</span>
+            <span className="bg-brand text-gray-800 rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shrink-0">1</span>
             <p className="text-lg text-gray-700">持ち込んで頂いた商材を当社スタッフが計量・査定致します。</p>
           </div>
           <div className="flex gap-4 items-start">
-            <span className="bg-green-700 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shrink-0">2</span>
+            <span className="bg-brand text-gray-800 rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shrink-0">2</span>
             <p className="text-lg text-gray-700">個々の単価に従って計算し、その場で買取り代金をお支払い致します。</p>
           </div>
           <div className="bg-yellow-50 p-5 rounded-lg text-base text-gray-600 space-y-2">
@@ -37,7 +37,7 @@ export default function BusinessInfoPage() {
 
       {/* 買取可能商材 */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold text-green-700 mb-6 border-l-4 border-green-700 pl-3">
+        <h2 className="text-2xl font-bold text-brand-dark mb-6 border-l-4 border-brand pl-3">
           買取可能取扱い商材
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -58,7 +58,7 @@ export default function BusinessInfoPage() {
               href={cat.href}
               className="block bg-white rounded-lg shadow-md p-5 hover:shadow-lg transition-shadow"
             >
-              <h3 className="font-bold text-green-700 text-lg mb-1">{cat.label}</h3>
+              <h3 className="font-bold text-brand-dark text-lg mb-1">{cat.label}</h3>
               <p className="text-sm text-gray-500">{cat.items}</p>
             </Link>
           ))}
@@ -67,7 +67,7 @@ export default function BusinessInfoPage() {
 
       {/* その他買取可能 */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold text-green-700 mb-6 border-l-4 border-green-700 pl-3">
+        <h2 className="text-2xl font-bold text-brand-dark mb-6 border-l-4 border-brand pl-3">
           その他家庭雑品（買取・引取可能な場合あり）
         </h2>
         <div className="bg-gray-50 rounded-lg p-6">

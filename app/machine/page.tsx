@@ -27,10 +27,6 @@ const ITEMS = [
 export default function MachinePage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8 border-b-2 border-green-700 pb-3 text-center">
-        建設重機買取
-      </h1>
-
       <div className="mb-8">
         <Image
           src="/images/machine001.png"
@@ -48,7 +44,7 @@ export default function MachinePage() {
               <Image src={item.image} alt={item.name} width={200} height={150} className="object-cover w-[200px] h-[150px]" />
               <div className="p-4 flex-1">
                 <h3 className="font-bold text-gray-800 text-lg mb-1">{item.name}</h3>
-                <p className="text-green-700 font-bold text-xl mb-2">
+                <p className="text-brand-dark font-bold text-xl mb-2">
                   <a href="tel:048-483-6687" className="text-orange-600 hover:underline">要問合せ</a>
                 </p>
                 <p className="text-sm text-gray-600">{item.desc}</p>
@@ -64,12 +60,18 @@ export default function MachinePage() {
         </p>
         <a
           href="tel:048-483-6687"
-          className="text-green-700 font-bold text-2xl hover:underline"
+          className="text-brand-dark font-bold text-2xl hover:underline"
         >
           TEL: 048-483-6687
         </a>
-        <p className="text-green-700 font-bold text-2xl mt-1">FAX: 048-483-6688（24時間OK）</p>
+        <p className="text-brand-dark font-bold text-2xl mt-1">FAX: 048-483-6688（24時間OK）</p>
         <p className="text-sm text-gray-500 mt-2">営業時間: AM8:30〜PM7:00 / 年中無休</p>
+        <a
+          href="/contact"
+          className="inline-block mt-4 bg-brand text-gray-800 font-bold px-8 py-3 rounded-lg hover:bg-brand-dark transition-colors text-lg"
+        >
+          お問い合わせフォームへ →
+        </a>
       </div>
     </div>
   );

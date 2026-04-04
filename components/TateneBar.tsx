@@ -1,0 +1,63 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { fetchTatene, type TateneItem } from '@/lib/getTatene';
+
+export function TateneBar() {
+  const [items, setItems] = useState<TateneItem[]>([]);
+
+  useEffect(() => {
+    fetchTatene().then(setItems);
+  }, []);
+
+  if (items.length === 0) return null;
+
+  return (
+    <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-3">
+      <h3 className="font-bold text-xs text-gray-700 mb-2 border-b border-yellow-300 pb-1">
+        相場建値情報（円/トン）
+      </h3>
+      <ul className="text-sm space-y-2">
+        {items.map((item) => (
+          <li key={item.metal}>
+            <div className="flex justify-between items-center">
+              <span className="text-gray-700 font-medium">{item.metal}</span>
+              <span className="flex items-center gap-1">
+                <span
+                  className={
+                    item.direction === '⇧'
+                      ? 'text-red-600 font-bold'
+                      : item.direction === '⇩'
+                        ? 'text-blue-600 font-bold'
+                        : 'text-gray-500'
+                  }
+                >
+                  {item.direction}
+                </span>
+                <strong className="text-gray-800">
+                  {(Number(item.price) / 10000).toFixed(1)}万
+                </strong>
+              </span>
+            </div>
+            <div className="text-[10px] text-gray-400 mt-0.5">
+              {item.date && <span>{item.date} 現在</span>}
+              {item.date && item.source && <span> / </span>}
+              {item.url ? (
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline"
+                >
+                  {item.source}
+                </a>
+              ) : (
+                <span>{item.source}</span>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}

@@ -6,7 +6,7 @@ type Props = {
 };
 
 export function PriceTable({ items, showUpdatedAt = false }: Props) {
-  const lastUpdated = items[0]?.updated_at;
+  const lastUpdated = '';
 
   return (
     <div className="w-full overflow-x-auto">
@@ -17,7 +17,7 @@ export function PriceTable({ items, showUpdatedAt = false }: Props) {
       )}
       <table className="w-full border-collapse text-sm md:text-base">
         <thead>
-          <tr className="bg-green-700 text-white">
+          <tr className="bg-brand text-gray-800">
             <th className="p-3 text-left">品目</th>
             <th className="p-3 text-right">買取価格（税込）</th>
             <th className="p-3 text-left hidden md:table-cell">備考</th>
@@ -30,7 +30,7 @@ export function PriceTable({ items, showUpdatedAt = false }: Props) {
               className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}
             >
               <td className="p-3 font-medium">{item.subcategory}</td>
-              <td className="p-3 text-right font-bold text-green-700">
+              <td className="p-3 text-right font-bold text-brand-dark">
                 {item.price === '要問合せ' ? (
                   <a href="tel:048-483-6687" className="text-orange-600 hover:underline">
                     要問合せ

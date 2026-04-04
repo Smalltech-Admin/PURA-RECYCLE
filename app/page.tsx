@@ -1,193 +1,195 @@
-import Link from 'next/link';
+'use client';
+
 import Image from 'next/image';
+import Link from 'next/link';
+import { TateneBar } from '@/components/TateneBar';
+import { LmeCalculator } from '@/components/LmeCalculator';
+import { NewsSection } from '@/components/NewsSection';
+import { TodayCalendar } from '@/components/TodayCalendar';
+import { LineButton } from '@/components/LineButton';
+import { PriceListHome } from '@/components/PriceListHome';
 
-const NONMETAL_CARDS = [
-  { href: '/nonmetal/dou', image: '/images/top-dou.gif', alt: '銅買取' },
-  { href: '/nonmetal/densen', image: '/images/top-sen.gif', alt: '雑電線買取' },
-  { href: '/nonmetal/battery', image: '/images/top-battery.gif', alt: 'バッテリー買取' },
-  { href: '/nonmetal/shinchuu', image: '/images/top-shinchuu.gif', alt: '真鍮・砲金買取' },
-  { href: '/nonmetal/moter', image: '/images/top-moter.gif', alt: 'モーター買取' },
-  { href: '/nonmetal/radieter', image: '/images/top-radieter.gif', alt: 'ラジエター買取' },
-  { href: '/nonmetal/namari', image: '/images/top-nama.gif', alt: '鉛買取' },
-  { href: '/nonmetal/hoile', image: '/images/top-arh.gif', alt: 'アルミホイール買取' },
-  { href: '/nonmetal/tokushu', image: '/images/top-tokushukin.gif', alt: '特殊金属買取' },
-  { href: '/nonmetal/other', image: '/images/top-stain.gif', alt: 'ステンレス買取' },
-  { href: '/nonmetal/other', image: '/images/top-kyuutou.gif', alt: '給湯器買取' },
-  { href: '/nonmetal/other', image: '/images/top-eacon.gif', alt: 'エアコン買取' },
-  { href: '/nonmetal/other', image: '/images/top-zappin1.gif', alt: '家庭用雑品買取' },
-  { href: '/nonmetal/other', image: '/images/top-zappin2.gif', alt: '工業用雑品買取' },
-  { href: '/nonmetal/other', image: '/images/top-antei.gif', alt: '安定器買取' },
-  { href: '/nonmetal/other', image: '/images/top-kiban.gif', alt: '基盤買取' },
+const CATEGORY_NAV = [
+  { href: '/nonmetal/dou', label: '銅' },
+  { href: '/nonmetal/densen', label: '雑電線' },
+  { href: '/nonmetal/battery', label: 'バッテリー' },
+  { href: '/nonmetal/shinchuu', label: '真鍮・砲金' },
+  { href: '/nonmetal/moter', label: 'モーター' },
+  { href: '/nonmetal/radieter', label: 'ラジエター' },
+  { href: '/nonmetal/namari', label: '鉛' },
+  { href: '/nonmetal/hoile', label: 'ホイール' },
+  { href: '/nonmetal/tokushu', label: '特殊金属' },
+  { href: '/nonmetal/other', label: 'ステンレス・その他' },
+  { href: '/machine', label: '建設重機' },
+  { href: '/motercar', label: '自動車' },
+  { href: '/businessinfo', label: '買取の案内' },
 ];
 
-const OTHER_CARDS = [
-  { href: '/businessinfo', image: '/images/top-kaiok.gif', alt: 'その他買取可商材' },
-  { href: '/businessinfo', image: '/images/top-kaino.gif', alt: '買取不可商材' },
-];
-
-const VEHICLE_CARDS = [
-  { href: '/machine', image: '/images/top-machine.gif', alt: '建設重機' },
-  { href: '/motercar', image: '/images/top-car.gif', alt: '自動車' },
-];
-
-export default function Home() {
+export default function HomePage() {
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative w-full h-[50vh] md:h-[70vh] overflow-hidden">
-        <Image
-          src="/images/hero-sunflower.jpg"
-          alt="限りある地球資源のために"
-          fill
-          priority
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center px-4">
-            <p className="text-white text-2xl md:text-4xl lg:text-5xl font-bold drop-shadow-lg leading-relaxed">
-              限りある地球資源のために、
-              <br />
-              そして地球環境のために。
-            </p>
+      {/* ===== 第1行: 建値 | 新着情報 | カレンダー+LINE ===== */}
+      <section className="max-w-7xl mx-auto px-4 pt-3">
+        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_220px] gap-3">
+          {/* 左: 相場建値情報 */}
+          <div>
+            <TateneBar />
+          </div>
+          {/* 中央: 新着情報 */}
+          <div className="min-w-0">
+            <NewsSection />
+          </div>
+          {/* 右: カレンダー + LINE */}
+          <div className="flex flex-col gap-3">
+            <TodayCalendar />
+            <LineButton />
           </div>
         </div>
       </section>
 
-      {/* TEL / FAX */}
-      <section className="bg-green-700 py-8">
-        <div className="max-w-5xl mx-auto px-4 text-center">
-          <p className="text-green-100 text-lg mb-4">お気軽にお問い合わせください</p>
-          <div className="flex flex-col md:flex-row gap-4 md:gap-8 justify-center items-center">
-            <a href="tel:048-483-6687" className="text-white font-bold text-3xl md:text-4xl hover:underline">
-              TEL: 048-483-6687
-            </a>
-            <p className="text-white font-bold text-3xl md:text-4xl">
-              FAX: 048-483-6688
-            </p>
+      {/* ===== メイン3カラム: 左サイド | 中央コンテンツ | 右サイド ===== */}
+      <section className="max-w-7xl mx-auto px-4 py-4">
+        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_220px] gap-4">
+
+          {/* ===== 左サイドバー: 品目ナビゲーション ===== */}
+          <aside className="hidden md:block">
+            <div className="border rounded-lg bg-white overflow-hidden">
+              <h3 className="bg-brand text-gray-800 text-sm font-bold px-3 py-2">取扱い品目</h3>
+              <ul className="text-sm divide-y">
+                {CATEGORY_NAV.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="block px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-brand-dark transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* アクセスリンク */}
+            <div className="border rounded-lg bg-white mt-3 p-3">
+              <h3 className="text-sm font-bold text-gray-700 mb-2">アクセス</h3>
+              <p className="text-xs text-gray-600 mb-1">埼玉県新座市野火止2-1-29</p>
+              <Link href="/access" className="text-xs text-brand-dark hover:underline">
+                地図を見る →
+              </Link>
+            </div>
+          </aside>
+
+          {/* ===== 中央メインコンテンツ ===== */}
+          <div className="space-y-4 min-w-0 overflow-hidden">
+            {/* バナー画像エリア */}
+            <div className="space-y-2">
+              {[1, 2, 3, 4, 5, 6, 7].map((n) => (
+                <div
+                  key={n}
+                  className="w-full h-[100px] bg-gray-200 rounded-lg flex items-center justify-center border border-gray-300"
+                >
+                  <span className="text-gray-500 font-bold text-lg">画像 {n}（バナー差し替え用）</span>
+                </div>
+              ))}
+            </div>
+
+            {/* 新着買取価格カルーセル */}
+            <PriceListHome />
           </div>
-          <p className="text-green-200 text-lg mt-4">
-            FAX 24時間OK / 営業時間: AM8:30〜PM7:00 / 年中無休
-          </p>
-          <a
-            href="https://ja-jp.facebook.com/pages/%E3%83%97%E3%83%A9%E3%83%AA%E3%82%B5%E3%82%A4%E3%82%AF%E3%83%AB/491338754236880"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex flex-col items-center gap-2 mt-5 hover:opacity-80 transition-opacity"
-          >
-            <Image src="/images/facebook.gif" alt="Facebook" width={345} height={105} className="h-[105px] w-auto" />
-            <span className="text-white font-bold text-lg">Facebookで最新情報を発信中</span>
-          </a>
-        </div>
-      </section>
 
-      {/* Nonmetal Image Cards */}
-      <section className="max-w-5xl mx-auto px-4 py-10">
-        <h2 className="text-2xl font-bold text-green-700 mb-2 text-center">
-          【非鉄金属】<span className="text-red-500 text-lg ml-2">&lt;&lt; 高価買取中</span>
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-          {NONMETAL_CARDS.map((card) => (
-            <Link key={card.image} href={card.href} className="block rounded shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.03]">
-              <Image
-                src={card.image}
-                alt={card.alt}
-                width={350}
-                height={150}
-                className="w-full h-auto rounded shadow-sm"
-              />
-            </Link>
-          ))}
-        </div>
-      </section>
+          {/* ===== 右サイドバー ===== */}
+          <aside className="hidden md:flex flex-col gap-3">
+            {/* LME計算ツール */}
+            <LmeCalculator />
 
-      {/* Other Cards */}
-      <section className="max-w-5xl mx-auto px-4 pb-6">
-        <h2 className="text-2xl font-bold text-green-700 mb-4 text-center">【その他取扱い商材】</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {OTHER_CARDS.map((card) => (
-            <Link key={card.image} href={card.href} className="block rounded shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.03]">
-              <Image
-                src={card.image}
-                alt={card.alt}
-                width={350}
-                height={150}
-                className="w-full h-auto rounded shadow-sm"
-              />
-            </Link>
-          ))}
-        </div>
-      </section>
+            {/* TEL/FAX カード */}
+            <div className="border rounded-lg p-3 bg-brand text-center text-gray-800">
+              <p className="text-xs mb-1">お問い合わせ</p>
+              <a href="tel:048-483-6687" className="block font-bold text-lg hover:underline">
+                048-483-6687
+              </a>
+              <p className="font-bold text-sm mt-1">FAX: 048-483-6688</p>
+              <p className="text-gray-600 text-[10px] mt-1">年中無休 / FAX 24時間OK</p>
+            </div>
 
-      {/* Vehicle Cards */}
-      <section className="max-w-5xl mx-auto px-4 pb-10">
-        <h2 className="text-2xl font-bold text-green-700 mb-2 text-center">
-          【建設重機】【自動車】<span className="text-red-500 text-lg ml-2">&lt;&lt; お売り下さい</span>
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-          {VEHICLE_CARDS.map((card) => (
-            <Link key={card.image} href={card.href} className="block rounded shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.03]">
-              <Image
-                src={card.image}
-                alt={card.alt}
-                width={350}
-                height={150}
-                className="w-full h-auto rounded shadow-sm"
-              />
-            </Link>
-          ))}
-        </div>
-      </section>
+            {/* 買取価格表リンク */}
+            <div className="border rounded-lg bg-white overflow-hidden">
+              <h3 className="bg-brand text-gray-800 text-xs font-bold px-3 py-2">コンテンツ</h3>
+              <ul className="text-xs divide-y">
+                <li>
+                  <Link href="/nonmetal" className="block px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-brand-dark">
+                    買取価格表
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/businessinfo" className="block px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-brand-dark">
+                    買取の流れ
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/company" className="block px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-brand-dark">
+                    会社概要
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/access" className="block px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-brand-dark">
+                    アクセス
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
-      {/* Contact Banner */}
-      <section className="bg-green-50 py-12">
-        <div className="max-w-5xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
-            お気軽にお問い合わせください
-          </h2>
-          <div className="flex flex-col md:flex-row gap-6 md:gap-10 justify-center items-center">
+            {/* Facebook */}
             <a
-              href="tel:048-483-6687"
-              className="text-green-700 font-bold text-3xl md:text-4xl hover:underline"
+              href="https://ja-jp.facebook.com/pages/%E3%83%97%E3%83%A9%E3%83%AA%E3%82%B5%E3%82%A4%E3%82%AF%E3%83%AB/491338754236880"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block hover:opacity-80 transition-opacity"
             >
-              TEL: 048-483-6687
+              <Image
+                src="/images/facebook.gif"
+                alt="Facebook"
+                width={220}
+                height={70}
+                className="w-full h-auto rounded-lg"
+              />
             </a>
-            <p className="text-green-700 font-bold text-3xl md:text-4xl">
-              FAX: 048-483-6688
-            </p>
-          </div>
-          <p className="text-lg text-gray-600 mt-4">FAX 24時間OK / 営業時間: AM8:30〜PM7:00 / 年中無休</p>
+          </aside>
         </div>
       </section>
 
-      {/* Access Section */}
-      <section className="max-w-5xl mx-auto px-4 py-10">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">アクセス</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col justify-center">
-            <p className="text-lg text-gray-700 mb-4">
-              <strong>所在地:</strong> 〒352-0004 埼玉県新座市野火止2-1-29<br />
-              <strong>最寄駅:</strong> JR武蔵野線「新座駅」より 車で3分 / 徒歩で10分
-            </p>
-            <Link
-              href="/access"
-              className="text-green-700 hover:underline font-medium text-lg"
-            >
-              詳しいアクセス方法はこちら →
-            </Link>
-          </div>
-          <div className="aspect-video">
-            <iframe
-              src="https://www.google.com/maps?q=埼玉県新座市野火止2-1-29&output=embed"
-              width="100%"
-              height="100%"
-              loading="lazy"
-              className="rounded-lg border border-gray-200"
-              title="プラリサイクル所在地"
-            />
+      {/* ===== モバイル用: サイドバーの内容を下に表示 ===== */}
+      <section className="md:hidden max-w-7xl mx-auto px-4 pb-6 space-y-4">
+        {/* 品目ナビ */}
+        <div className="border rounded-lg bg-white overflow-hidden">
+          <h3 className="bg-brand text-gray-800 text-sm font-bold px-3 py-2">取扱い品目</h3>
+          <div className="grid grid-cols-3 text-sm">
+            {CATEGORY_NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="block px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-brand-dark border-b border-r border-gray-100"
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
         </div>
+
+        {/* LME計算ツール */}
+        <LmeCalculator />
+
+        {/* Facebook */}
+        <a
+          href="https://ja-jp.facebook.com/pages/%E3%83%97%E3%83%A9%E3%83%AA%E3%82%B5%E3%82%A4%E3%82%AF%E3%83%AB/491338754236880"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block hover:opacity-80 transition-opacity"
+        >
+          <Image src="/images/facebook.gif" alt="Facebook" width={345} height={105} className="w-full h-auto rounded-lg" />
+        </a>
       </section>
+
     </>
   );
 }

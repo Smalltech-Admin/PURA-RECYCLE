@@ -4,7 +4,7 @@ export type PriceItem = {
   price: string;
   unit: string;
   note: string;
-  updated_at: string;
+  direction: string;
 };
 
 function parseCSVLine(line: string): string[] {
@@ -49,7 +49,7 @@ export async function fetchPrices(): Promise<PriceItem[]> {
         price: cols[2] || '',
         unit: cols[3] || '',
         note: cols[4] || '',
-        updated_at: cols[5] || '',
+        direction: cols[5] || '',
       };
     });
   } catch {

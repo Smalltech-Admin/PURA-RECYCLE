@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8 border-b-2 border-green-700 pb-3 text-center">
+      <h1 className="text-3xl font-bold text-gray-800 mb-8 border-b-2 border-brand pb-3 text-center">
         お問合せ
       </h1>
 
@@ -36,12 +36,12 @@ export default function ContactPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* 電話 */}
         <section className="bg-green-50 rounded-lg p-6">
-          <h2 className="text-lg font-bold text-green-700 mb-3 border-l-4 border-green-700 pl-3">
+          <h2 className="text-lg font-bold text-brand-dark mb-3 border-l-4 border-brand pl-3">
             お電話でのお問い合わせ
           </h2>
           <a
             href="tel:048-483-6687"
-            className="block text-green-700 font-bold text-2xl hover:underline"
+            className="block text-brand-dark font-bold text-2xl hover:underline"
           >
             TEL: 048-483-6687
           </a>

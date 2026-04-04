@@ -6,7 +6,8 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 const NAV_ITEMS = [
-  { href: '/', label: 'トップページ' },
+  { href: '/', label: 'トップページ1' },
+  { href: '/page2', label: 'トップページ2' },
   { href: '/nonmetal', label: '非鉄金属買取' },
   { href: '/machine', label: '建設重機買取' },
   { href: '/motercar', label: '自動車買取' },
@@ -47,10 +48,10 @@ export function Header() {
 
           <div className="hidden md:block text-right">
             <div className="flex items-center gap-6 justify-end">
-              <a href="tel:048-483-6687" className="text-green-700 font-bold text-2xl hover:underline">
+              <a href="tel:048-483-6687" className="text-brand-dark font-bold text-2xl hover:underline">
                 TEL: 048-483-6687
               </a>
-              <span className="text-green-700 font-bold text-2xl">
+              <span className="text-brand-dark font-bold text-2xl">
                 FAX: 048-483-6688
               </span>
             </div>
@@ -85,11 +86,11 @@ export function Header() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className={`block px-5 py-3 font-medium transition-colors border-b-3 ${
+                    className={`block px-5 py-3 font-bold transition-colors border-b-3 ${
                       active
-                        ? 'text-white bg-green-700 border-green-700'
-                        : 'text-gray-700 border-transparent hover:text-green-700 hover:bg-green-50 hover:border-green-400'
-                    } ${isContact ? 'text-base font-bold' : 'text-sm'}`}
+                        ? 'text-gray-800 bg-brand border-brand'
+                        : 'text-gray-700 border-transparent hover:text-brand-dark hover:bg-green-50 hover:border-green-400'
+                    } ${isContact ? 'text-base' : 'text-sm'}`}
                   >
                     {item.label}
                   </Link>
@@ -103,10 +104,10 @@ export function Header() {
       {menuOpen && (
         <nav className="md:hidden bg-white border-t border-gray-100">
           <div className="px-4 py-3 border-b border-gray-100 text-center">
-            <a href="tel:048-483-6687" className="block text-green-700 font-bold text-xl">
+            <a href="tel:048-483-6687" className="block text-brand-dark font-bold text-xl">
               TEL: 048-483-6687
             </a>
-            <p className="text-green-700 font-bold text-xl mt-1">
+            <p className="text-brand-dark font-bold text-xl mt-1">
               FAX: 048-483-6688
             </p>
             <p className="text-xs text-gray-500 mt-1">年中無休 AM8:30〜PM7:00 / FAX 24時間OK</p>
@@ -121,8 +122,8 @@ export function Header() {
                     href={item.href}
                     className={`block px-6 py-3 border-b border-gray-50 transition-colors ${
                       active
-                        ? 'text-white bg-green-700 font-bold'
-                        : 'text-gray-700 hover:text-green-700 hover:bg-green-50'
+                        ? 'text-gray-800 bg-brand font-bold'
+                        : 'text-gray-700 hover:text-brand-dark hover:bg-green-50'
                     } ${isContact ? 'text-lg font-bold' : ''}`}
                     onClick={() => setMenuOpen(false)}
                   >
