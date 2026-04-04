@@ -15,7 +15,8 @@ const FALLBACK_DATA: TateneItem[] = [
 
 export async function fetchTatene(): Promise<TateneItem[]> {
   try {
-    const res = await fetch('/data/tatene.json', { cache: 'no-store' });
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+    const res = await fetch(`${basePath}/data/tatene.json`, { cache: 'no-store' });
     if (!res.ok) return FALLBACK_DATA;
     const data = await res.json();
     if (Array.isArray(data) && data.length > 0) return data;

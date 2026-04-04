@@ -7,6 +7,7 @@ import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
 import { fetchPrices, type PriceItem } from '@/lib/getPrices';
 import { UpBadge } from '@/components/UpBadge';
+import { withBasePath } from '@/lib/basePath';
 
 const CATEGORY_SLUG: Record<string, string> = {
   '銅': '/nonmetal/dou',
@@ -150,7 +151,7 @@ export function PriceListHome() {
                     {img ? (
                       /* eslint-disable-next-line @next/next/no-img-element */
                       <img
-                        src={img}
+                        src={withBasePath(img)}
                         alt={item.subcategory}
                         style={{ width: '100%', height: '200px', objectFit: 'contain' }}
                         className="rounded group-hover:shadow-lg transition-shadow bg-white"

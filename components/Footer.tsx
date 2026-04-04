@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export function Footer() {
   return (
@@ -47,7 +48,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="inline-block hover:opacity-80 transition-opacity"
               >
-                <img src="/images/facebook.gif" alt="Facebook" className="h-[120px] w-auto" />
+                <Image src="/images/facebook.gif" alt="Facebook" width={345} height={120} className="h-[120px] w-auto" />
               </a>
             </div>
           </div>
