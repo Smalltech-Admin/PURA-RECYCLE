@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
+import { AppImage as Image } from '@/components/AppImage';
 
 export const metadata: Metadata = {
   title: '買取の案内',

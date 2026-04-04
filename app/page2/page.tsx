@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
+import { AppImage as Image } from '@/components/AppImage';
 import { PriceListHome } from '@/components/PriceListHome';
 import { TateneBar } from '@/components/TateneBar';
 import { LmeCalculator } from '@/components/LmeCalculator';

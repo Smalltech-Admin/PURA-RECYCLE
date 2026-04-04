@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import { AppImage as Image } from '@/components/AppImage';
 import { usePricesByCategory } from '@/lib/usePrices';
 import { NonmetalSidebar } from '@/components/NonmetalSidebar';
 import { UpBadge } from '@/components/UpBadge';

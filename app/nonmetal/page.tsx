@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { AppImage as Image } from '@/components/AppImage';
 import { fetchPrices, filterByCategory, type PriceItem } from '@/lib/getPrices';
 
 const CATEGORIES = [
