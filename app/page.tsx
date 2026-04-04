@@ -83,10 +83,10 @@ export default function HomePage() {
           <div className="space-y-4 min-w-0 overflow-hidden">
             {/* バナー画像エリア */}
             <div className="space-y-2">
-              {[1, 2, 3, 4, 5, 6, 7].map((n) => (
+              {[1, 2, 3, 4].map((n) => (
                 <div
                   key={n}
-                  className="w-full h-[100px] bg-gray-200 rounded-lg flex items-center justify-center border border-gray-300"
+                  className="w-full h-[200px] bg-gray-200 rounded-lg flex items-center justify-center border border-gray-300"
                 >
                   <span className="text-gray-500 font-bold text-lg">画像 {n}（バナー差し替え用）</span>
                 </div>
