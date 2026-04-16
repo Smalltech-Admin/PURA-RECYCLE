@@ -23,13 +23,13 @@ export function Footer() {
             <h3 className="text-white font-bold mb-3">サイトマップ</h3>
             <ul className="space-y-1 text-sm">
               <li><Link href="/" className="hover:text-green-400">トップページ</Link></li>
-              <li><Link href="/company" className="hover:text-green-400">会社概要</Link></li>
               <li><Link href="/nonmetal" className="hover:text-green-400">非鉄金属買取</Link></li>
-              <li><Link href="/machine" className="hover:text-green-400">建設重機買取</Link></li>
-              <li><Link href="/motercar" className="hover:text-green-400">自動車買取</Link></li>
               <li><Link href="/businessinfo" className="hover:text-green-400">買取の案内</Link></li>
+              <li><Link href="/company" className="hover:text-green-400">会社概要</Link></li>
               <li><Link href="/access" className="hover:text-green-400">アクセスマップ</Link></li>
               <li><Link href="/contact" className="hover:text-green-400">お問合せ</Link></li>
+              {/* <li><Link href="/machine" className="hover:text-green-400">建設重機買取</Link></li> */}
+              {/* <li><Link href="/motercar" className="hover:text-green-400">自動車買取</Link></li> */}
             </ul>
           </div>
 

@@ -13,7 +13,7 @@ export function TateneBar() {
   if (items.length === 0) return null;
 
   return (
-    <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-3">
+    <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-3 h-full">
       <h3 className="font-bold text-xs text-gray-700 mb-2 border-b border-yellow-300 pb-1">
         相場建値情報（円/トン）
       </h3>

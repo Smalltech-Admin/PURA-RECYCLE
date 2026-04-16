@@ -44,3 +44,40 @@ body {
   font-size: 14px;
   font-weight: bold;
 }
+
+/* メタリック光沢背景 */
+.holographic-bg {
+  background-color: #c8e0b0;
+  position: relative;
+  overflow: hidden;
+}
+
+.holographic-bg::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 400%;
+  height: 400%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 46%,
+    rgba(255, 255, 255, 0.85) 50%,
+    rgba(255, 255, 255, 0) 54%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shine-sweep 6s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.holographic-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes shine-sweep {
+  0% { transform: translate(-30%, -30%); }
+  100% { transform: translate(30%, 30%); }
+}

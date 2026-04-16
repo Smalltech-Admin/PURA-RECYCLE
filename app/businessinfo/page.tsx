@@ -35,33 +35,73 @@ export default function BusinessInfoPage() {
         </div>
       </section>
 
+      {/* グレード定義 */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold text-brand-dark mb-6 border-l-4 border-brand pl-3">
+          買取グレードの定義
+        </h2>
+        <p className="text-base text-gray-600 mb-6">
+          ピカ線であっても、汚れや部品の付着度合いによるグレード（1号銅A・Bへ）振り分けをさせて頂いており、持ち込み時に現物を見て判断させて頂きます。
+        </p>
+
+        <div className="space-y-6">
+          {/* ピカ線 */}
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h3 className="font-bold text-lg text-gray-800 mb-2 border-b border-brand pb-2">ピカ線（特一号銅線・ピカ銅・1号銅）</h3>
+            <p className="text-base text-gray-700 mb-3">断面直径が1.3mm以上の銅線で、錫(スズ)メッキ、エナメル、表面劣化等ないもの。</p>
+            <ul className="text-sm text-gray-600 space-y-1 list-disc pl-5">
+              <li>雑電線から被覆(皮)を取り除き銅線を取り出した<strong>剥き線</strong>を<strong>ピカ線(ピカ銅／特一号銅線)</strong>という。</li>
+              <li>剥き線以外のものは<strong>並銅</strong>か<strong>込銅</strong>とする。</li>
+              <li>油や紙、膜(まく)や塗装等の付着物がある場合はピカ線とはならない。</li>
+              <li>平角線は<strong>並銅</strong>とする。</li>
+              <li>結束する際は必ず「ピカ線」で結束すること。ピカ線以外で結束されている場合は「込銅」扱い。</li>
+              <li>DV線を剥いた物は違う成分を添加している可能性がある為、並銅での買取りとする。</li>
+            </ul>
+          </div>
+
+          {/* 並銅 */}
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h3 className="font-bold text-lg text-gray-800 mb-2 border-b border-brand pb-2">並銅（なみどう）</h3>
+            <p className="text-base text-gray-700 mb-3">ダスト(付物)のない純銅(Cu：99.99%)</p>
+            <ul className="text-sm text-gray-600 space-y-1 list-disc pl-5">
+              <li>ダスト(付物)のあるものや他の金属が微量であっても混ざりがある銅は「込銅(こみどう)」として値下げ。</li>
+              <li>ダスト(付物)の多いもの、焼いたもの、劣化の大きなものは「下銅(げどう)」として大きく値下げ。</li>
+              <li>銅箔(薄い銅)は扱えないものもある。</li>
+              <li><strong>金型銅</strong>は、ダスト(付物)がなくても銅の純度が低いので「込銅」とする。</li>
+              <li><strong>屋根板(屋根材)の銅板</strong>は、防水材の塗布や釘等の付物があるので「込銅」または「下銅」とする。</li>
+              <li>銅削粉の類は概して銅以外の混入や油付着があるので大きく減額する。</li>
+              <li>給湯器の釜(赤釜や白釜)は、銅だけではない(異物付)のため並銅とはせず、個別品目として扱う。</li>
+              <li>「油分の多い物」「溶接部分」「キャップ」「テープ」「半田」「アルミ箔の付着」「塗装」「被膜」があるものも「込銅」又は「下銅」として値下げ。</li>
+            </ul>
+          </div>
+
+          {/* 込銅 */}
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h3 className="font-bold text-lg text-gray-800 mb-2 border-b border-brand pb-2">込銅（付物のある銅）</h3>
+            <p className="text-base text-gray-700 mb-3">ダスト(付物)のある「並銅」は「込銅」とする。</p>
+            <ul className="text-sm text-gray-600 space-y-1 list-disc pl-5">
+              <li>ダスト(付物)の多いもの、焼いたもの、油の付着や劣化の大きなものは「下銅(げどう)」として大きく値下げ。</li>
+              <li>銅箔(薄い銅)は扱えないものもある。</li>
+              <li><strong>金型銅</strong>は、ダスト(付物)がなくても銅の純度が低いので「込銅」とする。</li>
+              <li>空調銅配管に真鍮が付いているものも込銅として扱う。</li>
+              <li>「皮」とは、空調銅配管に巻かれてある断熱材のこと。</li>
+              <li>表面が劣化(黒、青、緑色等)していても構わない。</li>
+              <li>スプリングやビニールテープ、キャップ、断熱材の残渣等は必ず除去すること。</li>
+              <li>銅よりも真鍮の重量が多い物は「真鍮」での買取となる。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       {/* 買取可能商材 */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-brand-dark mb-6 border-l-4 border-brand pl-3">
           買取可能取扱い商材
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {[
-            { label: '銅', href: '/nonmetal/dou', items: '1号銅(ピカ線)・2号銅・並銅・込銅・錫引線・赤釜・白釜・皮付銅・ダライ粉' },
-            { label: '電線', href: '/nonmetal/densen', items: '1本線・3本線・VA線・家電線・ハーネス' },
-            { label: 'バッテリー', href: '/nonmetal/battery', items: '車用・工業用・フォークリフト用・シールド・バイク用' },
-            { label: '真鍮・砲金', href: '/nonmetal/shinchuu', items: '真鍮・混真鍮・真鍮ダライ粉・砲金・バルブ砲金・砲金ダライ粉' },
-            { label: 'モーター', href: '/nonmetal/moter', items: 'MIX・セルモーター・コンプレッサー・ダイナモ' },
-            { label: 'ラジエター', href: '/nonmetal/radieter', items: 'エアコン・アルミ・真鍮or半銅' },
-            { label: '鉛', href: '/nonmetal/namari', items: '鉛・鉛錘・鉛活字・バランスウエイト' },
-            { label: 'ホイール', href: '/nonmetal/hoile', items: 'ホイール(付物有)・ホイール1P(付物無)' },
-            { label: '特殊金属', href: '/nonmetal/tokushu', items: '純ニッケル・ニクロム・純チタン・洋銀・純錫・半田・モリブデン・超硬' },
-            { label: 'その他', href: '/nonmetal/other', items: 'ステンレス・給湯器・エアコン・家庭用雑品・工業用雑品・安定器・基板' },
-          ].map((cat) => (
-            <Link
-              key={cat.label}
-              href={cat.href}
-              className="block bg-white rounded-lg shadow-md p-5 hover:shadow-lg transition-shadow"
-            >
-              <h3 className="font-bold text-brand-dark text-lg mb-1">{cat.label}</h3>
-              <p className="text-sm text-gray-500">{cat.items}</p>
-            </Link>
-          ))}
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <Link href="/nonmetal" className="text-brand-dark font-bold text-lg hover:underline">
+            → 買取価格一覧はこちら（全41品目）
+          </Link>
         </div>
       </section>
 

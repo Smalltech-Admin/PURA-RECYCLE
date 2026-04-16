@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { AppImage as Image } from '@/components/AppImage';
 import Link from 'next/link';
 import { TateneBar } from '@/components/TateneBar';
@@ -7,67 +8,107 @@ import { LmeCalculator } from '@/components/LmeCalculator';
 import { NewsSection } from '@/components/NewsSection';
 import { TodayCalendar } from '@/components/TodayCalendar';
 import { LineButton } from '@/components/LineButton';
-import { PriceListHome } from '@/components/PriceListHome';
+import { NonmetalSidebar } from '@/components/NonmetalSidebar';
+import { UpBadge } from '@/components/UpBadge';
+import { fetchPrices, type PriceItem } from '@/lib/getPrices';
+import { withBasePath } from '@/lib/basePath';
 
-const CATEGORY_NAV = [
-  { href: '/nonmetal/dou', label: '銅' },
-  { href: '/nonmetal/densen', label: '雑電線' },
-  { href: '/nonmetal/battery', label: 'バッテリー' },
-  { href: '/nonmetal/shinchuu', label: '真鍮・砲金' },
-  { href: '/nonmetal/moter', label: 'モーター' },
-  { href: '/nonmetal/radieter', label: 'ラジエター' },
-  { href: '/nonmetal/namari', label: '鉛' },
-  { href: '/nonmetal/hoile', label: 'ホイール' },
-  { href: '/nonmetal/tokushu', label: '特殊金属' },
-  { href: '/nonmetal/other', label: 'ステンレス・その他' },
-  { href: '/machine', label: '建設重機' },
-  { href: '/motercar', label: '自動車' },
-  { href: '/businessinfo', label: '買取の案内' },
+const FIXED_PRODUCTS = [
+  { name: 'ピカ線', image: '/images/0001goudou.gif' },
+  { name: '並銅', image: '/images/0002goudou.gif' },
+  { name: '2号銅（込銅）', image: '/images/000namidou.gif' },
 ];
 
 export default function HomePage() {
+  const [prices, setPrices] = useState<PriceItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPrices()
+      .then(setPrices)
+      .finally(() => setLoading(false));
+  }, []);
+
+  function findPrice(name: string) {
+    return prices.find((p) => p.subcategory === name);
+  }
+
   return (
     <>
-      {/* ===== 第1行: 建値 | 新着情報 | カレンダー+LINE ===== */}
+      {/* ===== 第1行: 建値 | 固定3商品 + 買取一覧ボタン | カレンダー+LINE ===== */}
       <section className="max-w-7xl mx-auto px-4 pt-3">
-        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_220px] gap-3">
-          {/* 左: 相場建値情報 */}
-          <div>
-            <TateneBar />
+        <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_220px] gap-3 md:items-stretch">
+          {/* 中央: 固定3商品（モバイルでは2番目） */}
+          <div className="min-w-0 order-2 md:order-none">
+            <div className="grid grid-cols-3 gap-3">
+              {FIXED_PRODUCTS.map((product) => {
+                const price = findPrice(product.name);
+                return (
+                  <Link key={product.name} href="/nonmetal" className="flex flex-col bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                    <div className="relative overflow-hidden h-[120px]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={withBasePath(product.image)}
+                        alt={product.name}
+                        className="w-full h-full object-cover"
+                      />
+                      {price?.direction === 'UP' && <UpBadge />}
+                    </div>
+                    <div className="p-3 text-center">
+                      <p className="font-bold text-gray-800 text-sm mb-1">{product.name}</p>
+                      <div>
+                        {loading ? (
+                          <span className="text-gray-400">...</span>
+                        ) : price ? (
+                          <>
+                            <span className="text-xl md:text-2xl font-bold text-red-600">{Number(price.price).toLocaleString()}</span>
+                            <span className="text-xs text-gray-600 ml-1">円/{price.unit?.replace('円/', '') || 'kg'}（税込）</span>
+                          </>
+                        ) : (
+                          <span className="text-gray-400">-</span>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
-          {/* 中央: 新着情報 */}
-          <div className="min-w-0">
-            <NewsSection />
+          {/* 左: 相場建値情報 + 買取一覧ボタン（モバイルでは3番目） */}
+          <div className="flex flex-col order-3 md:order-first">
+            <div className="md:flex-1 grid grid-cols-[2fr_1fr] md:grid-cols-1 gap-3">
+              <TateneBar />
+              <Link
+                href="/nonmetal"
+                className="md:hidden bg-brand text-gray-800 font-black text-center rounded-lg hover:bg-brand-dark transition-colors flex items-center justify-center text-xl leading-tight"
+              >
+                買取一覧は<br />こちら！
+              </Link>
+            </div>
           </div>
-          {/* 右: カレンダー + LINE */}
-          <div className="flex flex-col gap-3">
-            <TodayCalendar />
+          {/* 右: カレンダー + LINE（モバイルでは最上部） */}
+          <div className="flex flex-col gap-3 order-1 md:order-none">
+            <div className="flex-1">
+              <TodayCalendar />
+            </div>
             <LineButton />
           </div>
         </div>
+      </section>
+
+      {/* ===== 新着情報 + LME計算ツール（モバイル用：建値の直後） ===== */}
+      <section className="md:hidden max-w-7xl mx-auto px-4 pt-3 space-y-3">
+        <NewsSection />
+        <LmeCalculator />
       </section>
 
       {/* ===== メイン3カラム: 左サイド | 中央コンテンツ | 右サイド ===== */}
       <section className="max-w-7xl mx-auto px-4 py-4">
         <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_220px] gap-4">
 
-          {/* ===== 左サイドバー: 品目ナビゲーション ===== */}
+          {/* ===== 左サイドバー: 取扱い品目20商品 ===== */}
           <aside className="hidden md:block">
-            <div className="border rounded-lg bg-white overflow-hidden">
-              <h3 className="bg-brand text-gray-800 text-sm font-bold px-3 py-2">取扱い品目</h3>
-              <ul className="text-sm divide-y">
-                {CATEGORY_NAV.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className="block px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-brand-dark transition-colors"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <NonmetalSidebar current="" />
 
             {/* アクセスリンク */}
             <div className="border rounded-lg bg-white mt-3 p-3">
@@ -83,7 +124,18 @@ export default function HomePage() {
           <div className="space-y-4 min-w-0 overflow-hidden">
             {/* バナー画像エリア */}
             <div className="space-y-2">
-              {[1, 2, 3, 4].map((n) => (
+              {/* 買取一覧バナーリンク */}
+              <Link
+                href="/nonmetal"
+                className="hidden md:flex w-full h-[200px] bg-brand rounded-lg items-center justify-center hover:bg-brand-dark transition-colors"
+              >
+                <span className="text-gray-800 font-black text-3xl md:text-4xl">買取一覧はこちらから！</span>
+              </Link>
+              {/* 新着情報（PC用） */}
+              <div className="hidden md:block">
+                <NewsSection />
+              </div>
+              {[1, 2, 3].map((n) => (
                 <div
                   key={n}
                   className="w-full h-[200px] bg-gray-200 rounded-lg flex items-center justify-center border border-gray-300"
@@ -92,9 +144,6 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
-
-            {/* 新着買取価格カルーセル */}
-            <PriceListHome />
           </div>
 
           {/* ===== 右サイドバー ===== */}
@@ -112,7 +161,7 @@ export default function HomePage() {
               <p className="text-gray-600 text-[10px] mt-1">年中無休 / FAX 24時間OK</p>
             </div>
 
-            {/* 買取価格表リンク */}
+            {/* コンテンツリンク */}
             <div className="border rounded-lg bg-white overflow-hidden">
               <h3 className="bg-brand text-gray-800 text-xs font-bold px-3 py-2">コンテンツ</h3>
               <ul className="text-xs divide-y">
@@ -123,7 +172,7 @@ export default function HomePage() {
                 </li>
                 <li>
                   <Link href="/businessinfo" className="block px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-brand-dark">
-                    買取の流れ
+                    買取の案内
                   </Link>
                 </li>
                 <li>
@@ -160,26 +209,14 @@ export default function HomePage() {
 
       {/* ===== モバイル用: サイドバーの内容を下に表示 ===== */}
       <section className="md:hidden max-w-7xl mx-auto px-4 pb-6 space-y-4">
-        {/* 品目ナビ */}
-        <div className="border rounded-lg bg-white overflow-hidden">
-          <h3 className="bg-brand text-gray-800 text-sm font-bold px-3 py-2">取扱い品目</h3>
-          <div className="grid grid-cols-3 text-sm">
-            {CATEGORY_NAV.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="block px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-brand-dark border-b border-r border-gray-100"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
+        <NonmetalSidebar current="" />
+        {/* TEL/FAX */}
+        <div className="border rounded-lg p-3 bg-brand text-center text-gray-800">
+          <p className="text-xs mb-1">お問い合わせ</p>
+          <a href="tel:048-483-6687" className="block font-bold text-lg hover:underline">048-483-6687</a>
+          <p className="font-bold text-sm mt-1">FAX: 048-483-6688</p>
+          <p className="text-gray-600 text-[10px] mt-1">年中無休 / FAX 24時間OK</p>
         </div>
-
-        {/* LME計算ツール */}
-        <LmeCalculator />
-
-        {/* Facebook */}
         <a
           href="https://ja-jp.facebook.com/pages/%E3%83%97%E3%83%A9%E3%83%AA%E3%82%B5%E3%82%A4%E3%82%AF%E3%83%AB/491338754236880"
           target="_blank"
@@ -189,7 +226,6 @@ export default function HomePage() {
           <Image src="/images/facebook.gif" alt="Facebook" width={345} height={105} className="w-full h-auto rounded-lg" />
         </a>
       </section>
-
     </>
   );
 }

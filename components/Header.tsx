@@ -9,12 +9,13 @@ const NAV_ITEMS = [
   { href: '/', label: 'トップページ1' },
   { href: '/page2', label: 'トップページ2' },
   { href: '/nonmetal', label: '非鉄金属買取' },
-  { href: '/machine', label: '建設重機買取' },
-  { href: '/motercar', label: '自動車買取' },
   { href: '/businessinfo', label: '買取の案内' },
   { href: '/company', label: '会社概要' },
   { href: '/access', label: 'アクセス' },
   { href: '/contact', label: 'お問合せ' },
+  // { href: '/page2', label: 'トップページ2' },
+  // { href: '/machine', label: '建設重機買取' },
+  // { href: '/motercar', label: '自動車買取' },
 ];
 
 function isActive(pathname: string, href: string) {
@@ -30,19 +31,34 @@ export function Header() {
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-20 md:h-24">
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3 md:gap-4">
             <Image
               src="/images/Logo.jpg"
               alt="PRロゴ"
-              width={50}
-              height={50}
-              className="h-10 md:h-12 w-auto rounded-full"
+              width={70}
+              height={70}
+              className="h-14 md:h-16 w-auto rounded-full"
               priority
             />
             <div className="leading-tight">
               <p className="text-[10px] md:text-xs font-bold text-gray-600 tracking-wider">金属・自動車・建設重機買取</p>
-              <p className="text-lg md:text-2xl font-black tracking-wide text-black">株式会社プラ・リサイクル</p>
-              <p className="text-[10px] md:text-xs font-bold tracking-widest" style={{ color: '#000', WebkitTextStroke: '0.3px #fff', textShadow: '1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff' }}>PURA RECYCLE CO.,LTD</p>
+              <div className="flex items-baseline gap-2">
+                <p className="text-xs md:text-sm font-black tracking-wider" style={{ color: '#4a5a24', textShadow: '-1px -1px 0 #3a4a14, 1px -1px 0 #3a4a14, -1px 1px 0 #3a4a14, 1px 1px 0 #3a4a14, 0 -2px 0 #3a4a14, 0 2px 0 #3a4a14, -2px 0 0 #3a4a14, 2px 0 0 #3a4a14', WebkitTextStroke: '1px #FFD700', fontFamily: 'var(--font-mplus-rounded), "Hiragino Maru Gothic ProN", sans-serif' }}>株式会社</p>
+                <p className="text-[8px] md:text-[10px] text-gray-500">第431360051697 埼玉県公安委員会</p>
+              </div>
+              <p
+                className="text-2xl md:text-4xl font-black tracking-wide"
+                style={{
+                  color: '#4a5a24',
+                  WebkitTextStroke: '1.5px #FFD700',
+                  textShadow: '-2px -2px 0 #3a4a14, 2px -2px 0 #3a4a14, -2px 2px 0 #3a4a14, 2px 2px 0 #3a4a14, 0 -3px 0 #3a4a14, 0 3px 0 #3a4a14, -3px 0 0 #3a4a14, 3px 0 0 #3a4a14',
+                  letterSpacing: '0.05em',
+                  fontFamily: 'var(--font-mplus-rounded), "Hiragino Maru Gothic ProN", sans-serif',
+                }}
+              >
+                プラ・リサイクル
+              </p>
+              <p className="text-[10px] md:text-xs font-bold tracking-widest text-gray-600">PURA RECYCLE CO.,LTD</p>
             </div>
           </Link>
 

@@ -17,7 +17,7 @@ export function TodayCalendar() {
   const isOpen = totalMin >= 8 * 60 + 30 && totalMin < 19 * 60;
 
   return (
-    <div className="border rounded-lg p-4 bg-white text-center">
+    <div className="border rounded-lg p-4 bg-white text-center h-full flex flex-col justify-center">
       <p className="text-lg font-bold text-gray-800">{dateStr}</p>
       <p
         className={`mt-2 font-bold text-lg ${isOpen ? 'text-green-600' : 'text-gray-400'}`}

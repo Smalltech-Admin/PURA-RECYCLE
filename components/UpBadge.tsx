@@ -8,6 +8,7 @@ export function UpBadge({ size = 'md' }: { size?: 'md' | 'lg' }) {
   }
 
   const sizeClass = size === 'lg' ? 'w-24 h-24' : 'w-16 h-16';
+  const fontSize = size === 'lg' ? '24' : '22';
 
   return (
     <div className={`absolute bottom-2 right-2 ${sizeClass}`}>
@@ -20,13 +21,29 @@ export function UpBadge({ size = 'md' }: { size?: 'md' | 'lg' }) {
         />
         <text
           x="50"
-          y="50"
+          y="40"
           textAnchor="middle"
           dominantBaseline="central"
           fill="#FF0000"
-          fontSize="30"
+          fontSize={fontSize}
           fontWeight="900"
           fontFamily="Arial, sans-serif"
+          stroke="#CC0000"
+          strokeWidth="0.5"
+        >
+          価格
+        </text>
+        <text
+          x="50"
+          y="63"
+          textAnchor="middle"
+          dominantBaseline="central"
+          fill="#FF0000"
+          fontSize={fontSize}
+          fontWeight="900"
+          fontFamily="Arial, sans-serif"
+          stroke="#CC0000"
+          strokeWidth="0.5"
         >
           UP!
         </text>

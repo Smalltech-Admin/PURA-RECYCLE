@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Geist, M_PLUS_Rounded_1c } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -7,6 +7,12 @@ import { LocalBusinessJsonLd } from "@/components/JsonLd";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const mPlusRounded = M_PLUS_Rounded_1c({
+  variable: "--font-mplus-rounded",
+  weight: ["900"],
   subsets: ["latin"],
 });
 
@@ -75,7 +81,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" className={`${geistSans.variable} h-full antialiased`}>
+    <html lang="ja" className={`${geistSans.variable} ${mPlusRounded.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <LocalBusinessJsonLd />
         <Header />
