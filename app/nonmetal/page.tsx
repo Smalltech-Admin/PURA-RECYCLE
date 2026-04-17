@@ -43,7 +43,7 @@ export default function NonmetalPage() {
 
         {/* メイン: 全商品一覧 */}
         <div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {PRODUCTS.map((product) => {
               const price = findPrice(product.name);
               return (
