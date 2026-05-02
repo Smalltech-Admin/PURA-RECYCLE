@@ -49,7 +49,7 @@ export default function HomePage() {
               {FIXED_PRODUCTS.map((product) => {
                 const price = findPrice(product.name);
                 return (
-                  <Link key={product.name} href="/nonmetal" className="flex flex-col bg-white/90 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                  <Link key={product.name} href="/nonmetal" className="flex flex-col bg-white/90 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border-2 border-brand">
                     <div className="relative overflow-hidden flex-1 min-h-[120px]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
@@ -60,7 +60,7 @@ export default function HomePage() {
                       {price?.direction === 'UP' && <UpBadge />}
                     </div>
                     <div className="p-3 text-center">
-                      <p className="font-bold text-gray-800 text-sm mb-1">{product.name}</p>
+                      <p className="font-bold text-gray-800 text-xs md:text-sm mb-1 whitespace-nowrap">{product.name}</p>
                       <div>
                         {loading ? (
                           <span className="text-gray-400">...</span>

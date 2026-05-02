@@ -7,7 +7,7 @@ export function UpBadge({ size = 'md' }: { size?: 'md' | 'lg' }) {
     points.push(`${cx + r * Math.cos(angle)},${cy + r * Math.sin(angle)}`);
   }
 
-  const sizeClass = size === 'lg' ? 'w-24 h-24' : 'w-16 h-16';
+  const sizeClass = size === 'lg' ? 'w-16 h-16 md:w-24 md:h-24' : 'w-16 h-16';
   const fontSize = size === 'lg' ? '24' : '22';
 
   return (
