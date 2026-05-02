@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { AppImage as Image } from '@/components/AppImage';
+import { ProductDescriptions } from '@/components/ProductDescriptions';
 
 export const metadata: Metadata = {
   title: '買取の案内',
@@ -10,13 +10,13 @@ export const metadata: Metadata = {
 export default function BusinessInfoPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-gray-800 mb-10 border-b-2 border-brand pb-3 text-center">
+      <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-10 border-b-2 border-brand pb-3 text-center">
         買取の案内
       </h1>
 
       {/* 買取方法 */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold text-brand-dark mb-6 border-l-4 border-brand pl-3">
+        <h2 className="text-2xl font-bold text-brand-dark mb-6 border-b-2 border-brand pb-2">
           買取方法について
         </h2>
         <div className="bg-white rounded-lg shadow-md p-6 md:p-8 space-y-5">
@@ -37,7 +37,7 @@ export default function BusinessInfoPage() {
 
       {/* グレード定義 */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold text-brand-dark mb-6 border-l-4 border-brand pl-3">
+        <h2 className="text-2xl font-bold text-brand-dark mb-6 border-b-2 border-brand pb-2">
           買取グレードの定義
         </h2>
         <p className="text-base text-gray-600 mb-6">
@@ -95,19 +95,20 @@ export default function BusinessInfoPage() {
 
       {/* 買取可能商材 */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold text-brand-dark mb-6 border-l-4 border-brand pl-3">
+        <h2 className="text-2xl font-bold text-brand-dark mb-6 border-b-2 border-brand pb-2">
           買取可能取扱い商材
         </h2>
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <Link href="/nonmetal" className="text-brand-dark font-bold text-lg hover:underline">
             → 買取価格一覧はこちら（全41品目）
           </Link>
         </div>
+        <ProductDescriptions />
       </section>
 
       {/* その他買取可能 */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold text-brand-dark mb-6 border-l-4 border-brand pl-3">
+        <h2 className="text-2xl font-bold text-brand-dark mb-6 border-b-2 border-brand pb-2">
           その他家庭雑品（買取・引取可能な場合あり）
         </h2>
         <div className="bg-gray-50 rounded-lg p-6">
@@ -129,7 +130,7 @@ export default function BusinessInfoPage() {
 
       {/* 買取不可 */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold text-red-600 mb-6 border-l-4 border-red-600 pl-3">
+        <h2 className="text-2xl font-bold text-red-600 mb-6 border-b-2 border-red-600 pb-2">
           買取不可商材について
         </h2>
 
@@ -170,7 +171,7 @@ export default function BusinessInfoPage() {
               items: '冷蔵庫、金庫、密閉物（内容物を確認できないもの）',
             },
           ].map((section) => (
-            <div key={section.title} className="bg-white rounded-lg shadow-sm p-5 border-l-4 border-red-200">
+            <div key={section.title} className="bg-white rounded-lg shadow-sm p-5">
               <h3 className="font-bold text-gray-800 text-base mb-1">●{section.title}</h3>
               <p className="text-base text-gray-600">{section.items}</p>
             </div>

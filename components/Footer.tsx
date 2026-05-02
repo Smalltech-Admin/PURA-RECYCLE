@@ -4,8 +4,8 @@ import { AppImage as Image } from '@/components/AppImage';
 export function Footer() {
   return (
     <footer className="bg-gray-800 text-gray-300">
-      <div className="max-w-6xl mx-auto px-4 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="max-w-6xl mx-auto px-4 py-6 md:py-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           <div>
             <h3 className="text-white font-bold text-lg mb-3">プラリサイクル株式会社</h3>
             <p className="text-sm leading-relaxed">
@@ -46,9 +46,9 @@ export function Footer() {
                 href="https://ja-jp.facebook.com/pages/%E3%83%97%E3%83%A9%E3%83%AA%E3%82%B5%E3%82%A4%E3%82%AF%E3%83%AB/491338754236880"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block hover:opacity-80 transition-opacity"
+                className="inline-block hover:opacity-80 transition-opacity max-w-full"
               >
-                <Image src="/images/facebook.gif" alt="Facebook" width={345} height={120} className="h-[120px] w-auto" />
+                <Image src="/images/facebook.gif" alt="Facebook" width={345} height={120} className="h-[60px] w-auto max-w-full" />
               </a>
             </div>
           </div>

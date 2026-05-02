@@ -9,16 +9,16 @@ export const metadata: Metadata = {
 export default function CompanyPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8 border-b-2 border-brand pb-3 text-center">
+      <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-8 border-b-2 border-brand pb-3 text-center">
         会社概要
       </h1>
 
       <div className="mb-8">
         <Image
-          src="/images/company001.png"
+          src="/images/company-exterior.jpg"
           alt="プラリサイクル株式会社"
           width={800}
-          height={400}
+          height={225}
           className="rounded-lg w-full h-auto"
         />
       </div>

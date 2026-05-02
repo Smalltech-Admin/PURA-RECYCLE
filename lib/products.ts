@@ -8,7 +8,7 @@ export type Product = {
 
 export const PRODUCTS: Product[] = [
   // 主力20品目（サイドバー表示）
-  { no: 1, id: 'pika', name: 'ピカ線', image: '/images/0001goudou.gif', sidebar: true },
+  { no: 1, id: 'pika', name: 'ピカ線', image: '/images/pika-sen.jpg', sidebar: true },
   { no: 2, id: '1gou-a', name: '1号銅（A）', image: '/images/0001goudou.gif', sidebar: true },
   { no: 3, id: '1gou-b', name: '1号銅（B）', image: '/images/0002goudou.gif', sidebar: true },
   { no: 4, id: 'namidou', name: '並銅', image: '/images/0002goudou.gif', sidebar: true },

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { AppImage as Image } from '@/components/AppImage';
 import { fetchPrices, type PriceItem } from '@/lib/getPrices';
 import { NonmetalSidebar } from '@/components/NonmetalSidebar';
@@ -18,6 +19,21 @@ export default function NonmetalPage() {
       .finally(() => setLoading(false));
   }, []);
 
+  // レンダリング後にURLハッシュへスクロール（stickyヘッダー高さ分オフセット）
+  useEffect(() => {
+    if (loading) return;
+    const hash = window.location.hash;
+    if (!hash) return;
+    requestAnimationFrame(() => {
+      const el = document.getElementById(hash.slice(1));
+      if (!el) return;
+      const header = document.querySelector('header');
+      const headerHeight = header ? header.getBoundingClientRect().height : 0;
+      const top = el.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  }, [loading]);
+
   function findPrice(productName: string) {
     return prices.find((p) => p.subcategory === productName);
   }
@@ -25,12 +41,12 @@ export default function NonmetalPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       {/* ヘッダー画像 */}
-      <div className="mb-6">
+      <div className="mb-6 max-w-5xl mx-auto">
         <Image
-          src="/images/nonmetal001.png"
+          src="/images/company-exterior.jpg"
           alt="非鉄金属買取"
           width={800}
-          height={300}
+          height={225}
           className="rounded-lg w-full h-auto"
         />
       </div>
@@ -47,10 +63,11 @@ export default function NonmetalPage() {
             {PRODUCTS.map((product) => {
               const price = findPrice(product.name);
               return (
-                <div
+                <Link
                   key={product.id}
                   id={product.id}
-                  className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.03] scroll-mt-32"
+                  href={`/businessinfo#desc-${product.id}`}
+                  className="block bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.03] scroll-mt-32 border-2 border-brand"
                 >
                   <div className="relative overflow-hidden">
                     {product.image ? (
@@ -78,7 +95,7 @@ export default function NonmetalPage() {
                       {loading ? (
                         <span className="text-gray-400">...</span>
                       ) : price?.price === '要問合せ' ? (
-                        <a href="/contact" className="text-lg font-bold text-orange-500">要問合せ</a>
+                        <span className="text-lg font-bold text-orange-500">要問合せ</span>
                       ) : price ? (
                         <>
                           <span className="text-3xl font-bold text-red-600">{Number(price.price).toLocaleString()}</span>
@@ -88,11 +105,9 @@ export default function NonmetalPage() {
                         <span className="text-gray-400">価格未設定</span>
                       )}
                     </div>
-                    {price?.note && (
-                      <p className="text-sm text-gray-500 mt-2 text-left">{price.note}</p>
-                    )}
+                    {/* 商品説明文は非表示 */}
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>

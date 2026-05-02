@@ -23,10 +23,10 @@ export function NewsSection() {
       ) : (
         <ul className="text-sm space-y-2">
           {items.map((n, i) => (
-            <li key={i} className="flex gap-3">
+            <li key={i} className="flex gap-3 items-center">
               <span className="text-gray-400 whitespace-nowrap">{n.date}</span>
               {n.category && (
-                <span className="text-xs bg-brand text-gray-800 px-2 py-0.5 rounded whitespace-nowrap">
+                <span className="text-xs bg-brand text-gray-800 px-2 py-0.5 rounded whitespace-nowrap self-center">
                   {n.category}
                 </span>
               )}

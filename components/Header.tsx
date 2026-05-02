@@ -31,49 +31,86 @@ export function Header() {
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-20 md:h-24">
-          <Link href="/" className="flex items-center gap-3 md:gap-4">
+          <Link href="/" className="flex items-center gap-2 md:gap-4">
             <Image
               src="/images/Logo.jpg"
               alt="PRロゴ"
-              width={70}
-              height={70}
-              className="h-14 md:h-16 w-auto rounded-full"
+              width={90}
+              height={90}
+              className="h-16 md:h-20 w-auto rounded-full"
               priority
             />
-            <div className="leading-tight">
-              <p className="text-[10px] md:text-xs font-bold text-gray-600 tracking-wider">金属・自動車・建設重機買取</p>
-              <div className="flex items-baseline gap-2">
-                <p className="text-xs md:text-sm font-black tracking-wider" style={{ color: '#4a5a24', textShadow: '-1px -1px 0 #3a4a14, 1px -1px 0 #3a4a14, -1px 1px 0 #3a4a14, 1px 1px 0 #3a4a14, 0 -2px 0 #3a4a14, 0 2px 0 #3a4a14, -2px 0 0 #3a4a14, 2px 0 0 #3a4a14', WebkitTextStroke: '1px #FFD700', fontFamily: 'var(--font-mplus-rounded), "Hiragino Maru Gothic ProN", sans-serif' }}>株式会社</p>
-                <p className="text-[8px] md:text-[10px] text-gray-500">第431360051697 埼玉県公安委員会</p>
-              </div>
+            <div className="leading-tight min-w-0">
+              <p className="text-[10px] md:text-xs font-bold text-gray-700 tracking-wider whitespace-nowrap">
+                金属・自動車・建設重機買取
+                <span className="hidden md:inline"> / 第431360051697 埼玉県公安委員会</span>
+              </p>
               <p
-                className="text-2xl md:text-4xl font-black tracking-wide"
+                className="text-lg md:text-4xl font-black tracking-wide leading-none whitespace-nowrap"
                 style={{
-                  color: '#4a5a24',
-                  WebkitTextStroke: '1.5px #FFD700',
-                  textShadow: '-2px -2px 0 #3a4a14, 2px -2px 0 #3a4a14, -2px 2px 0 #3a4a14, 2px 2px 0 #3a4a14, 0 -3px 0 #3a4a14, 0 3px 0 #3a4a14, -3px 0 0 #3a4a14, 3px 0 0 #3a4a14',
-                  letterSpacing: '0.05em',
+                  color: '#86E24B',
+                  WebkitTextStroke: '1px #000',
+                  letterSpacing: '0em',
                   fontFamily: 'var(--font-mplus-rounded), "Hiragino Maru Gothic ProN", sans-serif',
                 }}
               >
-                プラ・リサイクル
+                PURA RECYCLE CO.,LTD
               </p>
-              <p className="text-[10px] md:text-xs font-bold tracking-widest text-gray-600">PURA RECYCLE CO.,LTD</p>
+              <div className="flex items-baseline gap-1 whitespace-nowrap">
+                <span
+                  className="text-[10px] md:text-xs font-black tracking-wider"
+                  style={{
+                    color: '#86E24B',
+                    WebkitTextStroke: '0.8px #000',
+                    fontFamily: 'var(--font-mplus-rounded), "Hiragino Maru Gothic ProN", sans-serif',
+                  }}
+                >
+                  株式会社
+                </span>
+                <span
+                  className="text-xs md:text-sm font-black tracking-wide"
+                  style={{
+                    color: '#86E24B',
+                    WebkitTextStroke: '0.8px #000',
+                    fontFamily: 'var(--font-mplus-rounded), "Hiragino Maru Gothic ProN", sans-serif',
+                  }}
+                >
+                  プラ・リサイクル
+                </span>
+              </div>
             </div>
           </Link>
 
-          <div className="hidden md:block text-right">
-            <div className="flex items-center gap-6 justify-end">
-              <a href="tel:048-483-6687" className="text-brand-dark font-bold text-2xl hover:underline">
+          <div className="hidden md:flex items-center gap-4">
+            {/* フリーダイヤル（左・大） */}
+            <div className="text-left">
+              <p className="text-[10px] md:text-xs font-bold text-gray-700 tracking-wider leading-tight">フリーダイヤル</p>
+              <a
+                href="tel:0120-472-872"
+                className="font-black text-3xl hover:underline tracking-tight leading-none"
+                style={{ color: '#5a8a30', WebkitTextStroke: '1.5px #000' }}
+              >
+                0120-472-872
+              </a>
+              <p className="text-[10px] md:text-xs font-bold text-gray-700 tracking-wider mt-1">営業時間: AM8:30〜PM7:00 / 年中無休</p>
+            </div>
+            {/* TEL/FAX（右・二段） */}
+            <div className="text-left border-l border-gray-300 pl-4">
+              <a
+                href="tel:048-483-6687"
+                className="block font-bold text-base hover:underline leading-tight"
+                style={{ color: '#5a8a30', WebkitTextStroke: '0.8px #000' }}
+              >
                 TEL: 048-483-6687
               </a>
-              <span className="text-brand-dark font-bold text-2xl">
+              <span
+                className="block font-bold text-base leading-tight mt-0.5"
+                style={{ color: '#5a8a30', WebkitTextStroke: '0.8px #000' }}
+              >
                 FAX: 048-483-6688
               </span>
+              <p className="text-[10px] md:text-xs font-bold text-gray-700 tracking-wider mt-1">FAX 24時間OK</p>
             </div>
-            <p className="text-sm text-gray-500 mt-1 text-right">
-              営業時間: AM8:30〜PM7:00 / 年中無休 / FAX 24時間OK
-            </p>
           </div>
 
           <button
@@ -119,14 +156,31 @@ export function Header() {
 
       {menuOpen && (
         <nav className="md:hidden bg-white border-t border-gray-100">
-          <div className="px-4 py-3 border-b border-gray-100 text-center">
-            <a href="tel:048-483-6687" className="block text-brand-dark font-bold text-xl">
-              TEL: 048-483-6687
+          <div className="px-4 py-3 border-b border-gray-100 text-left">
+            <p className="text-[10px] md:text-xs font-bold text-gray-700 tracking-wider">フリーダイヤル</p>
+            <a
+              href="tel:0120-472-872"
+              className="block font-black text-2xl"
+              style={{ color: '#5a8a30', WebkitTextStroke: '1.2px #000' }}
+            >
+              0120-472-872
             </a>
-            <p className="text-brand-dark font-bold text-xl mt-1">
-              FAX: 048-483-6688
-            </p>
-            <p className="text-xs text-gray-500 mt-1">年中無休 AM8:30〜PM7:00 / FAX 24時間OK</p>
+            <div className="flex gap-3 mt-2">
+              <a
+                href="tel:048-483-6687"
+                className="font-bold text-sm"
+                style={{ color: '#5a8a30', WebkitTextStroke: '0.6px #000' }}
+              >
+                TEL: 048-483-6687
+              </a>
+              <span
+                className="font-bold text-sm"
+                style={{ color: '#5a8a30', WebkitTextStroke: '0.6px #000' }}
+              >
+                FAX: 048-483-6688
+              </span>
+            </div>
+            <p className="text-[10px] md:text-xs font-bold text-gray-700 tracking-wider mt-1">年中無休 AM8:30〜PM7:00 / FAX 24時間OK</p>
           </div>
           <ul>
             {NAV_ITEMS.map((item) => {

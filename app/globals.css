@@ -45,7 +45,7 @@ body {
   font-weight: bold;
 }
 
-/* メタリック光沢背景 */
+/* メタリック光沢背景: 1本ライン一定方向 */
 .holographic-bg {
   background-color: #c8e0b0;
   position: relative;
@@ -62,12 +62,18 @@ body {
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 42%,
+    rgba(255, 255, 255, 0.85) 44%,
     rgba(255, 255, 255, 0) 46%,
+    rgba(255, 255, 255, 0) 48%,
     rgba(255, 255, 255, 0.85) 50%,
+    rgba(255, 255, 255, 0) 52%,
     rgba(255, 255, 255, 0) 54%,
+    rgba(255, 255, 255, 0.85) 56%,
+    rgba(255, 255, 255, 0) 58%,
     rgba(255, 255, 255, 0) 100%
   );
-  animation: shine-sweep 6s linear infinite;
+  animation: shine-sweep 4s linear infinite;
   pointer-events: none;
   z-index: 0;
 }
@@ -78,6 +84,18 @@ body {
 }
 
 @keyframes shine-sweep {
-  0% { transform: translate(-30%, -30%); }
-  100% { transform: translate(30%, 30%); }
+  0% { transform: translate(-50%, -50%); }
+  100% { transform: translate(50%, 50%); }
+}
+
+/* 3本ライン ランダム方向（ShineEffectコンポーネントで実装） */
+.holographic-bg-random {
+  background-color: #c8e0b0;
+  position: relative;
+  overflow: hidden;
+}
+
+.holographic-bg-random > * {
+  position: relative;
+  z-index: 1;
 }
