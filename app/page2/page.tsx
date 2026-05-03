@@ -152,10 +152,14 @@ export default function Page2() {
             {/* TEL/FAX カード */}
             <div className="border rounded-lg p-4 bg-brand text-center text-gray-800">
               <p className="text-sm mb-1">お問い合わせ</p>
-              <a href="tel:048-483-6687" className="block font-bold text-2xl hover:underline">
-                048-483-6687
+              <p className="text-xs text-gray-700">フリーダイヤル</p>
+              <a href="tel:0120-472-872" className="block font-black text-2xl hover:underline leading-tight">
+                0120-472-872
               </a>
-              <p className="font-bold text-lg mt-1">FAX: 048-483-6688</p>
+              <a href="tel:048-483-6687" className="block font-bold text-lg mt-2 hover:underline">
+                TEL: 048-483-6687
+              </a>
+              <p className="font-bold text-lg">FAX: 048-483-6688</p>
               <p className="text-gray-700 text-xs mt-2">年中無休 / FAX 24時間OK</p>
             </div>
 
@@ -214,8 +218,10 @@ export default function Page2() {
         {/* TEL/FAX */}
         <div className="border rounded-lg p-4 bg-brand text-center text-gray-800">
           <p className="text-sm mb-1">お問い合わせ</p>
-          <a href="tel:048-483-6687" className="block font-bold text-2xl hover:underline">048-483-6687</a>
-          <p className="font-bold text-lg mt-1">FAX: 048-483-6688</p>
+          <p className="text-xs text-gray-700">フリーダイヤル</p>
+          <a href="tel:0120-472-872" className="block font-black text-2xl hover:underline leading-tight">0120-472-872</a>
+          <a href="tel:048-483-6687" className="block font-bold text-lg mt-2 hover:underline">TEL: 048-483-6687</a>
+          <p className="font-bold text-lg">FAX: 048-483-6688</p>
           <p className="text-gray-700 text-xs mt-2">年中無休 / FAX 24時間OK</p>
         </div>
         {/* LINE（旧Facebookの位置） */}

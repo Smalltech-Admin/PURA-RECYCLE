@@ -17,12 +17,12 @@ export function TodayCalendar() {
   const isOpen = totalMin >= 8 * 60 + 30 && totalMin < 19 * 60;
 
   return (
-    <div className="border rounded-lg p-4 bg-white text-center h-full flex flex-col justify-center">
-      <p className="text-lg font-bold text-gray-800">{dateStr}</p>
+    <div className="border rounded-lg p-4 bg-white text-center h-full flex flex-col justify-center gap-3">
+      <p className="text-2xl font-bold text-gray-800 leading-tight">{dateStr}</p>
       <p
-        className={`mt-2 font-bold text-lg ${isOpen ? 'text-green-600' : 'text-gray-400'}`}
+        className={`font-bold text-2xl leading-tight ${isOpen ? 'text-green-600' : 'text-gray-400'}`}
       >
-        {isOpen ? '● 営業中' : '● 営業時間外'}
+        {isOpen ? '営業中' : '営業時間外'}
       </p>
     </div>
   );

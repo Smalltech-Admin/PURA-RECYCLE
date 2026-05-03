@@ -13,11 +13,11 @@ export function TateneBar() {
   if (items.length === 0) return null;
 
   return (
-    <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-3 h-full">
-      <h3 className="font-bold text-sm text-gray-700 mb-2 border-b border-yellow-300 pb-1">
+    <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-3 h-full flex flex-col">
+      <h3 className="font-bold text-sm text-gray-700 mb-2 border-b border-yellow-300 pb-1 shrink-0">
         相場建値情報（円/トン）
       </h3>
-      <ul className="text-base space-y-2">
+      <ul className="text-base flex-1 flex flex-col justify-around gap-2">
         {items.map((item) => (
           <li key={item.metal}>
             <div className="flex justify-between items-center">
