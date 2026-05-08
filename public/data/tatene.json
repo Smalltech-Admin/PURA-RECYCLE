@@ -10,7 +10,7 @@
   {
     "metal": "鉛",
     "price": "381000",
-    "direction": "⇧",
+    "direction": "→",
     "source": "三菱マテリアル",
     "url": "https://www.mmc.co.jp/corporate/ja/product/metalprice/lead-price.html",
     "date": "2026/05/07"
@@ -21,6 +21,6 @@
     "direction": "→",
     "source": "三井金属",
     "url": "https://www.mitsui-kinzoku.com/aen/",
-    "date": "2026/04/23"
+    "date": "2026/05/07"
   }
 ]
