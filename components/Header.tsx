@@ -6,16 +6,12 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 const NAV_ITEMS = [
-  { href: '/', label: 'トップページ1' },
-  { href: '/page2', label: 'トップページ2' },
+  { href: '/', label: 'ホーム' },
   { href: '/nonmetal', label: '非鉄金属買取' },
   { href: '/businessinfo', label: '買取の案内' },
   { href: '/company', label: '会社概要' },
   { href: '/access', label: 'アクセス' },
   { href: '/contact', label: 'お問合せ' },
-  // { href: '/page2', label: 'トップページ2' },
-  // { href: '/machine', label: '建設重機買取' },
-  // { href: '/motercar', label: '自動車買取' },
 ];
 
 function isActive(pathname: string, href: string) {
@@ -30,56 +26,71 @@ export function Header() {
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4">
-        <div className="flex items-center justify-between h-20 md:h-24">
-          <Link href="/" className="flex items-center gap-2 md:gap-4">
-            <Image
-              src="/images/Logo.jpg"
-              alt="PRロゴ"
-              width={90}
-              height={90}
-              className="h-16 md:h-20 w-auto rounded-full"
-              priority
-            />
+        <div className="flex items-center justify-between min-h-20 md:min-h-24 py-2">
+          <div className="flex items-center gap-2 md:gap-4">
+            <Link href="/" className="shrink-0">
+              <Image
+                src="/images/Logo.jpg"
+                alt="PRロゴ"
+                width={90}
+                height={90}
+                className="h-16 md:h-20 w-auto rounded-full"
+                priority
+              />
+            </Link>
             <div className="leading-tight min-w-0">
-              <p className="text-[10px] md:text-xs font-bold text-gray-700 tracking-wider whitespace-nowrap">
-                金属・自動車・建設重機買取
-                <span className="hidden md:inline"> / 第431360051697 埼玉県公安委員会</span>
-              </p>
-              <p
-                className="text-lg md:text-4xl font-black tracking-wide leading-none whitespace-nowrap"
-                style={{
-                  color: '#86E24B',
-                  WebkitTextStroke: '1px #000',
-                  letterSpacing: '0em',
-                  fontFamily: 'var(--font-mplus-rounded), "Hiragino Maru Gothic ProN", sans-serif',
-                }}
+              <Link href="/" className="block">
+                <p className="text-[10px] md:text-xs font-bold text-gray-700 tracking-wider whitespace-nowrap">
+                  金属・自動車・建設重機買取
+                  <span className="hidden md:inline"> / 第431360021467 埼玉県公安委員会</span>
+                </p>
+                <p
+                  className="text-xl md:text-4xl font-black tracking-wide leading-tight whitespace-nowrap"
+                  style={{
+                    color: '#86E24B',
+                    WebkitTextStroke: '3.5px #000',
+                    paintOrder: 'stroke fill',
+                    letterSpacing: '0em',
+                    fontFamily: 'var(--font-noto-sans-jp), "Hiragino Sans", "Yu Gothic", sans-serif',
+                  }}
+                >
+                  PURA RECYCLE CO.,LTD
+                </p>
+                <div className="flex items-baseline gap-1 whitespace-nowrap mt-0.5">
+                  <span
+                    className="text-sm md:text-base font-black tracking-wider"
+                    style={{
+                      color: '#86E24B',
+                      WebkitTextStroke: '2.5px #000',
+                      paintOrder: 'stroke fill',
+                      fontFamily: 'var(--font-noto-sans-jp), "Hiragino Sans", "Yu Gothic", sans-serif',
+                    }}
+                  >
+                    株式会社
+                  </span>
+                  <span
+                    className="text-base md:text-lg font-black tracking-wide"
+                    style={{
+                      color: '#86E24B',
+                      WebkitTextStroke: '2.5px #000',
+                      paintOrder: 'stroke fill',
+                      fontFamily: 'var(--font-noto-sans-jp), "Hiragino Sans", "Yu Gothic", sans-serif',
+                    }}
+                  >
+                    プラ・リサイクル
+                  </span>
+                </div>
+              </Link>
+              {/* モバイル専用: 社名下にフリーダイヤル（タップで電話発信） — ホームLinkの外側に出して有効化 */}
+              <a
+                href="tel:0120-472-872"
+                className="md:hidden block font-black text-base leading-tight mt-1 whitespace-nowrap"
+                style={{ color: '#5a8a30', WebkitTextStroke: '0.6px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
               >
-                PURA RECYCLE CO.,LTD
-              </p>
-              <div className="flex items-baseline gap-1 whitespace-nowrap">
-                <span
-                  className="text-[10px] md:text-xs font-black tracking-wider"
-                  style={{
-                    color: '#86E24B',
-                    WebkitTextStroke: '0.8px #000',
-                    fontFamily: 'var(--font-mplus-rounded), "Hiragino Maru Gothic ProN", sans-serif',
-                  }}
-                >
-                  株式会社
-                </span>
-                <span
-                  className="text-xs md:text-sm font-black tracking-wide"
-                  style={{
-                    color: '#86E24B',
-                    WebkitTextStroke: '0.8px #000',
-                    fontFamily: 'var(--font-mplus-rounded), "Hiragino Maru Gothic ProN", sans-serif',
-                  }}
-                >
-                  プラ・リサイクル
-                </span>
-              </div>
+                フリーダイヤル：0120-472-872
+              </a>
             </div>
-          </Link>
+          </div>
 
           <div className="hidden md:flex items-center gap-4">
             {/* フリーダイヤル（左・大） */}
@@ -87,8 +98,8 @@ export function Header() {
               <p className="text-[10px] md:text-xs font-bold text-gray-700 tracking-wider leading-tight">フリーダイヤル</p>
               <a
                 href="tel:0120-472-872"
-                className="font-black text-3xl hover:underline tracking-tight leading-none"
-                style={{ color: '#5a8a30', WebkitTextStroke: '1.5px #000' }}
+                className="font-black text-3xl hover:underline leading-none"
+                style={{ color: '#5a8a30', WebkitTextStroke: '1px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
               >
                 0120-472-872
               </a>
@@ -99,13 +110,13 @@ export function Header() {
               <a
                 href="tel:048-483-6687"
                 className="block font-bold text-base hover:underline leading-tight"
-                style={{ color: '#5a8a30', WebkitTextStroke: '0.8px #000' }}
+                style={{ color: '#5a8a30', WebkitTextStroke: '0.6px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
               >
                 TEL: 048-483-6687
               </a>
               <span
                 className="block font-bold text-base leading-tight mt-0.5"
-                style={{ color: '#5a8a30', WebkitTextStroke: '0.8px #000' }}
+                style={{ color: '#5a8a30', WebkitTextStroke: '0.6px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
               >
                 FAX: 048-483-6688
               </span>
@@ -161,7 +172,7 @@ export function Header() {
             <a
               href="tel:0120-472-872"
               className="block font-black text-2xl"
-              style={{ color: '#5a8a30', WebkitTextStroke: '1.2px #000' }}
+              style={{ color: '#5a8a30', WebkitTextStroke: '0.8px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
             >
               0120-472-872
             </a>
@@ -169,13 +180,13 @@ export function Header() {
               <a
                 href="tel:048-483-6687"
                 className="font-bold text-sm"
-                style={{ color: '#5a8a30', WebkitTextStroke: '0.6px #000' }}
+                style={{ color: '#5a8a30', WebkitTextStroke: '0.4px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
               >
                 TEL: 048-483-6687
               </a>
               <span
                 className="font-bold text-sm"
-                style={{ color: '#5a8a30', WebkitTextStroke: '0.6px #000' }}
+                style={{ color: '#5a8a30', WebkitTextStroke: '0.4px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
               >
                 FAX: 048-483-6688
               </span>
@@ -185,7 +196,6 @@ export function Header() {
           <ul>
             {NAV_ITEMS.map((item) => {
               const active = isActive(pathname, item.href);
-              const isContact = item.href === '/contact';
               return (
                 <li key={item.href}>
                   <Link
@@ -194,7 +204,7 @@ export function Header() {
                       active
                         ? 'text-gray-800 bg-brand font-bold'
                         : 'text-gray-700 hover:text-brand-dark hover:bg-green-50'
-                    } ${isContact ? 'text-lg font-bold' : ''}`}
+                    }`}
                     onClick={() => setMenuOpen(false)}
                   >
                     {item.label}

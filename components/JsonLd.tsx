@@ -2,7 +2,7 @@ export function LocalBusinessJsonLd() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'RecyclingCenter',
-    name: 'プラリサイクル株式会社',
+    name: '株式会社プラ・リサイクル',
     alternateName: 'PURA RECYCLE CO.,LTD',
     url: 'https://pura-recycle.com',
     logo: 'https://pura-recycle.com/images/Logo.jpg',
@@ -13,7 +13,7 @@ export function LocalBusinessJsonLd() {
     faxNumber: '048-483-6688',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '野火止2-1-29',
+      streetAddress: '大和田2-1-29',
       addressLocality: '新座市',
       addressRegion: '埼玉県',
       postalCode: '352-0004',

@@ -3,7 +3,7 @@ import { AppImage as Image } from '@/components/AppImage';
 
 export const metadata: Metadata = {
   title: '会社概要',
-  description: 'プラリサイクル株式会社の会社概要。埼玉県新座市で非鉄金属・建設重機・自動車の買取を行っています。',
+  description: '株式会社プラ・リサイクルの会社概要。埼玉県新座市で非鉄金属・建設重機・自動車の買取を行っています。',
 };
 
 export default function CompanyPage() {
@@ -16,7 +16,7 @@ export default function CompanyPage() {
       <div className="mb-8">
         <Image
           src="/images/company-exterior.jpg"
-          alt="プラリサイクル株式会社"
+          alt="株式会社プラ・リサイクル"
           width={800}
           height={225}
           className="rounded-lg w-full h-auto"
@@ -26,18 +26,17 @@ export default function CompanyPage() {
       <table className="w-full text-sm md:text-base mb-16">
         <tbody>
           {[
-            ['社名', 'プラリサイクル株式会社'],
-            ['代表者', 'クシャン・プラサンガ (Kushan Prasanga)'],
-            ['所在地', '〒352-0004 埼玉県新座市野火止2-1-29'],
-            ['TEL', '048-483-6687'],
+            ['社名', '株式会社プラ・リサイクル'],
+            ['代表者', 'クシャーン・プラサンガ (Kushan Prasanga)'],
+            ['所在地', '〒352-0004 埼玉県新座市大和田2-1-29'],
+            ['TEL', '0120-472-872 / 048-483-6687'],
             ['FAX', '048-483-6688（24時間OK）'],
             ['営業時間', 'AM8:30〜PM7:00 / 年中無休'],
-            ['資本金', '1,000万円'],
+            ['資本金', '3,000万円'],
             ['従業員数', '5名'],
             ['敷地面積', '140坪'],
-            ['事業内容', '非金属類の買取・販売 / 産廃重機の販売 / 自動車の販売'],
+            ['事業内容', '非金属類の買取・販売 / 産廃重機の買取・販売 / 自動車の買取・販売'],
             ['古物商許可番号', '431360021467（埼玉県公安委員会許可）'],
-            ['産廃許可番号', '431360051697（埼玉県知事許可）'],
           ].map(([label, value], i) => (
             <tr key={label} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
               <th className="p-4 text-left text-brand-dark font-bold w-1/3 border-b border-gray-200 align-top">
@@ -45,9 +44,14 @@ export default function CompanyPage() {
               </th>
               <td className="p-4 border-b border-gray-200">
                 {label === 'TEL' ? (
-                  <a href="tel:048-483-6687" className="text-brand-dark hover:underline font-bold">
-                    {value}
-                  </a>
+                  <div className="space-y-1">
+                    <a href="tel:0120-472-872" className="block text-brand-dark hover:underline font-bold">
+                      フリーダイヤル: 0120-472-872
+                    </a>
+                    <a href="tel:048-483-6687" className="block text-brand-dark hover:underline font-bold">
+                      TEL: 048-483-6687
+                    </a>
+                  </div>
                 ) : (
                   value
                 )}

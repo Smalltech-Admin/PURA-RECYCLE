@@ -32,6 +32,24 @@ export default function BusinessInfoPage() {
             <p>●基本的にご予約等は必要ありませんが、大口の持込の場合は事前にご確認下さい。</p>
             <p>●必ず仕分けを行い持って来て下さい。混載の場合、単価が異なりますのでご了承下さい。</p>
           </div>
+          <div className="mt-6 text-center">
+            <a
+              href="#available-items"
+              className="inline-block px-8 py-3 rounded-lg text-white font-bold text-lg hover:opacity-90 transition-opacity leading-tight"
+              style={{ backgroundColor: '#5a8a30' }}
+            >
+              各買取商品詳細は<br className="md:hidden" />ここをクリック
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* 買取不可商材（先出し） */}
+      <section className="mb-12">
+        <div className="bg-red-50 rounded-lg p-6">
+          <p className="text-red-700 font-bold text-lg">
+            「ブラウン管モニター」「テレビ」「スピーカー」「冷蔵庫」などの家電は買取をしておりません。
+          </p>
         </div>
       </section>
 
@@ -94,7 +112,7 @@ export default function BusinessInfoPage() {
       </section>
 
       {/* 買取可能商材 */}
-      <section className="mb-12">
+      <section id="available-items" className="mb-12 scroll-mt-32">
         <h2 className="text-2xl font-bold text-brand-dark mb-6 border-b-2 border-brand pb-2">
           買取可能取扱い商材
         </h2>
@@ -136,7 +154,7 @@ export default function BusinessInfoPage() {
 
         <div className="bg-red-50 rounded-lg p-6 mb-6">
           <p className="text-red-700 font-bold text-lg">
-            「ブラウン管モニター」「テレビ」「スピーカー」は一切の買取をしておりません。
+            「ブラウン管モニター」「テレビ」「スピーカー」「冷蔵庫」などの家電は買取をしておりません。
           </p>
         </div>
 

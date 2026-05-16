@@ -36,11 +36,23 @@ export default function HomePage() {
 
   return (
     <div className="holographic-bg relative">
+      {/* ===== ヒーローセクション（モバイル専用・横長） ===== */}
+      <section className="md:hidden">
+        <div className="relative w-full h-[30vh] min-h-[180px] max-h-[240px] overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={withBasePath('/images/company-exterior-hero.jpg')}
+            alt="株式会社プラ・リサイクル"
+            className="absolute inset-0 w-full h-full object-cover object-center"
+          />
+        </div>
+      </section>
+
       {/* ===== 第1行: 建値 | 固定3商品 | カレンダー ===== */}
       <section className="max-w-7xl mx-auto px-4 pt-3">
         <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_220px] gap-3 md:items-stretch">
-          {/* PC: 左 / Mobile: 4番目 */}
-          <div className="md:col-start-1 md:row-start-1 order-4 md:order-none md:h-full">
+          {/* PC: 左のみ表示 (モバイルでは下に再配置) */}
+          <div className="hidden md:block md:col-start-1 md:row-start-1 md:h-full">
             <TateneBar />
           </div>
           {/* PC: 中央 / Mobile: 2番目 */}
@@ -49,7 +61,8 @@ export default function HomePage() {
               {FIXED_PRODUCTS.map((product) => {
                 const price = findPrice(product.name);
                 return (
-                  <Link key={product.name} href="/nonmetal" className="flex flex-col bg-white/90 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border-2 border-brand">
+                  <Link key={product.name} href="/nonmetal" className="flex flex-col bg-white/90 rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border-2"
+                    style={{ borderColor: "#5a8a30" }}>
                     <div className="relative overflow-hidden flex-1 min-h-[120px]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
@@ -93,10 +106,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== 新着情報 + LME計算ツール（モバイル用：建値の直後） ===== */}
+      {/* ===== モバイル用: 相場 + 計算ツール 横並び → 新着情報 ===== */}
       <section className="md:hidden max-w-7xl mx-auto px-4 pt-3 space-y-3">
+        <div className="grid grid-cols-2 gap-2 items-stretch">
+          <TateneBar />
+          <LmeCalculator />
+        </div>
         <NewsSection />
-        <LmeCalculator />
       </section>
 
       {/* ===== メイン3カラム: 左サイド | 中央コンテンツ | 右サイド ===== */}
@@ -110,7 +126,7 @@ export default function HomePage() {
             {/* アクセスリンク */}
             <div className="border rounded-lg bg-white/90 mt-3 p-3">
               <h3 className="text-sm font-bold text-gray-700 mb-2">アクセス</h3>
-              <p className="text-xs text-gray-600 mb-1">埼玉県新座市野火止2-1-29</p>
+              <p className="text-xs text-gray-600 mb-1">埼玉県新座市大和田2-1-29</p>
               <Link href="/access" className="text-xs text-brand-dark hover:underline">
                 地図を見る →
               </Link>
@@ -214,15 +230,6 @@ export default function HomePage() {
       {/* ===== モバイル用: サイドバーの内容を下に表示 ===== */}
       <section className="md:hidden max-w-7xl mx-auto px-4 pb-6 space-y-4">
         <NonmetalSidebar current="" />
-        {/* TEL/FAX */}
-        <div className="border rounded-lg p-4 bg-brand text-center text-gray-800">
-          <p className="text-sm mb-1">お問い合わせ</p>
-          <p className="text-xs text-gray-700">フリーダイヤル</p>
-          <a href="tel:0120-472-872" className="block font-black text-2xl hover:underline leading-tight">0120-472-872</a>
-          <a href="tel:048-483-6687" className="block font-bold text-lg mt-2 hover:underline">TEL: 048-483-6687</a>
-          <p className="font-bold text-lg">FAX: 048-483-6688</p>
-          <p className="text-gray-700 text-xs mt-2">年中無休 / FAX 24時間OK</p>
-        </div>
         {/* LINE（旧Facebookの位置） */}
         <LineButton />
         {/* Facebook（コメントアウト）

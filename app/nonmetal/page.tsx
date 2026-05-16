@@ -66,7 +66,7 @@ export default function NonmetalPage() {
                 <Link
                   key={product.id}
                   id={product.id}
-                  href={`/businessinfo#desc-${product.id}`}
+                  href="/businessinfo"
                   className="block bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.03] scroll-mt-32 border-2 border-brand"
                 >
                   <div className="relative overflow-hidden">

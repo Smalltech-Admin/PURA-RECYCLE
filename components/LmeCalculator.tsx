@@ -22,36 +22,36 @@ export function LmeCalculator() {
   }, []);
 
   return (
-    <div className="border rounded-lg bg-white shadow-sm overflow-hidden">
-      <div className="p-3">
-        <h3 className="font-bold mb-2 text-sm text-gray-700">仮定銅建値計算ツール</h3>
-        <div className="flex gap-2 items-center flex-wrap text-sm">
-          <label className="text-gray-600">LME（$/t）</label>
+    <div className="border rounded-lg bg-white shadow-sm overflow-hidden h-full flex flex-col">
+      <div className="p-2 md:p-3">
+        <h3 className="font-bold mb-1 md:mb-2 text-xs md:text-sm text-gray-700">仮定銅建値計算ツール</h3>
+        <div className="flex md:flex-row flex-col gap-1 md:gap-2 md:items-center md:flex-wrap text-xs md:text-sm">
+          <label className="text-gray-600 text-[11px] md:text-sm">LME（$/t）</label>
           <input
             type="number"
             value={lme}
             onChange={(e) => setLme(e.target.value)}
-            className="border rounded px-2 py-1 w-28 focus:outline-none focus:ring-1 focus:ring-green-500"
+            className="border rounded px-2 py-1 w-full md:w-28 focus:outline-none focus:ring-1 focus:ring-green-500"
             placeholder="例: 9500"
           />
-          <label className="text-gray-600">為替(TTS)</label>
+          <label className="text-gray-600 text-[11px] md:text-sm">為替(TTS)</label>
           <input
             type="number"
             value={forex}
             onChange={(e) => setForex(e.target.value)}
-            className="border rounded px-2 py-1 w-24 focus:outline-none focus:ring-1 focus:ring-green-500"
+            className="border rounded px-2 py-1 w-full md:w-24 focus:outline-none focus:ring-1 focus:ring-green-500"
             placeholder="例: 150"
           />
-          <span className="text-gray-500">円/ドル</span>
+          <span className="text-gray-500 hidden md:inline">円/ドル</span>
         </div>
         {result && (
-          <p className="mt-2 text-lg font-bold text-brand-dark">
-            → 仮定建値：{result}万円/t
+          <p className="mt-2 text-sm md:text-lg font-bold text-brand-dark">
+            → 建値：{result}万円/t
           </p>
         )}
       </div>
-      {/* Kitco 24hr Copper Chart */}
-      <div className="px-3 pb-3">
+      {/* Kitco 24hr Copper Chart - PCのみ表示 */}
+      <div className="hidden md:block px-3 pb-3">
         <a
           href="https://www.kitco.com/charts/livecopper.html"
           target="_blank"

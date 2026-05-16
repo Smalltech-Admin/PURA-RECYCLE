@@ -7,10 +7,10 @@ export function Footer() {
       <div className="max-w-6xl mx-auto px-4 py-6 md:py-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           <div>
-            <h3 className="text-white font-bold text-lg mb-3">プラリサイクル株式会社</h3>
+            <h3 className="text-white font-bold text-lg mb-3">株式会社プラ・リサイクル</h3>
             <p className="text-sm leading-relaxed">
               〒352-0004<br />
-              埼玉県新座市野火止2-1-29<br />
+              埼玉県新座市大和田2-1-29<br />
               TEL: <a href="tel:048-483-6687" className="text-green-400 hover:underline">048-483-6687</a><br />
               FAX: 048-483-6688（24時間OK）
             </p>
@@ -37,9 +37,7 @@ export function Footer() {
             <h3 className="text-white font-bold mb-3">許可情報</h3>
             <p className="text-sm leading-relaxed">
               古物商許可番号: 431360021467<br />
-              （埼玉県公安委員会許可）<br />
-              産廃許可番号: 431360051697<br />
-              （埼玉県知事許可）
+              （埼玉県公安委員会許可）
             </p>
             <div className="mt-4">
               <a

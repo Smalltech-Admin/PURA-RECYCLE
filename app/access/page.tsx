@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'アクセスマップ',
-  description: 'プラリサイクル株式会社へのアクセス方法。埼玉県新座市野火止2-1-29。JR武蔵野線新座駅より車3分。',
+  description: '株式会社プラ・リサイクルへのアクセス方法。埼玉県新座市大和田2-1-29。JR武蔵野線新座駅より車3分。',
 };
 
 export default function AccessPage() {
@@ -21,7 +21,7 @@ export default function AccessPage() {
       <section className="mb-8">
         <h2 className="text-xl font-bold text-brand-dark mb-4">所在地</h2>
         <p className="text-lg text-gray-700 mb-2">
-          〒352-0004 埼玉県新座市野火止2-1-29
+          〒352-0004 埼玉県新座市大和田2-1-29
         </p>
         <p className="text-gray-600">
           <strong>最寄駅:</strong> JR武蔵野線「新座駅」より 車で3分 / 徒歩で10分
@@ -31,7 +31,7 @@ export default function AccessPage() {
       <section className="mb-8">
         <div className="aspect-video w-full">
           <iframe
-            src="https://www.google.com/maps?q=埼玉県新座市野火止2-1-29&output=embed"
+            src="https://www.google.com/maps?q=埼玉県新座市大和田2-1-29&output=embed"
             width="100%"
             height="100%"
             loading="lazy"

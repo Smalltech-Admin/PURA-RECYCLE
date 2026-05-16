@@ -3,7 +3,7 @@ import { AppImage as Image } from '@/components/AppImage';
 
 export const metadata: Metadata = {
   title: 'お問合せ',
-  description: 'プラリサイクル株式会社へのお問い合わせ。TEL: 048-483-6687 / FAX: 048-483-6688（24時間OK）',
+  description: '株式会社プラ・リサイクルへのお問い合わせ。TEL: 048-483-6687 / FAX: 048-483-6688（24時間OK）',
 };
 
 export default function ContactPage() {
@@ -29,8 +29,8 @@ export default function ContactPage() {
           <p className="text-xs font-bold text-gray-700 tracking-wider">フリーダイヤル</p>
           <a
             href="tel:0120-472-872"
-            className="block font-black text-3xl md:text-5xl hover:underline tracking-tight leading-none mt-1"
-            style={{ color: '#5a8a30', WebkitTextStroke: '2px #000' }}
+            className="block font-black text-3xl md:text-5xl hover:underline leading-none mt-1"
+            style={{ color: '#86E24B', WebkitTextStroke: '1.5px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
           >
             0120-472-872
           </a>
@@ -44,13 +44,13 @@ export default function ContactPage() {
           <a
             href="tel:048-483-6687"
             className="block font-black text-2xl md:text-4xl hover:underline leading-tight"
-            style={{ color: '#5a8a30', WebkitTextStroke: '1.5px #000' }}
+            style={{ color: '#86E24B', WebkitTextStroke: '1.2px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
           >
             TEL: 048-483-6687
           </a>
           <p
             className="font-black text-2xl md:text-4xl leading-tight mt-2"
-            style={{ color: '#5a8a30', WebkitTextStroke: '1.5px #000' }}
+            style={{ color: '#86E24B', WebkitTextStroke: '1.2px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
           >
             FAX: 048-483-6688
           </p>
