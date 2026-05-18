@@ -40,6 +40,9 @@ export default function NonmetalPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
+      <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-8 border-b-2 border-brand pb-3 text-center">
+        非鉄金属買取
+      </h1>
       {/* ヘッダー画像 */}
       <div className="mb-6 max-w-5xl mx-auto">
         <Image

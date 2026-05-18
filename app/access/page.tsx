@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'アクセスマップ',
+  title: 'アクセス',
   description: '株式会社プラ・リサイクルへのアクセス方法。埼玉県新座市大和田2-1-29。JR武蔵野線新座駅より車3分。',
 };
 
 export default function AccessPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
-      <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-8 border-b-2 border-brand pb-3">
-        アクセスマップ
+      <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-8 border-b-2 border-brand pb-3 text-center">
+        アクセス
       </h1>
 
       <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-8">
