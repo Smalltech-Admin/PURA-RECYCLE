@@ -3,6 +3,21 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* ブランド色（緑＝既定） */
+  --c-brand: #86E24B;
+  --c-brand-dark: #6BC438;
+  --c-brand-name: #86E24B;   /* ヘッダー社名の文字色 */
+  --c-brand-phone: #5a8a30;  /* 電話番号の文字色 */
+  --c-bg-holo: #c8e0b0;      /* ホログラフィック背景のベース色 */
+}
+
+/* 青テーマ：body.theme-blue が付くと（/page2）配下すべてが青になる */
+.theme-blue {
+  --c-brand: #38BDF8;
+  --c-brand-dark: #0284C7;
+  --c-brand-name: #1FA0E0;
+  --c-brand-phone: #2f5a8a;
+  --c-bg-holo: #cfe6f7;      /* 薄青の背景 */
 }
 
 @theme inline {
@@ -10,8 +25,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --color-brand: #86E24B;
-  --color-brand-dark: #6BC438;
+  --color-brand: var(--c-brand);
+  --color-brand-dark: var(--c-brand-dark);
 }
 
 html {
@@ -51,7 +66,7 @@ body {
 
 /* メタリック光沢背景: 1本ライン一定方向 */
 .holographic-bg {
-  background-color: #c8e0b0;
+  background-color: var(--c-bg-holo);
   position: relative;
   overflow: hidden;
 }
@@ -94,7 +109,7 @@ body {
 
 /* 3本ライン ランダム方向（ShineEffectコンポーネントで実装） */
 .holographic-bg-random {
-  background-color: #c8e0b0;
+  background-color: var(--c-bg-holo);
   position: relative;
   overflow: hidden;
 }

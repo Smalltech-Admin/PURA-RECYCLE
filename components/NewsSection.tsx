@@ -14,7 +14,7 @@ export function NewsSection() {
   }, []);
 
   return (
-    <div className="border rounded-lg p-4 bg-white">
+    <div className="border rounded-none p-4 bg-white">
       <h3 className="font-bold mb-3 text-sm text-gray-700 border-b border-brand pb-2">
         新着情報
       </h3>
@@ -26,7 +26,7 @@ export function NewsSection() {
             <li key={i} className="flex gap-3 items-center">
               <span className="text-gray-400 whitespace-nowrap">{n.date}</span>
               {n.category && (
-                <span className="text-xs bg-brand text-gray-800 px-2 py-0.5 rounded whitespace-nowrap self-center">
+                <span className="text-xs bg-brand text-gray-800 px-2 py-0.5 rounded-none whitespace-nowrap self-center">
                   {n.category}
                 </span>
               )}

@@ -19,13 +19,13 @@ export default function ContactPage() {
           alt="お問合せ"
           width={800}
           height={225}
-          className="rounded-lg w-full h-auto"
+          className="rounded-none w-full h-auto"
         />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* フリーダイヤル */}
-        <section className="bg-white border border-gray-200 rounded-lg p-6">
+        <section className="bg-white border border-gray-200 rounded-none p-6">
           <p className="text-xs font-bold text-gray-700 tracking-wider">フリーダイヤル</p>
           <a
             href="tel:0120-472-872"
@@ -40,7 +40,7 @@ export default function ContactPage() {
         </section>
 
         {/* TEL/FAX */}
-        <section className="bg-white border border-gray-200 rounded-lg p-6">
+        <section className="bg-white border border-gray-200 rounded-none p-6">
           <a
             href="tel:048-483-6687"
             className="block font-black text-2xl md:text-4xl hover:underline leading-tight"

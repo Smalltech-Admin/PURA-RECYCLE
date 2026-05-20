@@ -5,6 +5,10 @@ export type PriceItem = {
   unit: string;
   note: string;
   direction: string;
+  /** G列「一覧非表示」が「非表示」のとき true（一覧・ページ・サイドバーから隠す） */
+  hidden: boolean;
+  /** H列「トップ3件表示」が「表示」のとき true（トップ上部に表示） */
+  top: boolean;
 };
 
 function parseCSVLine(line: string): string[] {
@@ -40,16 +44,32 @@ export async function fetchPrices(): Promise<PriceItem[]> {
     const res = await fetch(SPREADSHEET_CSV_URL);
     const text = await res.text();
 
-    const lines = text.trim().split('\n').slice(1);
-    return lines.map((line) => {
+    const lines = text.trim().split('\n');
+    if (lines.length < 2) return [];
+
+    // ヘッダー名で列位置を解決（列の追加・削除・並び替えに強い）
+    const header = parseCSVLine(lines[0]).map((h) => h.trim());
+    const iCat = header.indexOf('category');
+    const iSub = header.indexOf('subcategory');
+    const iPrice = header.indexOf('price');
+    const iUnit = header.indexOf('unit');
+    const iNote = header.indexOf('note');
+    const iDir = header.indexOf('direction');
+    const iHidden = header.findIndex((h) => h.includes('非表示'));
+    const iTop = header.findIndex((h) => h.includes('トップ'));
+    const get = (cols: string[], i: number) => (i >= 0 ? cols[i] || '' : '');
+
+    return lines.slice(1).map((line) => {
       const cols = parseCSVLine(line);
       return {
-        category: cols[0] || '',
-        subcategory: cols[1] || '',
-        price: cols[2] || '',
-        unit: cols[3] || '',
-        note: cols[4] || '',
-        direction: cols[5] || '',
+        category: get(cols, iCat),
+        subcategory: get(cols, iSub),
+        price: get(cols, iPrice),
+        unit: get(cols, iUnit),
+        note: get(cols, iNote),
+        direction: get(cols, iDir),
+        hidden: get(cols, iHidden).trim() === '非表示',
+        top: get(cols, iTop).trim() === '表示',
       };
     });
   } catch {

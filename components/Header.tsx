@@ -6,7 +6,8 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 const NAV_ITEMS = [
-  { href: '/', label: 'ホーム' },
+  { href: '/', label: 'トップ①(緑)' },
+  { href: '/page2', label: 'トップ②(青)' },
   { href: '/nonmetal', label: '非鉄金属買取' },
   { href: '/businessinfo', label: '買取の案内' },
   { href: '/company', label: '会社概要' },
@@ -25,9 +26,9 @@ export function Header() {
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex items-center justify-between min-h-20 md:min-h-24 py-2">
-          <div className="flex items-center gap-2 md:gap-4">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex items-center justify-between gap-3 min-h-20 md:min-h-24 py-2">
+          <div className="flex items-center gap-2 md:gap-4 min-w-0">
             <Link href="/" className="shrink-0">
               <Image
                 src="/images/Logo.jpg"
@@ -40,14 +41,10 @@ export function Header() {
             </Link>
             <div className="leading-tight min-w-0">
               <Link href="/" className="block">
-                <p className="text-[10px] md:text-xs font-bold text-gray-700 tracking-wider whitespace-nowrap">
-                  金属・自動車・建設重機買取
-                  <span className="hidden md:inline"> / 第431360021467 埼玉県公安委員会</span>
-                </p>
                 <p
-                  className="text-xl md:text-4xl font-black tracking-wide leading-tight whitespace-nowrap"
+                  className="text-2xl md:text-4xl lg:text-5xl font-black tracking-wide leading-tight whitespace-nowrap"
                   style={{
-                    color: '#86E24B',
+                    color: 'var(--c-brand-name)',
                     WebkitTextStroke: '3.5px #000',
                     paintOrder: 'stroke fill',
                     letterSpacing: '0em',
@@ -58,9 +55,9 @@ export function Header() {
                 </p>
                 <div className="flex items-baseline gap-1 whitespace-nowrap mt-0.5">
                   <span
-                    className="text-sm md:text-base font-black tracking-wider"
+                    className="text-lg md:text-xl lg:text-2xl font-black tracking-wider"
                     style={{
-                      color: '#86E24B',
+                      color: 'var(--c-brand-name)',
                       WebkitTextStroke: '2.5px #000',
                       paintOrder: 'stroke fill',
                       fontFamily: 'var(--font-noto-sans-jp), "Hiragino Sans", "Yu Gothic", sans-serif',
@@ -69,9 +66,9 @@ export function Header() {
                     株式会社
                   </span>
                   <span
-                    className="text-base md:text-lg font-black tracking-wide"
+                    className="text-xl md:text-2xl lg:text-3xl font-black tracking-wide"
                     style={{
-                      color: '#86E24B',
+                      color: 'var(--c-brand-name)',
                       WebkitTextStroke: '2.5px #000',
                       paintOrder: 'stroke fill',
                       fontFamily: 'var(--font-noto-sans-jp), "Hiragino Sans", "Yu Gothic", sans-serif',
@@ -81,46 +78,46 @@ export function Header() {
                   </span>
                 </div>
               </Link>
-              {/* モバイル専用: 社名下にフリーダイヤル（タップで電話発信） — ホームLinkの外側に出して有効化 */}
+              {/* モバイル専用: 社名下に「お問い合わせはこちら」048番号（タップで電話発信） */}
               <a
-                href="tel:0120-472-872"
-                className="md:hidden block font-black text-base leading-tight mt-1 whitespace-nowrap"
-                style={{ color: '#5a8a30', WebkitTextStroke: '0.6px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
+                href="tel:048-483-6687"
+                className="md:hidden block font-black text-sm leading-tight mt-1 whitespace-nowrap"
+                style={{ color: 'var(--c-brand-phone)', WebkitTextStroke: '0.6px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
               >
-                フリーダイヤル：0120-472-872
+                お問い合わせはこちら：048-483-6687
               </a>
             </div>
           </div>
 
-          <div className="hidden md:flex items-center gap-4">
-            {/* フリーダイヤル（左・大） */}
+          <div className="hidden md:flex items-center gap-4 shrink-0">
+            {/* お問い合わせ（左・大）= 048 */}
             <div className="text-left">
-              <p className="text-[10px] md:text-xs font-bold text-gray-700 tracking-wider leading-tight">フリーダイヤル</p>
-              <a
-                href="tel:0120-472-872"
-                className="font-black text-3xl hover:underline leading-none"
-                style={{ color: '#5a8a30', WebkitTextStroke: '1px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
-              >
-                0120-472-872
-              </a>
-              <p className="text-[10px] md:text-xs font-bold text-gray-700 tracking-wider mt-1">営業時間: AM8:30〜PM7:00 / 年中無休</p>
-            </div>
-            {/* TEL/FAX（右・二段） */}
-            <div className="text-left border-l border-gray-300 pl-4">
+              <p className="text-[10px] md:text-xs font-bold text-gray-700 tracking-wider leading-tight whitespace-nowrap">お問い合わせはこちら</p>
               <a
                 href="tel:048-483-6687"
-                className="block font-bold text-base hover:underline leading-tight"
-                style={{ color: '#5a8a30', WebkitTextStroke: '0.6px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
+                className="font-black text-2xl lg:text-3xl hover:underline leading-none whitespace-nowrap"
+                style={{ color: 'var(--c-brand-phone)', WebkitTextStroke: '1px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
               >
-                TEL: 048-483-6687
+                048-483-6687
+              </a>
+              <p className="text-[10px] md:text-xs font-bold text-gray-700 tracking-wider mt-1 whitespace-nowrap">営業時間: AM8:30〜PM7:00 / 年中無休</p>
+            </div>
+            {/* フリーダイヤル / FAX（右・二段） */}
+            <div className="text-left border-l border-gray-300 pl-4">
+              <a
+                href="tel:0120-472-872"
+                className="block font-bold text-sm lg:text-base hover:underline leading-tight whitespace-nowrap"
+                style={{ color: 'var(--c-brand-phone)', WebkitTextStroke: '0.6px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
+              >
+                フリーダイヤル: 0120-472-872
               </a>
               <span
-                className="block font-bold text-base leading-tight mt-0.5"
-                style={{ color: '#5a8a30', WebkitTextStroke: '0.6px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
+                className="block font-bold text-sm lg:text-base leading-tight mt-0.5 whitespace-nowrap"
+                style={{ color: 'var(--c-brand-phone)', WebkitTextStroke: '0.6px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
               >
                 FAX: 048-483-6688
               </span>
-              <p className="text-[10px] md:text-xs font-bold text-gray-700 tracking-wider mt-1">FAX 24時間OK</p>
+              <p className="text-[10px] md:text-xs font-bold text-gray-700 tracking-wider mt-1 whitespace-nowrap">FAX 24時間OK</p>
             </div>
           </div>
 
@@ -172,7 +169,7 @@ export function Header() {
             <a
               href="tel:0120-472-872"
               className="block font-black text-2xl"
-              style={{ color: '#5a8a30', WebkitTextStroke: '0.8px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
+              style={{ color: 'var(--c-brand-phone)', WebkitTextStroke: '0.8px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
             >
               0120-472-872
             </a>
@@ -180,13 +177,13 @@ export function Header() {
               <a
                 href="tel:048-483-6687"
                 className="font-bold text-sm"
-                style={{ color: '#5a8a30', WebkitTextStroke: '0.4px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
+                style={{ color: 'var(--c-brand-phone)', WebkitTextStroke: '0.4px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
               >
                 TEL: 048-483-6687
               </a>
               <span
                 className="font-bold text-sm"
-                style={{ color: '#5a8a30', WebkitTextStroke: '0.4px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
+                style={{ color: 'var(--c-brand-phone)', WebkitTextStroke: '0.4px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
               >
                 FAX: 048-483-6688
               </span>

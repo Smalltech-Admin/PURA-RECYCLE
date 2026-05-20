@@ -22,7 +22,7 @@ export function LmeCalculator() {
   }, []);
 
   return (
-    <div className="border rounded-lg bg-white shadow-sm overflow-hidden h-full flex flex-col">
+    <div className="border rounded-none bg-white shadow-sm overflow-hidden h-full flex flex-col">
       <div className="p-2 md:p-3">
         <h3 className="font-bold mb-1 md:mb-2 text-xs md:text-sm text-gray-700">仮定銅建値計算ツール</h3>
         <div className="flex md:flex-row flex-col gap-1 md:gap-2 md:items-center md:flex-wrap text-xs md:text-sm">
@@ -31,7 +31,7 @@ export function LmeCalculator() {
             type="number"
             value={lme}
             onChange={(e) => setLme(e.target.value)}
-            className="border rounded px-2 py-1 w-full md:w-28 focus:outline-none focus:ring-1 focus:ring-green-500"
+            className="border rounded-none px-2 py-1 w-full md:w-28 focus:outline-none focus:ring-1 focus:ring-green-500"
             placeholder="例: 9500"
           />
           <label className="text-gray-600 text-[11px] md:text-sm">為替(TTS)</label>
@@ -39,7 +39,7 @@ export function LmeCalculator() {
             type="number"
             value={forex}
             onChange={(e) => setForex(e.target.value)}
-            className="border rounded px-2 py-1 w-full md:w-24 focus:outline-none focus:ring-1 focus:ring-green-500"
+            className="border rounded-none px-2 py-1 w-full md:w-24 focus:outline-none focus:ring-1 focus:ring-green-500"
             placeholder="例: 150"
           />
           <span className="text-gray-500 hidden md:inline">円/ドル</span>
@@ -62,7 +62,7 @@ export function LmeCalculator() {
           <img
             src="https://www.kitconet.com/charts/metals/base/copper-d.gif"
             alt="24hr Copper Chart - Kitco"
-            className="w-full h-auto rounded border border-gray-200"
+            className="w-full h-auto rounded-none border border-gray-200"
           />
         </a>
         <p className="text-[9px] text-gray-400 mt-1 text-center">
@@ -76,7 +76,7 @@ export function LmeCalculator() {
           </a>
         </p>
         {nowStr && (
-          <p className="text-[10px] text-gray-500 mt-2 text-center">
+          <p className="text-[9px] text-gray-500 mt-2 text-center whitespace-nowrap">
             為替(TTS):{nowStr}
           </p>
         )}

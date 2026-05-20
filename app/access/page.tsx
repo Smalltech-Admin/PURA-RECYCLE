@@ -35,14 +35,14 @@ export default function AccessPage() {
             width="100%"
             height="100%"
             loading="lazy"
-            className="rounded-lg border border-gray-200"
+            className="rounded-none border border-gray-200"
             title="プラリサイクル所在地"
           />
         </div>
       </section>
 
       <section className="space-y-6">
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-none shadow-md p-6">
           <h2 className="text-lg font-bold text-brand-dark mb-3 border-l-4 border-brand pl-3">
             国道254号線（川越街道）池袋方面よりお越しの方
           </h2>
@@ -53,7 +53,7 @@ export default function AccessPage() {
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-none shadow-md p-6">
           <h2 className="text-lg font-bold text-brand-dark mb-3 border-l-4 border-brand pl-3">
             国道254号線（川越街道）川越方面よりお越しの方
           </h2>
@@ -65,7 +65,7 @@ export default function AccessPage() {
         </div>
       </section>
 
-      <div className="mt-8 bg-green-50 rounded-lg p-6 text-center">
+      <div className="mt-8 bg-green-50 rounded-none p-6 text-center">
         <p className="text-gray-700 mb-2">道がわからない場合はお気軽にお電話ください</p>
         <a
           href="tel:048-483-6687"

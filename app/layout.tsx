@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
+import { ThemeController } from "@/components/ThemeController";
 import { LocalBusinessJsonLd } from "@/components/JsonLd";
 
 const geistSans = Geist({
@@ -91,6 +92,7 @@ export default function RootLayout({
     <html lang="ja" suppressHydrationWarning className={`${geistSans.variable} ${mPlusRounded.variable} ${notoSansJP.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col pb-24 md:pb-0">
         <LocalBusinessJsonLd />
+        <ThemeController />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

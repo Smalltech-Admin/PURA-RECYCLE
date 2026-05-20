@@ -1,37 +1,32 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-
-const SIDEBAR_ITEMS = [
-  { id: 'pika', label: 'ピカ線' },
-  { id: '1gou-a', label: '1号銅（A）' },
-  { id: '1gou-b', label: '1号銅（B）' },
-  { id: 'namidou', label: '並銅' },
-  { id: '2gou', label: '2号銅（込銅）' },
-  { id: 'houkin', label: '砲金' },
-  { id: 'komihoukin', label: '込砲金' },
-  { id: 'komishinchuu', label: '込真鍮' },
-  { id: '1ponsen-a', label: '1本線（A）100（B）60' },
-  { id: '1ponsen-38', label: '1本線（38㎜）' },
-  { id: '3ponsen-a', label: '3本線（A）' },
-  { id: '3ponsen-b', label: '3本線（B）' },
-  { id: '3ponsen-c', label: '3本線（C）' },
-  { id: 'f-cable', label: 'Fケーブル' },
-  { id: 'reiboukan', label: '冷房間' },
-  { id: 'zassen', label: '雑線' },
-  { id: 'zappinkuzu', label: '雑品くず（㎏）/セット' },
-  { id: 'kyutouki', label: '給湯機' },
-  { id: 'arumi-sasshi', label: 'アルミサッシ' },
-  { id: 'arumi-hoile', label: 'アルミホイール' },
-];
+import { PRODUCTS } from '@/lib/products';
+import { fetchPrices, type PriceItem } from '@/lib/getPrices';
 
 export function NonmetalSidebar({ current }: { current: string }) {
   const [open, setOpen] = useState(false);
-  const currentLabel = SIDEBAR_ITEMS.find((i) => i.id === current)?.label || '取扱い品目';
+  const [prices, setPrices] = useState<PriceItem[] | null>(null);
+
+  useEffect(() => {
+    fetchPrices()
+      .then(setPrices)
+      .catch(() => setPrices([]));
+  }, []);
+
+  // サイドバー候補のうち、シートに該当行があり「非表示」でないものだけ（読込中は全件）
+  const items = PRODUCTS.filter((p) => {
+    if (!p.sidebar) return false;
+    if (prices === null) return true;
+    const row = prices.find((pr) => pr.subcategory === p.name);
+    return row !== undefined && !row.hidden;
+  });
+
+  const currentLabel = PRODUCTS.find((i) => i.id === current)?.name || '取扱い品目';
 
   return (
-    <div className="border rounded-lg bg-white overflow-hidden sticky top-28">
+    <div className="border rounded-none bg-white overflow-hidden sticky top-28">
       <h3
         className="bg-brand text-gray-800 text-sm font-bold px-3 py-2 md:cursor-default cursor-pointer flex justify-between items-center"
         onClick={() => setOpen(!open)}
@@ -48,7 +43,7 @@ export function NonmetalSidebar({ current }: { current: string }) {
         </svg>
       </h3>
       <ul className={`text-sm divide-y ${open ? 'block' : 'hidden'} md:block`}>
-        {SIDEBAR_ITEMS.map((item) => {
+        {items.map((item) => {
           const isActive = current === item.id;
           return (
             <li key={item.id}>
@@ -61,7 +56,7 @@ export function NonmetalSidebar({ current }: { current: string }) {
                 }`}
                 onClick={() => setOpen(false)}
               >
-                {item.label}
+                {item.name}
               </Link>
             </li>
           );

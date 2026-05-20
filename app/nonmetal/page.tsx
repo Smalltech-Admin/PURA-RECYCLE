@@ -38,6 +38,12 @@ export default function NonmetalPage() {
     return prices.find((p) => p.subcategory === productName);
   }
 
+  // 表示する商品：スプレッドシートに該当行があり、かつ「非表示」フラグが立っていないもの
+  const visibleProducts = PRODUCTS.filter((p) => {
+    const row = prices.find((pr) => pr.subcategory === p.name);
+    return row !== undefined && !row.hidden;
+  });
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-8 border-b-2 border-brand pb-3 text-center">
@@ -50,7 +56,7 @@ export default function NonmetalPage() {
           alt="非鉄金属買取"
           width={800}
           height={225}
-          className="rounded-lg w-full h-auto"
+          className="rounded-none w-full h-auto"
         />
       </div>
 
@@ -62,15 +68,18 @@ export default function NonmetalPage() {
 
         {/* メイン: 全商品一覧 */}
         <div>
+          {loading && (
+            <p className="text-gray-400 animate-pulse text-center py-12">買取価格を読み込み中...</p>
+          )}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {PRODUCTS.map((product) => {
+            {visibleProducts.map((product) => {
               const price = findPrice(product.name);
               return (
                 <Link
                   key={product.id}
                   id={product.id}
-                  href="/businessinfo"
-                  className="block bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.03] scroll-mt-32 border-2 border-brand"
+                  href={`/nonmetal/${product.id}`}
+                  className="block bg-white rounded-none shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.03] scroll-mt-32 border-2 border-brand"
                 >
                   <div className="relative overflow-hidden">
                     {product.image ? (
@@ -95,7 +104,13 @@ export default function NonmetalPage() {
                   <div className="p-4 text-center">
                     <h3 className="font-bold text-gray-800 text-lg mb-2">{product.name}</h3>
                     <div>
-                      {loading ? (
+                      {product.priceLines ? (
+                        <div className="leading-tight">
+                          {product.priceLines.map((line) => (
+                            <p key={line} className="text-xl font-bold text-red-600">{line}</p>
+                          ))}
+                        </div>
+                      ) : loading ? (
                         <span className="text-gray-400">...</span>
                       ) : price?.price === '要問合せ' ? (
                         <span className="text-lg font-bold text-orange-500">要問合せ</span>

@@ -19,7 +19,7 @@ export default function CompanyPage() {
           alt="株式会社プラ・リサイクル"
           width={800}
           height={225}
-          className="rounded-lg w-full h-auto"
+          className="rounded-none w-full h-auto"
         />
       </div>
 
@@ -66,7 +66,7 @@ export default function CompanyPage() {
         <h2 className="text-2xl font-bold text-brand-dark mb-6 border-l-4 border-brand pl-3">
           代表挨拶
         </h2>
-        <div className="bg-white rounded-lg shadow-md p-6 md:p-8">
+        <div className="bg-white rounded-none shadow-md p-6 md:p-8">
           <div className="flex flex-col md:flex-row gap-6 items-center justify-center mb-6 max-w-lg mx-auto">
             <div className="text-left shrink-0">
               <p className="text-xl font-bold text-gray-700">株式会社 プラ・リサイクル</p>
@@ -79,7 +79,7 @@ export default function CompanyPage() {
               alt="代表取締役社長 クシャーン プラサンガ"
               width={160}
               height={200}
-              className="rounded-lg w-[160px] h-auto shrink-0"
+              className="rounded-none w-[160px] h-auto shrink-0"
             />
           </div>
           <div>

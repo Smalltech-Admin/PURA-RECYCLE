@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ProductDescriptions } from '@/components/ProductDescriptions';
 
 export const metadata: Metadata = {
   title: '買取の案内',
@@ -15,11 +14,11 @@ export default function BusinessInfoPage() {
       </h1>
 
       {/* 買取方法 */}
-      <section className="mb-12">
+      <section id="kaitori-houhou" className="mb-12 scroll-mt-32">
         <h2 className="text-2xl font-bold text-brand-dark mb-6 border-b-2 border-brand pb-2">
           買取方法について
         </h2>
-        <div className="bg-white rounded-lg shadow-md p-6 md:p-8 space-y-5">
+        <div className="bg-white rounded-none shadow-md p-6 md:p-8 space-y-5">
           <div className="flex gap-4 items-start">
             <span className="bg-brand text-gray-800 rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shrink-0">1</span>
             <p className="text-lg text-gray-700">持ち込んで頂いた商材を当社スタッフが計量・査定致します。</p>
@@ -28,25 +27,25 @@ export default function BusinessInfoPage() {
             <span className="bg-brand text-gray-800 rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shrink-0">2</span>
             <p className="text-lg text-gray-700">個々の単価に従って計算し、その場で買取り代金をお支払い致します。</p>
           </div>
-          <div className="bg-yellow-50 p-5 rounded-lg text-base text-gray-600 space-y-2">
+          <div className="bg-yellow-50 p-5 rounded-none text-base text-gray-600 space-y-2">
             <p>●基本的にご予約等は必要ありませんが、大口の持込の場合は事前にご確認下さい。</p>
             <p>●必ず仕分けを行い持って来て下さい。混載の場合、単価が異なりますのでご了承下さい。</p>
           </div>
           <div className="mt-6 text-center">
-            <a
-              href="#available-items"
-              className="inline-block px-8 py-3 rounded-lg text-white font-bold text-lg hover:opacity-90 transition-opacity leading-tight"
+            <Link
+              href="/nonmetal"
+              className="inline-block px-8 py-3 rounded-none text-white font-bold text-lg hover:opacity-90 transition-opacity leading-tight"
               style={{ backgroundColor: '#5a8a30' }}
             >
-              各買取商品詳細は<br className="md:hidden" />ここをクリック
-            </a>
+              各買取商品の詳細・価格は<br className="md:hidden" />こちら
+            </Link>
           </div>
         </div>
       </section>
 
       {/* 買取不可商材（先出し） */}
       <section className="mb-12">
-        <div className="bg-red-50 rounded-lg p-6">
+        <div className="bg-red-50 rounded-none p-6">
           <p className="text-red-700 font-bold text-lg">
             「ブラウン管モニター」「テレビ」「スピーカー」「冷蔵庫」などの家電は買取をしておりません。
           </p>
@@ -59,12 +58,12 @@ export default function BusinessInfoPage() {
           買取グレードの定義
         </h2>
         <p className="text-base text-gray-600 mb-6">
-          ピカ線であっても、汚れや部品の付着度合いによるグレード（1号銅A・Bへ）振り分けをさせて頂いており、持ち込み時に現物を見て判断させて頂きます。
+          汚れや部品の付着度合いにて、グレードの振り分け、減量・減額をさせて頂いており、持ち込み時に現物を見て判断させて頂きます。
         </p>
 
         <div className="space-y-6">
           {/* ピカ線 */}
-          <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="bg-white rounded-none shadow-md p-6">
             <h3 className="font-bold text-lg text-gray-800 mb-2 border-b border-brand pb-2">ピカ線（特一号銅線・ピカ銅・1号銅）</h3>
             <p className="text-base text-gray-700 mb-3">断面直径が1.3mm以上の銅線で、錫(スズ)メッキ、エナメル、表面劣化等ないもの。</p>
             <ul className="text-sm text-gray-600 space-y-1 list-disc pl-5">
@@ -78,7 +77,7 @@ export default function BusinessInfoPage() {
           </div>
 
           {/* 並銅 */}
-          <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="bg-white rounded-none shadow-md p-6">
             <h3 className="font-bold text-lg text-gray-800 mb-2 border-b border-brand pb-2">並銅（なみどう）</h3>
             <p className="text-base text-gray-700 mb-3">ダスト(付物)のない純銅(Cu：99.99%)</p>
             <ul className="text-sm text-gray-600 space-y-1 list-disc pl-5">
@@ -94,7 +93,7 @@ export default function BusinessInfoPage() {
           </div>
 
           {/* 込銅 */}
-          <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="bg-white rounded-none shadow-md p-6">
             <h3 className="font-bold text-lg text-gray-800 mb-2 border-b border-brand pb-2">込銅（付物のある銅）</h3>
             <p className="text-base text-gray-700 mb-3">ダスト(付物)のある「並銅」は「込銅」とする。</p>
             <ul className="text-sm text-gray-600 space-y-1 list-disc pl-5">
@@ -116,12 +115,14 @@ export default function BusinessInfoPage() {
         <h2 className="text-2xl font-bold text-brand-dark mb-6 border-b-2 border-brand pb-2">
           買取可能取扱い商材
         </h2>
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div className="bg-white rounded-none shadow-md p-6">
+          <p className="text-base text-gray-700 mb-3">
+            各商品の買取価格・注意事項は、買取価格一覧から各商品をタップしてご確認ください。
+          </p>
           <Link href="/nonmetal" className="text-brand-dark font-bold text-lg hover:underline">
             → 買取価格一覧はこちら（全41品目）
           </Link>
         </div>
-        <ProductDescriptions />
       </section>
 
       {/* その他買取可能 */}
@@ -129,7 +130,7 @@ export default function BusinessInfoPage() {
         <h2 className="text-2xl font-bold text-brand-dark mb-6 border-b-2 border-brand pb-2">
           その他家庭雑品（買取・引取可能な場合あり）
         </h2>
-        <div className="bg-gray-50 rounded-lg p-6">
+        <div className="bg-gray-50 rounded-none p-6">
           <p className="text-base text-gray-600 leading-relaxed">
             パソコン関連機器 / ズボンプレッサー / 石油ストーブ / 浄水器 / 空気洗浄機 / ゲーム機 / ミシン /
             ガスストーブ / 炊飯器 / 消火器 / 電子レンジ / アイロン / ミキサー / ポット / 電気温水器 / 扇風機 /
@@ -152,7 +153,7 @@ export default function BusinessInfoPage() {
           買取不可商材について
         </h2>
 
-        <div className="bg-red-50 rounded-lg p-6 mb-6">
+        <div className="bg-red-50 rounded-none p-6 mb-6">
           <p className="text-red-700 font-bold text-lg">
             「ブラウン管モニター」「テレビ」「スピーカー」「冷蔵庫」などの家電は買取をしておりません。
           </p>
@@ -189,7 +190,7 @@ export default function BusinessInfoPage() {
               items: '冷蔵庫、金庫、密閉物（内容物を確認できないもの）',
             },
           ].map((section) => (
-            <div key={section.title} className="bg-white rounded-lg shadow-sm p-5">
+            <div key={section.title} className="bg-white rounded-none shadow-sm p-5">
               <h3 className="font-bold text-gray-800 text-base mb-1">●{section.title}</h3>
               <p className="text-base text-gray-600">{section.items}</p>
             </div>

@@ -17,7 +17,7 @@ import { withBasePath } from '@/lib/basePath';
 // スプレッドシートのトップ表示フラグが未設定のときに使う既定の3商品
 const DEFAULT_TOP_IDS = ['pika', '1gou-a', '2gou'];
 
-export default function HomePage() {
+export default function HomePage2() {
   const [prices, setPrices] = useState<PriceItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -72,7 +72,7 @@ export default function HomePage() {
                 const price = findPrice(product.name);
                 return (
                   <Link key={product.name} href={`/nonmetal/${product.id}`} className="flex flex-col bg-white/90 rounded-none shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border-2"
-                    style={{ borderColor: "#5a8a30" }}>
+                    style={{ borderColor: "#2f5a8a" }}>
                     <div className="relative overflow-hidden h-[130px]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
@@ -109,7 +109,7 @@ export default function HomePage() {
           {/* 買取一覧ボタン（モバイルのみ・3番目） */}
           <Link
             href="/nonmetal"
-            className="md:hidden order-3 bg-brand text-gray-800 font-black text-center py-4 rounded-none hover:bg-brand-dark transition-colors text-2xl"
+            className="md:hidden order-3 bg-sky-400 text-gray-800 font-black text-center py-4 rounded-none hover:bg-sky-500 transition-colors text-2xl"
           >
             買取一覧はこちら！
           </Link>
@@ -134,7 +134,7 @@ export default function HomePage() {
             <div className="border rounded-none bg-white/90 mt-3 p-3">
               <h3 className="text-sm font-bold text-gray-700 mb-2">アクセス</h3>
               <p className="text-xs text-gray-600 mb-1">埼玉県新座市大和田2-1-29</p>
-              <Link href="/access" className="text-xs text-brand-dark hover:underline">
+              <Link href="/access" className="text-xs text-sky-600 hover:underline">
                 地図を見る →
               </Link>
             </div>
@@ -147,7 +147,7 @@ export default function HomePage() {
               {/* 買取一覧バナーリンク */}
               <Link
                 href="/nonmetal"
-                className="hidden md:flex w-full h-[90px] bg-brand rounded-none items-center justify-center hover:bg-brand-dark transition-colors"
+                className="hidden md:flex w-full h-[90px] bg-sky-400 rounded-none items-center justify-center hover:bg-sky-500 transition-colors"
               >
                 <span className="text-gray-800 font-black text-xl md:text-2xl">買取一覧はこちらから！</span>
               </Link>
@@ -160,7 +160,7 @@ export default function HomePage() {
                 <LineButton />
               </div>
               {/* バナー: 2tトラックレンタル（PCでは最上段バナー）。バナー3と同じ200pxに収める */}
-              <div className="w-full h-[200px] bg-white rounded-none border-2 border-brand overflow-hidden flex flex-col">
+              <div className="w-full h-[200px] bg-white rounded-none border-2 border-sky-400 overflow-hidden flex flex-col">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={withBasePath('/images/2t-truck.jpg')}
@@ -185,7 +185,7 @@ export default function HomePage() {
             <LmeCalculator />
 
             {/* TEL/FAX カード */}
-            <div className="border rounded-none p-4 bg-brand text-center text-gray-800">
+            <div className="border rounded-none p-4 bg-sky-400 text-center text-gray-800">
               <p className="text-sm mb-1">お問い合わせ</p>
               <p className="text-xs text-gray-700">フリーダイヤル</p>
               <a href="tel:0120-472-872" className="block font-black text-2xl hover:underline leading-tight">
@@ -200,25 +200,25 @@ export default function HomePage() {
 
             {/* コンテンツリンク */}
             <div className="border rounded-none bg-white/90 overflow-hidden">
-              <h3 className="bg-brand text-gray-800 text-xs font-bold px-3 py-2">コンテンツ</h3>
+              <h3 className="bg-sky-400 text-gray-800 text-xs font-bold px-3 py-2">コンテンツ</h3>
               <ul className="text-xs divide-y">
                 <li>
-                  <Link href="/nonmetal" className="block px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-brand-dark">
+                  <Link href="/nonmetal" className="block px-3 py-2 text-gray-700 hover:bg-sky-50 hover:text-sky-600">
                     買取価格表
                   </Link>
                 </li>
                 <li>
-                  <Link href="/businessinfo" className="block px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-brand-dark">
+                  <Link href="/businessinfo" className="block px-3 py-2 text-gray-700 hover:bg-sky-50 hover:text-sky-600">
                     買取の案内
                   </Link>
                 </li>
                 <li>
-                  <Link href="/company" className="block px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-brand-dark">
+                  <Link href="/company" className="block px-3 py-2 text-gray-700 hover:bg-sky-50 hover:text-sky-600">
                     会社概要
                   </Link>
                 </li>
                 <li>
-                  <Link href="/access" className="block px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-brand-dark">
+                  <Link href="/access" className="block px-3 py-2 text-gray-700 hover:bg-sky-50 hover:text-sky-600">
                     アクセス
                   </Link>
                 </li>

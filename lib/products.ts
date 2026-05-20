@@ -1,18 +1,29 @@
 export type Product = {
   no: number;
   id: string;
+  /** 表示名 兼 スプレッドシートの subcategory 照合キー（シート側と一致させること） */
   name: string;
+  /** 追加の説明文（任意） */
+  desc?: string;
+  /** 価格を独自に複数行表示したい場合（指定時はこちらを優先表示） */
+  priceLines?: string[];
   image: string;
+  /** サイドバー（取扱い品目）に出す候補か */
   sidebar: boolean;
 };
 
+/**
+ * 全品目の登録簿（id・画像・名称の対応表）。
+ * 実際にサイトへ表示するかどうかは、スプレッドシートに同名の subcategory 行が
+ * 存在するかどうかで判定する（非表示にしたい品目はシートの行を削除する運用）。
+ */
 export const PRODUCTS: Product[] = [
-  // 主力20品目（サイドバー表示）
+  // 主力品目（サイドバー候補）
   { no: 1, id: 'pika', name: 'ピカ線', image: '/images/pika-sen.jpg', sidebar: true },
-  { no: 2, id: '1gou-a', name: '1号銅（A）', image: '/images/0001goudou.gif', sidebar: true },
-  { no: 3, id: '1gou-b', name: '1号銅（B）', image: '/images/0002goudou.gif', sidebar: true },
+  { no: 2, id: '1gou-a', name: '並銅A', image: '/images/0001goudou.gif', sidebar: true },
+  { no: 3, id: '1gou-b', name: '並銅B', image: '/images/0002goudou.gif', sidebar: true },
   { no: 4, id: 'namidou', name: '並銅', image: '/images/0002goudou.gif', sidebar: true },
-  { no: 5, id: '2gou', name: '2号銅（込銅）', image: '/images/000namidou.gif', sidebar: true },
+  { no: 5, id: '2gou', name: '2号銅', image: '/images/000namidou.gif', sidebar: true },
   { no: 6, id: 'houkin', name: '砲金', image: '/images/000houkin1.gif', sidebar: true },
   { no: 7, id: 'komihoukin', name: '込砲金', image: '/images/000houkin2.gif', sidebar: true },
   { no: 8, id: 'komishinchuu', name: '込真鍮', image: '/images/000shinchuu2.gif', sidebar: true },
@@ -22,18 +33,25 @@ export const PRODUCTS: Product[] = [
   { no: 12, id: '3ponsen-b', name: '3本線（B）', image: '/images/000sanbonsen2.gif', sidebar: true },
   { no: 13, id: '3ponsen-c', name: '3本線（C）', image: '/images/000sanbonsen3.gif', sidebar: true },
   { no: 14, id: 'f-cable', name: 'Fケーブル', image: '/images/000vasen.gif', sidebar: true },
-  { no: 15, id: 'reiboukan', name: '冷房間', image: '/images/000kawatsuki.gif', sidebar: true },
+  { no: 15, id: 'reiboukan', name: '冷媒管', image: '/images/000kawatsuki.gif', sidebar: true },
   { no: 16, id: 'zassen', name: '雑線', image: '/images/000kadensen.gif', sidebar: true },
-  { no: 17, id: 'zappinkuzu', name: '雑品くず（㎏）/セット', image: '/images/000zappin1.gif', sidebar: true },
-  { no: 18, id: 'kyutouki', name: '給湯機', image: '/images/000kyuutouki.gif', sidebar: true },
+  {
+    no: 17,
+    id: 'zappinkuzu',
+    name: '雑品（㎏）/セット',
+    priceLines: ['270円/㎏', '8,500円/セット', '（税込）'],
+    image: '/images/000zappin1.gif',
+    sidebar: true,
+  },
+  { no: 18, id: 'kyutouki', name: '給湯器', image: '/images/000kyuutouki.gif', sidebar: true },
   { no: 19, id: 'arumi-sasshi', name: 'アルミサッシ', image: '/images/000hoile2.gif', sidebar: true },
   { no: 20, id: 'arumi-hoile', name: 'アルミホイール', image: '/images/000hoile1.gif', sidebar: true },
-  // サブ21品目（サイドバー非表示）
+  // サブ品目（サイドバー非表示）
   { no: 21, id: 'stainless-a', name: 'ステンレスA', image: '/images/000stainless.gif', sidebar: false },
   { no: 22, id: 'stainless-b', name: 'ステンレスB', image: '/images/000stainless.gif', sidebar: false },
   { no: 23, id: 'arumi-gara', name: 'アルミ ガラ', image: '/images/000zappin2.gif', sidebar: false },
-  { no: 24, id: 'arumi-tire-a', name: 'アルミ タイヤA', image: '/images/000hoile1.gif', sidebar: false },
-  { no: 25, id: 'arumi-tire-b', name: 'アルミ タイヤB', image: '/images/000hoile2.gif', sidebar: false },
+  { no: 24, id: 'arumi-tire-a', name: 'アルミ タイヤA', desc: '16インチアップ　タイヤ付アルミホイール。', image: '/images/000hoile1.gif', sidebar: false },
+  { no: 25, id: 'arumi-tire-b', name: 'アルミ タイヤB', desc: '12.13.14.15インチ　タイヤ付アルミホイール。', image: '/images/000hoile2.gif', sidebar: false },
   { no: 26, id: 'battery-a', name: 'バッテリーA', image: '/images/000battery1.gif', sidebar: false },
   { no: 27, id: 'battery-b', name: 'バッテリーB', image: '/images/000battery2.gif', sidebar: false },
   { no: 28, id: 'moter', name: 'モーター', image: '/images/000moter1.gif', sidebar: false },

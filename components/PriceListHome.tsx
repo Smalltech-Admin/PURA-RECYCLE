@@ -100,7 +100,7 @@ export function PriceListHome() {
 
   if (loading) {
     return (
-      <div className="border rounded-lg p-4 bg-white h-[200px] flex items-center justify-center">
+      <div className="border rounded-none p-4 bg-white h-[200px] flex items-center justify-center">
         <p className="text-sm text-gray-400 animate-pulse">買取価格を読み込み中...</p>
       </div>
     );
@@ -108,7 +108,7 @@ export function PriceListHome() {
 
   if (items.length === 0) {
     return (
-      <div className="border rounded-lg p-4 bg-white">
+      <div className="border rounded-none p-4 bg-white">
         <p className="text-sm text-gray-500">価格データがありません。</p>
       </div>
     );
@@ -154,11 +154,11 @@ export function PriceListHome() {
                         src={withBasePath(img)}
                         alt={item.subcategory}
                         style={{ width: '100%', height: '200px', objectFit: 'contain' }}
-                        className="rounded group-hover:shadow-lg transition-shadow bg-white"
+                        className="rounded-none group-hover:shadow-lg transition-shadow bg-white"
                       />
                     ) : (
                       <div
-                        className="bg-gray-100 rounded flex items-center justify-center"
+                        className="bg-gray-100 rounded-none flex items-center justify-center"
                         style={{ width: '100%', height: '200px' }}
                       >
                         <span className="text-sm text-gray-400">{item.subcategory}</span>
