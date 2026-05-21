@@ -5,8 +5,6 @@ export type Product = {
   name: string;
   /** 追加の説明文（任意） */
   desc?: string;
-  /** 価格を独自に複数行表示したい場合（指定時はこちらを優先表示） */
-  priceLines?: string[];
   image: string;
   /** サイドバー（取扱い品目）に出す候補か */
   sidebar: boolean;
@@ -35,14 +33,8 @@ export const PRODUCTS: Product[] = [
   { no: 14, id: 'f-cable', name: 'Fケーブル', image: '/images/000vasen.gif', sidebar: true },
   { no: 15, id: 'reiboukan', name: '冷媒管', image: '/images/000kawatsuki.gif', sidebar: true },
   { no: 16, id: 'zassen', name: '雑線', image: '/images/000kadensen.gif', sidebar: true },
-  {
-    no: 17,
-    id: 'zappinkuzu',
-    name: '雑品（㎏）/セット',
-    priceLines: ['270円/㎏', '8,500円/セット', '（税込）'],
-    image: '/images/000zappin1.gif',
-    sidebar: true,
-  },
+  { no: 17, id: 'zappin-kg', name: '雑品（㎏）', image: '/images/000zappin1.gif', sidebar: true },
+  { no: 42, id: 'zappin-set', name: '雑品（セット）', image: '/images/000zappin1.gif', sidebar: true },
   { no: 18, id: 'kyutouki', name: '給湯器', image: '/images/000kyuutouki.gif', sidebar: true },
   { no: 19, id: 'arumi-sasshi', name: 'アルミサッシ', image: '/images/000hoile2.gif', sidebar: true },
   { no: 20, id: 'arumi-hoile', name: 'アルミホイール', image: '/images/000hoile1.gif', sidebar: true },

@@ -6,6 +6,7 @@ import { AppImage as Image } from '@/components/AppImage';
 import { fetchPrices, type PriceItem } from '@/lib/getPrices';
 import { NonmetalSidebar } from '@/components/NonmetalSidebar';
 import { UpBadge } from '@/components/UpBadge';
+import { PriceTag } from '@/components/PriceTag';
 import { PRODUCTS } from '@/lib/products';
 import { withBasePath } from '@/lib/basePath';
 
@@ -104,24 +105,7 @@ export default function NonmetalPage() {
                   <div className="p-4 text-center">
                     <h3 className="font-bold text-gray-800 text-lg mb-2">{product.name}</h3>
                     <div>
-                      {product.priceLines ? (
-                        <div className="leading-tight">
-                          {product.priceLines.map((line) => (
-                            <p key={line} className="text-xl font-bold text-red-600">{line}</p>
-                          ))}
-                        </div>
-                      ) : loading ? (
-                        <span className="text-gray-400">...</span>
-                      ) : price?.price === '要問合せ' ? (
-                        <span className="text-lg font-bold text-orange-500">要問合せ</span>
-                      ) : price ? (
-                        <>
-                          <span className="text-3xl font-bold text-red-600">{Number(price.price).toLocaleString()}</span>
-                          <span className="text-sm text-gray-600 ml-1">円/{price.unit?.replace('円/', '') || 'kg'}（税込）</span>
-                        </>
-                      ) : (
-                        <span className="text-gray-400">価格未設定</span>
-                      )}
+                      <PriceTag price={price} loading={loading} size="md" />
                     </div>
                     {/* 商品説明文は非表示 */}
                   </div>

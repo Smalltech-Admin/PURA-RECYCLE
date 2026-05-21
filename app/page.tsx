@@ -9,6 +9,7 @@ import { TodayCalendar } from '@/components/TodayCalendar';
 import { LineButton } from '@/components/LineButton';
 import { NonmetalSidebar } from '@/components/NonmetalSidebar';
 import { UpBadge } from '@/components/UpBadge';
+import { PriceTag } from '@/components/PriceTag';
 import { fetchPrices, type PriceItem } from '@/lib/getPrices';
 import { PRODUCTS } from '@/lib/products';
 import { withBasePath } from '@/lib/basePath';
@@ -85,16 +86,7 @@ export default function HomePage() {
                     <div className="p-3 text-center">
                       <p className="font-bold text-gray-800 text-base md:text-lg mb-1 leading-tight">{product.name}</p>
                       <div>
-                        {loading ? (
-                          <span className="text-gray-400">...</span>
-                        ) : price ? (
-                          <>
-                            <span className="text-xl md:text-2xl font-bold text-red-600">{Number(price.price).toLocaleString()}</span>
-                            <span className="text-xs text-gray-600 ml-1">円/{price.unit?.replace('円/', '') || 'kg'}（税込）</span>
-                          </>
-                        ) : (
-                          <span className="text-gray-400">-</span>
-                        )}
+                        <PriceTag price={price} loading={loading} size="sm" emptyLabel="-" />
                       </div>
                     </div>
                   </Link>

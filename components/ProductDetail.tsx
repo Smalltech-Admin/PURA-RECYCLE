@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { fetchPrices, type PriceItem } from '@/lib/getPrices';
 import { withBasePath } from '@/lib/basePath';
 import { UpBadge } from '@/components/UpBadge';
+import { PriceTag } from '@/components/PriceTag';
 import type { Product } from '@/lib/products';
 import { PRODUCT_NOTES } from '@/lib/productNotes';
 
@@ -60,28 +61,7 @@ export function ProductDetail({ product }: { product: Product }) {
         {/* 価格 */}
         <div className="border-2 border-gray-200 bg-white p-6 flex flex-col justify-center text-center">
           <p className="text-sm text-gray-600 mb-2">買取価格</p>
-          {product.priceLines ? (
-            <div className="leading-tight">
-              {product.priceLines.map((line) => (
-                <p key={line} className="text-2xl md:text-3xl font-bold text-red-600">{line}</p>
-              ))}
-            </div>
-          ) : loading ? (
-            <span className="text-gray-400">読み込み中...</span>
-          ) : price?.price === '要問合せ' ? (
-            <span className="text-2xl font-bold text-orange-500">要問合せ</span>
-          ) : price ? (
-            <p>
-              <span className="text-4xl font-bold text-red-600">
-                {Number(price.price).toLocaleString()}
-              </span>
-              <span className="text-base text-gray-600 ml-1">
-                円/{price.unit?.replace('円/', '') || 'kg'}（税込）
-              </span>
-            </p>
-          ) : (
-            <span className="text-gray-400">価格未設定</span>
-          )}
+          <PriceTag price={price} loading={loading} size="lg" />
           <p className="text-xs text-gray-400 mt-3">
             ※相場により変動します。最新価格はお問い合わせください。
           </p>
