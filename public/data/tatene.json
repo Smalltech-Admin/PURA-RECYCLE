@@ -5,15 +5,15 @@
     "direction": "→",
     "source": "JX金属",
     "url": "https://www.jx-nmm.com/cuprice/",
-    "date": "2026/05/22"
+    "date": "2026/06/01"
   },
   {
     "metal": "鉛",
-    "price": "384000",
-    "direction": "→",
+    "price": "387000",
+    "direction": "⇧",
     "source": "三菱マテリアル",
     "url": "https://www.mmc.co.jp/corporate/ja/product/metalprice/lead-price.html",
-    "date": "2026/05/26"
+    "date": "2026/06/01"
   },
   {
     "metal": "亜鉛",
@@ -21,6 +21,6 @@
     "direction": "→",
     "source": "三井金属",
     "url": "https://www.mitsui-kinzoku.com/aen/",
-    "date": "2026/05/26"
+    "date": "2026/06/01"
   }
 ]
