@@ -6,8 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 const NAV_ITEMS = [
-  { href: '/', label: 'トップ①(緑)' },
-  { href: '/page2', label: 'トップ②(青)' },
+  { href: '/', label: 'ホーム' },
   { href: '/nonmetal', label: '非鉄金属買取' },
   { href: '/businessinfo', label: '買取の案内' },
   { href: '/company', label: '会社概要' },

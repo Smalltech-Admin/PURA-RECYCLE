@@ -72,7 +72,7 @@ export default function HomePage() {
               {topProducts.map((product) => {
                 const price = findPrice(product.name);
                 return (
-                  <Link key={product.name} href={`/nonmetal/${product.id}`} className="flex flex-col bg-white/90 rounded-none shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border-2"
+                  <Link key={product.name} href={`/nonmetal/${product.id}`} className="flex flex-col bg-white/90 rounded-none shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border-4"
                     style={{ borderColor: "var(--c-card-border)" }}>
                     <div className="relative overflow-hidden h-[130px]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -84,7 +84,7 @@ export default function HomePage() {
                       {price?.direction === 'UP' && <UpBadge />}
                     </div>
                     <div className="p-3 text-center">
-                      <p className="font-bold text-gray-800 text-base md:text-lg mb-1 leading-tight">{product.name}</p>
+                      <p className="font-black text-gray-800 text-lg md:text-xl mb-1 leading-tight">{product.name}</p>
                       <div>
                         <PriceTag price={price} loading={loading} size="sm" emptyLabel="-" />
                       </div>

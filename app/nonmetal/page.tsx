@@ -47,7 +47,15 @@ export default function NonmetalPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
-      <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-8 border-b-2 border-brand pb-3 text-center">
+      <h1
+        className="text-4xl md:text-5xl font-black mb-8 text-center"
+        style={{
+          color: '#111111',
+          WebkitTextStroke: '3.5px #FACC15',
+          paintOrder: 'stroke fill',
+          fontFamily: 'var(--font-noto-sans-jp), "Hiragino Sans", "Yu Gothic", sans-serif',
+        }}
+      >
         非鉄金属買取
       </h1>
       {/* ヘッダー画像 */}
@@ -80,18 +88,19 @@ export default function NonmetalPage() {
                   key={product.id}
                   id={product.id}
                   href={`/nonmetal/${product.id}`}
-                  className="block bg-white rounded-none shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.03] scroll-mt-32 border-2 border-brand"
+                  className="flex flex-col h-72 bg-white rounded-none shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.03] scroll-mt-32 border-2 border-brand"
                 >
-                  <div className="relative overflow-hidden">
+                  {/* 写真エリア（7） */}
+                  <div className="relative overflow-hidden flex-[7] min-h-0">
                     {product.image ? (
                       /* eslint-disable-next-line @next/next/no-img-element */
                       <img
                         src={withBasePath(product.image)}
                         alt={product.name}
-                        className="w-full h-auto"
+                        className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="w-full aspect-[4/3] bg-gray-200 flex items-center justify-center">
+                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={withBasePath('/images/Logo.jpg')}
@@ -102,8 +111,9 @@ export default function NonmetalPage() {
                     )}
                     {price?.direction === 'UP' && <UpBadge size="lg" />}
                   </div>
-                  <div className="p-4 text-center">
-                    <h3 className="font-bold text-gray-800 text-lg mb-2">{product.name}</h3>
+                  {/* 文字エリア（3） */}
+                  <div className="p-2 text-center flex-[3] min-h-0 flex flex-col justify-center">
+                    <h3 className="font-bold text-gray-800 text-lg mb-1 leading-tight">{product.name}</h3>
                     <div>
                       <PriceTag price={price} loading={loading} size="md" />
                     </div>
