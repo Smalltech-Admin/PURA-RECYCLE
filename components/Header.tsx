@@ -77,14 +77,22 @@ export function Header() {
                   </span>
                 </div>
               </Link>
-              {/* モバイル専用: 社名下に「お問い合わせはこちら」048番号（タップで電話発信） */}
-              <a
-                href="tel:048-483-6687"
-                className="md:hidden block font-black text-sm leading-tight mt-1 whitespace-nowrap"
-                style={{ color: 'var(--c-brand-phone)', WebkitTextStroke: '0.6px #000', paintOrder: 'stroke fill', letterSpacing: '0.05em' }}
-              >
-                お問い合わせはこちら：048-483-6687
-              </a>
+              {/* モバイル専用: 「お問い合わせはこちら」緑囲み ＋ 右に電話番号（番号タップで発信） */}
+              <div className="md:hidden flex items-center gap-2 mt-1">
+                <span className="bg-brand text-[color:var(--c-on-brand)] font-black text-xs rounded-full px-3 py-1 whitespace-nowrap shrink-0">
+                  お問い合わせはこちら
+                </span>
+                <a
+                  href="tel:048-483-6687"
+                  className="flex items-center gap-1 font-black text-lg tracking-tight whitespace-nowrap text-gray-900 hover:underline"
+                  aria-label="048-483-6687 に電話する"
+                >
+                  <svg className="w-4 h-4 text-brand-dark" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                  </svg>
+                  048-483-6687
+                </a>
+              </div>
             </div>
           </div>
 

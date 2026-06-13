@@ -89,7 +89,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" suppressHydrationWarning className={`${geistSans.variable} ${mPlusRounded.variable} ${notoSansJP.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col pb-24 md:pb-0">
+      <body className="min-h-full flex flex-col pb-32 md:pb-0">
         <LocalBusinessJsonLd />
         <Header />
         <main className="flex-1">{children}</main>

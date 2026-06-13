@@ -47,16 +47,14 @@ export default function HomePage() {
 
   return (
     <div className="holographic-bg relative">
-      {/* ===== ヒーローセクション（モバイル専用・横長） ===== */}
+      {/* ===== ヒーローセクション（モバイル専用・デザインバナー） ===== */}
       <section className="md:hidden">
-        <div className="relative w-full h-[30vh] min-h-[180px] max-h-[240px] overflow-hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={withBasePath('/images/company-exterior-hero.jpg')}
-            alt="株式会社プラ・リサイクル"
-            className="absolute inset-0 w-full h-full object-cover object-center"
-          />
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={withBasePath('/images/hero-banner.jpg')}
+          alt="非鉄金属買取 高価買取！安心・信頼のリサイクルパートナー｜株式会社プラ・リサイクル"
+          className="w-full h-auto"
+        />
       </section>
 
       {/* ===== 第1行: 建値 | 固定3商品 | カレンダー ===== */}
@@ -105,6 +103,67 @@ export default function HomePage() {
           >
             買取一覧はこちら！
           </Link>
+        </div>
+      </section>
+
+      {/* ===== 4つの特徴（モバイル専用・色枠＋白地・3商品の下） ===== */}
+      <section className="md:hidden px-3 pt-3">
+        <div className="grid grid-cols-2 gap-2">
+          {[
+            {
+              label: '高価買取',
+              sub: '納得の価格で買取します！',
+              color: '#2563EB', // 青
+              icon: (
+                <svg className="w-9 h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 7.5l3 4.5m0 0l3-4.5M12 12v5.25M8.25 12h7.5M8.25 14.25h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              ),
+            },
+            {
+              label: 'スピード対応',
+              sub: '迅速・丁寧に対応します！',
+              color: '#22C55E', // 緑
+              icon: (
+                <svg className="w-9 h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                </svg>
+              ),
+            },
+            {
+              label: '安心査定',
+              sub: '明確な査定で安心取引！',
+              color: '#EC4899', // ピンク
+              icon: (
+                <svg className="w-9 h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 12h.008v.008H8.25V12zm0 3h.008v.008H8.25V15zm3.75-3h.008v.008H12V12zm0 3h.008v.008H12V15zm3.75-3h.008v.008h-.008V12zm0 3h.008v.008h-.008V15z" />
+                </svg>
+              ),
+            },
+            {
+              label: '環境に配慮',
+              sub: '資源を大切にリサイクル！',
+              color: '#2563EB', // 青
+              icon: (
+                <svg className="w-9 h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.7}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992V4.356M2.985 19.644v-4.992h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+              ),
+            },
+          ].map((f) => (
+            <div
+              key={f.label}
+              className="flex items-center gap-2 bg-white border-2 rounded-xl p-2 shadow-sm"
+              style={{ borderColor: f.color }}
+            >
+              <span className="shrink-0" style={{ color: f.color }}>{f.icon}</span>
+              <span className="flex flex-col leading-tight min-w-0">
+                <span className="font-black text-base" style={{ color: f.color }}>{f.label}</span>
+                <span className="text-[11px] text-gray-600">{f.sub}</span>
+              </span>
+            </div>
+          ))}
         </div>
       </section>
 

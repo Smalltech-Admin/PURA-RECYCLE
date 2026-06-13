@@ -47,7 +47,9 @@ export default function NonmetalPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
-      <h1
+      {/* バナー画像にタイトル文字が含まれるため、ページ見出しは非表示（SEO用にsr-onlyで残す） */}
+      <h1 className="sr-only">非鉄金属買取</h1>
+      {/* <h1
         className="text-4xl md:text-5xl font-black mb-8 text-center"
         style={{
           color: '#111111',
@@ -57,14 +59,14 @@ export default function NonmetalPage() {
         }}
       >
         非鉄金属買取
-      </h1>
-      {/* ヘッダー画像 */}
-      <div className="mb-6 max-w-5xl mx-auto">
+      </h1> */}
+      {/* ヘッダー画像（モバイルは横幅いっぱい・PCは中央） */}
+      <div className="mb-6 -mx-4 md:mx-auto md:max-w-5xl">
         <Image
-          src="/images/company-exterior.jpg"
-          alt="非鉄金属買取"
-          width={800}
-          height={225}
+          src="/images/hero-banner.jpg"
+          alt="非鉄金属買取 高価買取！安心・信頼のリサイクルパートナー"
+          width={1020}
+          height={552}
           className="rounded-none w-full h-auto"
         />
       </div>
