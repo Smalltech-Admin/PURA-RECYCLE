@@ -9,15 +9,20 @@
   --c-brand-name: #86E24B;   /* ヘッダー社名の文字色 */
   --c-brand-phone: #5a8a30;  /* 電話番号の文字色 */
   --c-bg-holo: #c8e0b0;      /* ホログラフィック背景のベース色 */
+  --c-card-border: #5a8a30;  /* トップ3商品カードの枠線色 */
+  --c-on-brand: #1f2937;     /* ブランド色背景の上に乗る文字色（緑＝濃グレー） */
 }
 
-/* 青テーマ：body.theme-blue が付くと（/page2）配下すべてが青になる */
+/* 青テーマ：body.theme-blue が付くと（/page2）配下すべてが青になる
+   ベース＝ロイヤルブルー、商品カード枠線＝コバルトブルー */
 .theme-blue {
-  --c-brand: #38BDF8;
-  --c-brand-dark: #0284C7;
-  --c-brand-name: #1FA0E0;
-  --c-brand-phone: #2f5a8a;
-  --c-bg-holo: #cfe6f7;      /* 薄青の背景 */
+  --c-brand: #4169E1;        /* ロイヤルブルー */
+  --c-brand-dark: #2E4BB8;   /* 濃いロイヤルブルー */
+  --c-brand-name: #4169E1;   /* ヘッダー社名 */
+  --c-brand-phone: #2E4BB8;  /* 電話番号 */
+  --c-bg-holo: #dde4fa;      /* ロイヤルブルーを薄めた背景 */
+  --c-card-border: #0047AB;  /* コバルトブルー（商品カード枠線） */
+  --c-on-brand: #ffffff;     /* 青背景の上は白抜き文字で視認性確保 */
 }
 
 @theme inline {

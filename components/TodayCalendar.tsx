@@ -21,14 +21,14 @@ export function TodayCalendar() {
   return (
     <div className="border-4 border-black bg-white h-full grid grid-cols-2 md:grid-cols-1">
       {/* 左(スマホ)/上(PC): 営業時間 */}
-      <div className="flex flex-col items-center justify-center text-center p-2 border-r-4 border-black md:border-r-0 md:border-b-4">
-        <p className="text-xs md:text-sm font-bold text-gray-700 leading-tight">営業時間</p>
-        <p className="text-sm md:text-base font-bold text-gray-800 leading-tight mt-1">AM8:30〜PM7:00</p>
+      <div className="flex flex-col items-center justify-center text-center px-1 py-2 border-r-4 border-black md:border-r-0 md:border-b-4">
+        <p className="text-xl md:text-xl font-bold text-gray-700 leading-tight">営業時間</p>
+        <p className="text-xl md:text-2xl font-black text-gray-800 leading-tight mt-1 whitespace-nowrap tracking-tighter">AM8:30〜PM7:00</p>
       </div>
       {/* 右(スマホ)/下(PC): 日にち + 営業中 */}
-      <div className="flex flex-col items-center justify-center text-center p-2">
-        <p className="text-base md:text-xl font-bold text-gray-800 leading-tight">{dateStr}</p>
-        <p className={`text-lg md:text-2xl font-bold leading-tight mt-1 ${statusColor}`}>{status}</p>
+      <div className="flex flex-col items-center justify-center text-center px-1 py-2">
+        <p className="text-xl md:text-xl font-bold text-gray-800 leading-tight whitespace-nowrap tracking-tighter">{dateStr}</p>
+        <p className={`text-xl md:text-2xl font-black leading-tight mt-1 whitespace-nowrap ${statusColor}`}>{status}</p>
       </div>
     </div>
   );

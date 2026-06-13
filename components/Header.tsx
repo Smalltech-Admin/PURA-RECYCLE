@@ -149,7 +149,7 @@ export function Header() {
                     href={item.href}
                     className={`block px-5 py-3 font-bold transition-colors border-b-3 ${
                       active
-                        ? 'text-gray-800 bg-brand border-brand'
+                        ? 'text-[color:var(--c-on-brand)] bg-brand border-brand'
                         : 'text-gray-700 border-transparent hover:text-brand-dark hover:bg-green-50 hover:border-green-400'
                     } ${isContact ? 'text-base' : 'text-sm'}`}
                   >
@@ -199,7 +199,7 @@ export function Header() {
                     href={item.href}
                     className={`block px-6 py-3 border-b border-gray-50 transition-colors ${
                       active
-                        ? 'text-gray-800 bg-brand font-bold'
+                        ? 'text-[color:var(--c-on-brand)] bg-brand font-bold'
                         : 'text-gray-700 hover:text-brand-dark hover:bg-green-50'
                     }`}
                     onClick={() => setMenuOpen(false)}

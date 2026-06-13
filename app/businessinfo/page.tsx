@@ -20,11 +20,11 @@ export default function BusinessInfoPage() {
         </h2>
         <div className="bg-white rounded-none shadow-md p-6 md:p-8 space-y-5">
           <div className="flex gap-4 items-start">
-            <span className="bg-brand text-gray-800 rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shrink-0">1</span>
+            <span className="bg-brand text-[color:var(--c-on-brand)] rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shrink-0">1</span>
             <p className="text-lg text-gray-700">持ち込んで頂いた商材を当社スタッフが計量・査定致します。</p>
           </div>
           <div className="flex gap-4 items-start">
-            <span className="bg-brand text-gray-800 rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shrink-0">2</span>
+            <span className="bg-brand text-[color:var(--c-on-brand)] rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shrink-0">2</span>
             <p className="text-lg text-gray-700">個々の単価に従って計算し、その場で買取り代金をお支払い致します。</p>
           </div>
           <div className="bg-yellow-50 p-5 rounded-none text-base text-gray-600 space-y-2">

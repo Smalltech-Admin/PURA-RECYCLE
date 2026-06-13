@@ -23,7 +23,7 @@ export function CategoryNav({ current }: { current?: string }) {
             href={cat.href}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
               current === cat.label
-                ? 'bg-brand text-gray-800'
+                ? 'bg-brand text-[color:var(--c-on-brand)]'
                 : 'bg-gray-100 text-gray-700 hover:bg-green-100 hover:text-brand-dark'
             }`}
           >

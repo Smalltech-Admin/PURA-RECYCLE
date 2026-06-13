@@ -17,7 +17,7 @@ export function PriceTable({ items, showUpdatedAt = false }: Props) {
       )}
       <table className="w-full border-collapse text-sm md:text-base">
         <thead>
-          <tr className="bg-brand text-gray-800">
+          <tr className="bg-brand text-[color:var(--c-on-brand)]">
             <th className="p-3 text-left">品目</th>
             <th className="p-3 text-right">買取価格（税込）</th>
             <th className="p-3 text-left hidden md:table-cell">備考</th>

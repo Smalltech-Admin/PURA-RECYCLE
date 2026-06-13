@@ -28,7 +28,7 @@ export function NonmetalSidebar({ current }: { current: string }) {
   return (
     <div className="border rounded-none bg-white overflow-hidden sticky top-28">
       <h3
-        className="bg-brand text-gray-800 text-sm font-bold px-3 py-2 md:cursor-default cursor-pointer flex justify-between items-center"
+        className="bg-brand text-[color:var(--c-on-brand)] text-sm font-bold px-3 py-2 md:cursor-default cursor-pointer flex justify-between items-center"
         onClick={() => setOpen(!open)}
       >
         <span className="md:hidden">{currentLabel}</span>
@@ -51,7 +51,7 @@ export function NonmetalSidebar({ current }: { current: string }) {
                 href={`/nonmetal#${item.id}`}
                 className={`block px-3 py-2 transition-colors ${
                   isActive
-                    ? 'bg-brand text-gray-800 font-bold'
+                    ? 'bg-brand text-[color:var(--c-on-brand)] font-bold'
                     : 'text-gray-700 hover:bg-green-50 hover:text-brand-dark'
                 }`}
                 onClick={() => setOpen(false)}

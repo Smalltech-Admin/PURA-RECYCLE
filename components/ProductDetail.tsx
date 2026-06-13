@@ -115,7 +115,7 @@ export function ProductDetail({ product }: { product: Product }) {
       </section>
 
       {/* お問い合わせ */}
-      <section className="bg-brand p-6 text-center text-gray-800">
+      <section className="bg-brand p-6 text-center text-[color:var(--c-on-brand)]">
         <p className="text-sm mb-1">お問い合わせはこちら</p>
         <a href="tel:048-483-6687" className="block font-black text-3xl hover:underline leading-tight">
           TEL: 048-483-6687
