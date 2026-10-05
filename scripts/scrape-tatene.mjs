@@ -39,38 +39,60 @@ function getDirection(current, previous) {
   return '→';
 }
 
+// 価格の妥当域（円/トン）。
+// 月間平均推移などの別表から拾った値を公開してしまう事故を止めるための歯止め。
+// 2026-10 時点の実勢: 銅 約237万 / 鉛 約36万 / 亜鉛 約68万。
+const PRICE_RANGE = {
+  '銅': [500000, 5000000],
+  '鉛': [150000, 1000000],
+  '亜鉛': [200000, 2000000],
+};
+
+function inRange(metal, price) {
+  const [min, max] = PRICE_RANGE[metal];
+  const v = Number(price);
+  return Number.isFinite(v) && v >= min && v <= max;
+}
+
+function stripTags(s) {
+  return s.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ');
+}
+
 // 銅建値: JX金属
+// 「最近の銅建値改定の履歴」の最新年（既定で開いているアコーディオン）から、
+// 改定日と建値を同じ行で取る。ページ上部の「月間平均推移」表と取り違えないこと。
 async function scrapeCopperPrice() {
   try {
     const res = await fetch('https://www.jx-nmm.com/cuprice/');
     const html = await res.text();
 
-    // 年と月日が分離: accordion_label に年、cell-style2 に月日
-    let priceDate = null;
     const yearMatch = html.match(/is-default-open[\s\S]*?accordion_label[^>]*>(\d{4})年/);
-    if (yearMatch) {
-      const section = html.match(/is-default-open[\s\S]*?<!--\/accordion-layout-->/);
-      if (section) {
-        const dates = [...section[0].matchAll(/cell-style2[^>]*>\s*(\d{1,2})月(\d{1,2})日/g)];
-        if (dates.length > 0) {
-          const last = dates[dates.length - 1];
-          priceDate = `${yearMatch[1]}/${last[1].padStart(2, '0')}/${last[2].padStart(2, '0')}`;
-        }
-      }
+    const section = html.match(/is-default-open[\s\S]*?<!--\/accordion-layout-->/);
+    if (!yearMatch || !section) {
+      console.error('銅: 改定履歴のセクションが見つかりません');
+      return null;
     }
 
-    const priceMatches = html.match(/[\d,]+,000/g);
-    if (priceMatches && priceMatches.length > 0) {
-      const prices = priceMatches
-        .map(p => Number(p.replace(/,/g, '')))
-        .filter(p => p >= 100000);
-
-      if (prices.length > 0) {
-        return { price: String(prices[0]), source: 'JX金属', date: priceDate };
-      }
+    // 改定日（th）と建値（td）の対を、同じ行から取る。表は日付の昇順なので末尾が最新。
+    const rows = [
+      ...section[0].matchAll(
+        /cell-style2[^>]*>\s*(\d{1,2})月(\d{1,2})日\s*<\/th>\s*<td[^>]*>\s*([\d,]+)\s*円/g
+      ),
+    ];
+    if (rows.length === 0) {
+      console.error('銅: 改定日と建値の対が見つかりません');
+      return null;
     }
-    console.error('銅: 価格パターンが見つかりません');
-    return null;
+
+    const last = rows[rows.length - 1];
+    const price = last[3].replace(/,/g, '');
+    const date = `${yearMatch[1]}/${last[1].padStart(2, '0')}/${last[2].padStart(2, '0')}`;
+
+    if (!inRange('銅', price)) {
+      console.error(`銅: 価格が妥当域の外です (${price})`);
+      return null;
+    }
+    return { price, source: 'JX金属', date };
   } catch (e) {
     console.error('銅スクレイピングエラー:', e.message);
     return null;
@@ -91,6 +113,10 @@ async function scrapeLeadPrice() {
       : null;
 
     if (priceMatch) {
+      if (!inRange('鉛', priceMatch[1])) {
+        console.error(`鉛: 価格が妥当域の外です (${priceMatch[1]})`);
+        return null;
+      }
       return { price: priceMatch[1], source: '三菱マテリアル', date: priceDate };
     }
     console.error('鉛: 価格パターンが見つかりません');
@@ -102,37 +128,45 @@ async function scrapeLeadPrice() {
 }
 
 // 亜鉛建値: 三井金属
+// 改定履歴の表（改定日と建値が同じ行にある表）の先頭行が最新。
+// ページ上部の「月間平均推移」表と取り違えないこと。
 async function scrapeZincPrice() {
   try {
     const res = await fetch('https://www.mitsui-kinzoku.com/aen/');
     const html = await res.text();
 
-    // 年と月日が分離: th rowspan に年、td に月日
-    // 全ての年を取得し、最新（最大）の年を使用
-    let priceDate = null;
-    const yearMatches = [...html.matchAll(/(\d{4})年\s*<\/th>/g)];
-    if (yearMatches.length > 0) {
-      const years = yearMatches.map(m => Number(m[1]));
-      const latestYear = Math.max(...years);
-      // 最新年の直後にある最初の月日を取得
-      const pattern = new RegExp(latestYear + '年[\\s\\S]*?(\\d{1,2})月(\\d{1,2})日');
-      const dateMatch = html.match(pattern);
-      if (dateMatch) {
-        priceDate = `${latestYear}/${dateMatch[1].padStart(2, '0')}/${dateMatch[2].padStart(2, '0')}`;
-      }
+    const tables = [...html.matchAll(/<table[\s\S]*?<\/table>/g)].map((m) => m[0]);
+    // 「◯月◯日」を含む表＝改定履歴（月間平均推移は「◯月」までで日が無い）
+    const history = tables.find((t) => /\d{1,2}月\s*\d{1,2}日/.test(t));
+    if (!history) {
+      console.error('亜鉛: 改定履歴の表が見つかりません');
+      return null;
     }
 
-    const priceMatches = html.match(/[\d,]+,\d{3}/g);
-    if (priceMatches && priceMatches.length > 0) {
-      const prices = priceMatches
-        .map(p => Number(p.replace(/,/g, '')))
-        .filter(p => p >= 100000 && p < 10000000);
-
-      if (prices.length > 0) {
-        return { price: String(prices[0]), source: '三井金属', date: priceDate };
-      }
+    const yearMatch = history.match(/(\d{4})年/);
+    if (!yearMatch) {
+      console.error('亜鉛: 年が見つかりません');
+      return null;
     }
-    console.error('亜鉛: 価格パターンが見つかりません');
+
+    // 行ごとに見て、改定日と建値が揃う最初の行を採る（表は日付の降順）
+    for (const row of history.matchAll(/<tr[\s\S]*?<\/tr>/g)) {
+      const text = stripTags(row[0]);
+      const dateMatch = text.match(/(\d{1,2})月\s*(\d{1,2})日/);
+      const priceMatch = text.match(/(\d{1,3}(?:,\d{3})+)/);
+      if (!dateMatch || !priceMatch) continue;
+
+      const price = priceMatch[1].replace(/,/g, '');
+      const date = `${yearMatch[1]}/${dateMatch[1].padStart(2, '0')}/${dateMatch[2].padStart(2, '0')}`;
+
+      if (!inRange('亜鉛', price)) {
+        console.error(`亜鉛: 価格が妥当域の外です (${price})`);
+        return null;
+      }
+      return { price, source: '三井金属', date };
+    }
+
+    console.error('亜鉛: 改定日と建値の対が見つかりません');
     return null;
   } catch (e) {
     console.error('亜鉛スクレイピングエラー:', e.message);
@@ -146,7 +180,7 @@ async function main() {
   const prev = loadPrevious();
   const prevMap = {};
   for (const item of prev) {
-    prevMap[item.metal] = item.price;
+    prevMap[item.metal] = item;
   }
 
   const [copper, lead, zinc] = await Promise.all([
@@ -155,46 +189,42 @@ async function main() {
     scrapeZincPrice(),
   ]);
 
+  const scraped = { '銅': copper, '鉛': lead, '亜鉛': zinc };
   const result = [];
+  const failed = [];
 
-  if (copper) {
-    result.push({
-      metal: '銅',
-      price: copper.price,
-      direction: getDirection(copper.price, prevMap['銅']),
-      source: copper.source,
-      url: SOURCE_URLS['銅'],
-      date: copper.date || '',
-    });
-    console.log(`銅: ${Number(copper.price).toLocaleString()}円/t (${copper.date})`);
+  for (const metal of ['銅', '鉛', '亜鉛']) {
+    const got = scraped[metal];
+
+    if (got) {
+      result.push({
+        metal,
+        price: got.price,
+        direction: getDirection(got.price, prevMap[metal]?.price),
+        source: got.source,
+        url: SOURCE_URLS[metal],
+        date: got.date || '',
+      });
+      console.log(`${metal}: ${Number(got.price).toLocaleString()}円/t (${got.date})`);
+      continue;
+    }
+
+    // 取得できなかった金属は、前回値を残す。
+    // 消すと画面からその金属が丸ごと消え、利用者には理由が分からないため。
+    failed.push(metal);
+    if (prevMap[metal]) {
+      result.push(prevMap[metal]);
+      console.log(`${metal}: 取得失敗。前回値を据え置き (${prevMap[metal].price} / ${prevMap[metal].date})`);
+    }
   }
 
-  if (lead) {
-    result.push({
-      metal: '鉛',
-      price: lead.price,
-      direction: getDirection(lead.price, prevMap['鉛']),
-      source: lead.source,
-      url: SOURCE_URLS['鉛'],
-      date: lead.date || '',
-    });
-    console.log(`鉛: ${Number(lead.price).toLocaleString()}円/t (${lead.date})`);
-  }
-
-  if (zinc) {
-    result.push({
-      metal: '亜鉛',
-      price: zinc.price,
-      direction: getDirection(zinc.price, prevMap['亜鉛']),
-      source: zinc.source,
-      url: SOURCE_URLS['亜鉛'],
-      date: zinc.date || '',
-    });
-    console.log(`亜鉛: ${Number(zinc.price).toLocaleString()}円/t (${zinc.date})`);
+  if (failed.length > 0) {
+    // GitHub Actions の注釈として出す（ジョブは落とさず、後続のデプロイは走らせる）
+    console.log(`::error::建値の取得に失敗: ${failed.join(', ')}。該当ページの構造が変わった可能性があります。`);
   }
 
   if (result.length === 0) {
-    console.error('全てのスクレイピングに失敗。既存データを維持します。');
+    console.error('全てのスクレイピングに失敗し、前回値もありません。');
     process.exit(1);
   }
 
