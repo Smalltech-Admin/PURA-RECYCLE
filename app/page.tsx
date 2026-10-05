@@ -3,6 +3,11 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { TateneBar } from '@/components/TateneBar';
+// 建値の推移グラフは不要との判断で非表示（2026-10-05）。
+// 現在値（TateneBar）だけを出す。戻すときはこの import と下の設置箇所の
+// コメントを外せばよい。データ（public/data/tatene-history.json）は
+// 日次で更新され続けているので、外すだけで表示が復活する。
+// import { TateneHistory } from '@/components/TateneHistory';
 import { LmeCalculator } from '@/components/LmeCalculator';
 import { NewsSection } from '@/components/NewsSection';
 import { TodayCalendar } from '@/components/TodayCalendar';
@@ -105,6 +110,9 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+
+      {/* ===== 建値の推移（月間平均）— 非表示（2026-10-05・不要との判断） ===== */}
+      {/* <TateneHistory /> */}
 
       {/* ===== 4つの特徴（モバイル専用・色枠＋白地・3商品の下） ===== */}
       <section className="md:hidden px-3 pt-3">

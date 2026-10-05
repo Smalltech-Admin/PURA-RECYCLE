@@ -80,6 +80,23 @@ const CROSS_CHECK_UNAVAILABLE_LIMIT_DAYS = 7;
 // 改定が無い日と、取得できていない日を、画面と運用の両方で区別するため。
 const STATUS_PATH = resolve(__dirname, '../public/data/tatene-status.json');
 
+// 月次の推移グラフ用。取得元が公開している「月間平均」を毎回まるごと読み直す。
+// 自分で積み上げないので、取りこぼした日があっても次の実行で揃う。
+const HISTORY_PATH = resolve(__dirname, '../public/data/tatene-history.json');
+
+// 鉛は本文ではなくJSファイルに現在値と月間平均の両方が入っている
+const LEAD_JS_URL = 'https://www.mmc.co.jp/corporate/ja/js/metalprice_lead.js';
+
+// 同じページを現在値と履歴の両方で読むので、1回の実行で1度だけ取る
+const pageCache = new Map();
+async function fetchText(url) {
+  if (!pageCache.has(url)) {
+    const res = await fetch(url);
+    pageCache.set(url, await res.text());
+  }
+  return pageCache.get(url);
+}
+
 function loadPrevious() {
   try {
     return JSON.parse(readFileSync(OUTPUT_PATH, 'utf-8'));
@@ -148,6 +165,46 @@ function latestMonthlyAverage(html) {
   return null;
 }
 
+// 月間平均推移の表を丸ごと読み、月次の系列にして返す（古い順）。
+// 表の形は3社で共通（1行目が年の見出し、以降が月ごとの行）だが、
+// 年の並びは JX金属・三井金属が昇順、三菱マテリアルが降順。
+// 当月など値の無い列は欠けるので、昇順なら末尾、降順なら先頭が欠ける。
+// そのぶんを差し引いて年に対応づける。
+function monthlyAverageSeries(html) {
+  const tables = [...html.matchAll(/<table[\s\S]*?<\/table>/g)].map((m) => m[0]);
+  for (const table of tables) {
+    const rows = [...table.matchAll(/<tr[\s\S]*?<\/tr>/g)].map((m) => m[0]);
+    if (rows.length === 0) continue;
+
+    const years = [...stripTags(rows[0]).matchAll(/(\d{4})年/g)].map((m) => Number(m[1]));
+    if (years.length < 3) continue;
+
+    const descending = years[0] > years[years.length - 1];
+    const points = [];
+    for (const row of rows.slice(1)) {
+      const text = stripTags(row);
+      const monthMatch = /^(\d{1,2})月/.exec(text);
+      if (!monthMatch) continue;
+      const month = Number(monthMatch[1]);
+      const values = [...text.matchAll(/(\d{1,3}(?:,\d{3})+)/g)].map((m) =>
+        Number(m[1].replace(/,/g, ''))
+      );
+      if (values.length === 0 || values.length > years.length) continue;
+
+      const offset = descending ? years.length - values.length : 0;
+      values.forEach((value, i) => {
+        const year = years[i + offset];
+        if (year) points.push({ ym: `${year}-${String(month).padStart(2, '0')}`, value });
+      });
+    }
+    if (points.length > 0) {
+      points.sort((a, b) => (a.ym < b.ym ? -1 : a.ym > b.ym ? 1 : 0));
+      return points;
+    }
+  }
+  return [];
+}
+
 // 抽出した建値が、同じページの月間平均と大きく食い違っていないかを見る。
 // 「もっともらしいが別の表から拾った値」を捕まえるのはこの検査だけ。
 // 妥当域（PRICE_RANGE）では今回のバグを捕まえられなかった。
@@ -198,8 +255,7 @@ function accept(metal, price, date, source, monthlyAverage) {
 // 改定日（th）と建値（td）を同じ行で取る。表は日付の昇順なので末尾が最新。
 async function scrapeCopperPrice() {
   try {
-    const res = await fetch('https://www.jx-nmm.com/cuprice/');
-    const html = await res.text();
+    const html = await fetchText(SOURCE_URLS['銅']);
 
     const yearMatch = html.match(/is-default-open[\s\S]*?accordion_label[^>]*>(\d{4})年/);
     const section = html.match(/is-default-open[\s\S]*?<!--\/accordion-layout-->/);
@@ -231,8 +287,7 @@ async function scrapeCopperPrice() {
 // 鉛建値: 三菱マテリアル（JSファイルの変数を直読）
 async function scrapeLeadPrice() {
   try {
-    const res = await fetch('https://www.mmc.co.jp/corporate/ja/js/metalprice_lead.js');
-    const js = await res.text();
+    const js = await fetchText(LEAD_JS_URL);
 
     const priceMatch = js.match(/f_pricelValue\s*=\s*(\d+)/);
     // 日付: const f_pricelDate = '2026-10-01';
@@ -262,8 +317,7 @@ async function scrapeLeadPrice() {
 // 行内で最初に見つかった数値を採ると、列が1つ増えた日に無言で別の値を拾う。
 async function scrapeZincPrice() {
   try {
-    const res = await fetch('https://www.mitsui-kinzoku.com/aen/');
-    const html = await res.text();
+    const html = await fetchText(SOURCE_URLS['亜鉛']);
 
     const tables = [...html.matchAll(/<table[\s\S]*?<\/table>/g)].map((m) => m[0]);
     // 「◯月◯日」を含む表＝改定履歴（月間平均推移は「◯月」までで日が無い）
@@ -419,6 +473,43 @@ async function main() {
     'utf-8'
   );
   console.log(`tatene-status.json を更新しました (失敗 ${failed.length}件)`);
+
+  await writeHistory();
+}
+
+// 月次の推移。取得元が公開している月間平均をそのまま写す。
+// 自分で日々積み上げるのではなく毎回読み直すので、
+// 取りこぼした日があっても次の実行で揃い、過去に遡った値も反映される。
+async function writeHistory() {
+  const sources = [
+    ['銅', SOURCE_URLS['銅']],
+    ['鉛', LEAD_JS_URL],
+    ['亜鉛', SOURCE_URLS['亜鉛']],
+  ];
+
+  const series = {};
+  for (const [metal, url] of sources) {
+    try {
+      const points = monthlyAverageSeries(await fetchText(url));
+      if (points.length === 0) {
+        console.log(`::warning::${metal}: 月次の履歴を取得できませんでした。`);
+        continue;
+      }
+      series[metal] = points;
+      console.log(`${metal}: 月次の履歴 ${points.length}件 (${points[0].ym}〜${points[points.length - 1].ym})`);
+    } catch (e) {
+      console.log(`::warning::${metal}: 月次の履歴の取得に失敗しました (${e.message})`);
+    }
+  }
+
+  if (Object.keys(series).length === 0) {
+    // 既存の履歴を壊さない。現在値の表示には影響しない。
+    console.log('::warning::月次の履歴をひとつも取得できなかったため、既存のファイルを残します。');
+    return;
+  }
+
+  writeFileSync(HISTORY_PATH, JSON.stringify({ series }, null, 2), 'utf-8');
+  console.log('tatene-history.json を更新しました');
 }
 
 main().catch((e) => {

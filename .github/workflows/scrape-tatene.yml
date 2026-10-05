@@ -47,7 +47,7 @@ jobs:
           set -euo pipefail
           git config user.name "Takumi Higashiyama"
           git config user.email "atozist@gmail.com"
-          git add public/data/tatene.json public/data/tatene-status.json
+          git add public/data/tatene.json public/data/tatene-status.json public/data/tatene-history.json
           if git diff --cached --quiet; then
             echo "変更なし。コミットしません。"
             exit 0
