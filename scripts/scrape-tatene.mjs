@@ -48,6 +48,20 @@ const MAX_AGE_DAYS = 90;
 // 拒否にはしない。正しい値を捨てて古い価格を掲示し続ける方が害が大きいため。
 const CHANGE_WARN_RATIO = 0.2;
 
+// 取り違え検知。取得元ページが自分で載せている「月間平均」と突き合わせ、
+// これを超えて食い違うなら別の表から拾ったとみなして採用しない。
+//
+// 実測（2026-10-05）:
+//   正しい値   銅 0.7% / 亜鉛 0.0% / 鉛 0.3%
+//   過去のバグ値 銅 63.0% / 亜鉛 29.2%
+// 相場が1ヶ月で20%動くのは歴史的な急変時に限られる。その場合は採用を見送り、
+// 前回値を据え置いたうえでジョブを落として知らせる（黙って誤値を出さない）。
+const CROSS_CHECK_RATIO = 0.2;
+
+// 状態ファイル。建値そのものとは別に「最後に確認できた日時」を持つ。
+// 改定が無い日と、取得できていない日を、画面と運用の両方で区別するため。
+const STATUS_PATH = resolve(__dirname, '../public/data/tatene-status.json');
+
 function loadPrevious() {
   try {
     return JSON.parse(readFileSync(OUTPUT_PATH, 'utf-8'));
@@ -84,8 +98,58 @@ function stripTags(s) {
   return s.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
+// 取得元ページが載せている「月間平均推移」の表から、直近の月の平均を取る。
+// 表の形は JX金属・三井金属で共通（1行目が年の見出し、以降が月ごとの行）。
+// 年の列数と同じ数の数値を持つ最後の月の行が、最新年の直近の確定値。
+function latestMonthlyAverage(html) {
+  const tables = [...html.matchAll(/<table[\s\S]*?<\/table>/g)].map((m) => m[0]);
+  for (const table of tables) {
+    const rows = [...table.matchAll(/<tr[\s\S]*?<\/tr>/g)].map((m) => m[0]);
+    if (rows.length === 0) continue;
+
+    const years = [...stripTags(rows[0]).matchAll(/(\d{4})年/g)].map((m) => m[1]);
+    // 年が3つ以上並ぶ見出しを持つ表＝月間平均推移（改定履歴の表は年が1つ）
+    if (years.length < 3) continue;
+
+    let latest = null;
+    for (const row of rows.slice(1)) {
+      const text = stripTags(row);
+      if (!/^\d{1,2}月/.test(text)) continue;
+      const values = [...text.matchAll(/(\d{1,3}(?:,\d{3})+)/g)].map((m) =>
+        Number(m[1].replace(/,/g, ''))
+      );
+      if (values.length === years.length) latest = values[values.length - 1];
+    }
+    if (latest) return latest;
+  }
+  return null;
+}
+
+// 抽出した建値が、同じページの月間平均と大きく食い違っていないかを見る。
+// 「もっともらしいが別の表から拾った値」を捕まえるのはこの検査だけ。
+// 妥当域（PRICE_RANGE）では今回のバグを捕まえられなかった。
+function crossCheck(metal, price, monthlyAverage) {
+  if (!monthlyAverage) {
+    console.log(
+      `::warning::${metal}: 月間平均の表が見つからず、取り違えの照合ができませんでした。` +
+        `取得元の構造が変わった可能性があります。`
+    );
+    return true;
+  }
+  const ratio = Math.abs(Number(price) - monthlyAverage) / monthlyAverage;
+  if (ratio > CROSS_CHECK_RATIO) {
+    console.error(
+      `${metal}: 月間平均(${monthlyAverage.toLocaleString()})と` +
+        `${(ratio * 100).toFixed(1)}%食い違います (${Number(price).toLocaleString()})。` +
+        `別の表から拾った可能性があるため採用しません。`
+    );
+    return false;
+  }
+  return true;
+}
+
 // 取得した値が採用に足るかを一箇所で判定する
-function accept(metal, price, date, source) {
+function accept(metal, price, date, source, monthlyAverage) {
   if (!inRange(metal, price)) {
     console.error(`${metal}: 価格が妥当域の外です (${price})`);
     return null;
@@ -94,6 +158,7 @@ function accept(metal, price, date, source) {
     console.error(`${metal}: 改定日が古すぎるか不正です (${date})`);
     return null;
   }
+  if (!crossCheck(metal, price, monthlyAverage)) return null;
   return { price, source, date };
 }
 
@@ -125,7 +190,7 @@ async function scrapeCopperPrice() {
     const last = rows[rows.length - 1];
     const price = last[3].replace(/,/g, '');
     const date = `${yearMatch[1]}/${last[1].padStart(2, '0')}/${last[2].padStart(2, '0')}`;
-    return accept('銅', price, date, 'JX金属');
+    return accept('銅', price, date, 'JX金属', latestMonthlyAverage(html));
   } catch (e) {
     console.error('銅スクレイピングエラー:', e.message);
     return null;
@@ -146,7 +211,10 @@ async function scrapeLeadPrice() {
       return null;
     }
     const date = dateMatch ? `${dateMatch[1]}/${dateMatch[2]}/${dateMatch[3]}` : '';
-    return accept('鉛', priceMatch[1], date, '三菱マテリアル');
+    // 同じJSが月平均を持っているのでそれを照合に使う
+    const aveMatch = js.match(/f_monthlylAve\s*=\s*(\d+)/);
+    const monthlyAverage = aveMatch ? Number(aveMatch[1]) : null;
+    return accept('鉛', priceMatch[1], date, '三菱マテリアル', monthlyAverage);
   } catch (e) {
     console.error('鉛スクレイピングエラー:', e.message);
     return null;
@@ -189,7 +257,7 @@ async function scrapeZincPrice() {
 
       const price = priceMatch[1].replace(/,/g, '');
       const date = `${year}/${dateMatch[1].padStart(2, '0')}/${dateMatch[2].padStart(2, '0')}`;
-      return accept('亜鉛', price, date, '三井金属');
+      return accept('亜鉛', price, date, '三井金属', latestMonthlyAverage(html));
     }
 
     console.error('亜鉛: 改定日と建値の対が見つかりません');
@@ -276,6 +344,18 @@ async function main() {
 
   writeFileSync(OUTPUT_PATH, JSON.stringify(result, null, 2), 'utf-8');
   console.log(`tatene.json を更新しました (${result.length}件)`);
+
+  // 「最後に確認できた日時」を建値そのものとは別に残す。
+  // 改定が無い日（建値は変わらない）と、取得できていない日を区別するため。
+  // 画面はこれを見て、確認が止まっているときに注意を出す。
+  // 毎日必ず変わるので、リポジトリに活動が生まれ、
+  // GitHub が60日間の無活動で scheduled workflow を止めることも防げる。
+  writeFileSync(
+    STATUS_PATH,
+    JSON.stringify({ checkedAt: new Date().toISOString(), failed }, null, 2),
+    'utf-8'
+  );
+  console.log(`tatene-status.json を更新しました (失敗 ${failed.length}件)`);
 }
 
 main().catch((e) => {

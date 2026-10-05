@@ -15,28 +15,41 @@ jobs:
   scrape:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Run scraping script
         id: scrape
         run: node scripts/scrape-tatene.mjs
 
-      - name: Check for changes
+      - name: Check for price changes
         id: changes
         run: |
           git diff --quiet public/data/tatene.json || echo "changed=true" >> $GITHUB_OUTPUT
 
+      # 状態ファイル（最後に確認できた日時）は毎日変わるので、毎日コミットする。
+      # 建値が動いた日と、動かなかったが確認はできた日を、履歴で区別できるようにする。
+      # 毎日リポジトリに活動が生まれるため、GitHub が60日間の無活動で
+      # scheduled workflow を自動停止することも防げる。
       - name: Commit and push
-        if: steps.changes.outputs.changed == 'true'
+        if: ${{ !cancelled() }}
         run: |
+          set -euo pipefail
           git config user.name "Takumi Higashiyama"
           git config user.email "atozist@gmail.com"
-          git add public/data/tatene.json
-          git commit -m "chore: 建値データを自動更新 $(date +'%Y-%m-%d')"
+          git add public/data/tatene.json public/data/tatene-status.json
+          if git diff --cached --quiet; then
+            echo "変更なし。コミットしません。"
+            exit 0
+          fi
+          if [ "${{ steps.changes.outputs.changed }}" = "true" ]; then
+            git commit -m "chore: 建値データを自動更新 $(date +'%Y-%m-%d')"
+          else
+            git commit -m "chore: 建値の取得を確認（改定なし） $(date +'%Y-%m-%d')"
+          fi
           git push
 
       # GITHUB_TOKEN による push は他のワークフローを起動しない（GitHub の仕様）。

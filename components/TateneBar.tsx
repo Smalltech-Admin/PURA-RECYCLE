@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { fetchTatene, type TateneItem } from '@/lib/getTatene';
+import {
+  fetchTatene,
+  formatCheckedAt,
+  isCheckStale,
+  type TateneItem,
+} from '@/lib/getTatene';
 
 /**
  * variant='pc'（既定）: 各項目に日付＋参照元を表示（従来表示）
@@ -10,12 +15,14 @@ import { fetchTatene, type TateneItem } from '@/lib/getTatene';
  */
 export function TateneBar({ variant = 'pc' }: { variant?: 'pc' | 'mobile' }) {
   const [items, setItems] = useState<TateneItem[]>([]);
+  const [checkedAt, setCheckedAt] = useState<string | null>(null);
   const [state, setState] = useState<'loading' | 'ok' | 'unavailable'>('loading');
 
   useEffect(() => {
     fetchTatene().then((result) => {
       if (result.status === 'ok') {
         setItems(result.items);
+        setCheckedAt(result.checkedAt);
         setState('ok');
       } else {
         setState('unavailable');
@@ -60,6 +67,9 @@ export function TateneBar({ variant = 'pc' }: { variant?: 'pc' | 'mobile' }) {
   }
 
   const tateneDate = items.find((i) => i.date)?.date;
+  // 改定が無いこと（建値は正しい）と、確認が止まっていること（最新の改定を
+  // 反映できていないかもしれない）は別。後者だけを知らせる。
+  const staleCheck = isCheckStale(checkedAt) && checkedAt ? formatCheckedAt(checkedAt) : null;
 
   return (
     <div className="bg-yellow-50 border border-yellow-300 rounded-none p-3 h-full flex flex-col">
@@ -73,6 +83,11 @@ export function TateneBar({ variant = 'pc' }: { variant?: 'pc' | 'mobile' }) {
       {/* モバイル: 日付をタイトル下に1つだけ表示 */}
       {isMobile && tateneDate && (
         <p className="text-xs text-gray-500 mt-1 mb-1 shrink-0">{tateneDate} 現在</p>
+      )}
+      {staleCheck && (
+        <p className="text-xs text-orange-700 mt-1 mb-1 shrink-0 leading-snug">
+          最終確認 {staleCheck}。最新の改定を反映できていない可能性があります。
+        </p>
       )}
       <ul className="flex-1 flex flex-col justify-around gap-2">
         {items.map((item) => (

@@ -18,19 +18,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
-      - run: npm ci
-      # 独自ドメインへ移管したら env に SITE_BASE_PATH: '' を足す。
-      # 手順は docs/ドメイン移管手順.md を参照（robots/sitemap/DNS も併せて要変更）。
-      - run: npm run build
+      # Pages の設定そのものから base_path を受け取る。
+      # サブパス公開なら "/PURA-RECYCLE"、カスタムドメインなら ""。
+      # これにより、独自ドメインへ移管するとき Settings → Pages で
+      # ドメインを設定するだけで basePath が自動で外れる。
+      # コードもワークフローも触らずに済むので、取り違えが起きない。
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v6
 
-      - uses: actions/upload-pages-artifact@v3
+      - run: npm ci
+      - run: npm run build
+        env:
+          SITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: out
 
@@ -43,9 +52,9 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # 公開物がリポジトリと一致しているかを実際に取得して確かめる。
       # basePath の取り違え・配信の停止・Pages のルーティング変更を
