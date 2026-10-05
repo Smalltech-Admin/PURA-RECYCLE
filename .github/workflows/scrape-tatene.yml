@@ -5,6 +5,11 @@ on:
     # 毎日午前9時（JST）に実行 = UTC 0:00
     - cron: '0 0 * * *'
   workflow_dispatch:
+    inputs:
+      skip_cross_check:
+        description: '取り違え検知（月間平均との照合）を1回だけ省略する。相場が急変して正しい値が拒否されたときの逃げ道。'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -23,6 +28,8 @@ jobs:
 
       - name: Run scraping script
         id: scrape
+        env:
+          SKIP_CROSS_CHECK: ${{ inputs.skip_cross_check }}
         run: node scripts/scrape-tatene.mjs
 
       - name: Check for price changes
@@ -45,7 +52,9 @@ jobs:
             echo "変更なし。コミットしません。"
             exit 0
           fi
-          if [ "${{ steps.changes.outputs.changed }}" = "true" ]; then
+          if [ -n "${{ steps.scrape.outputs.failed }}" ]; then
+            git commit -m "chore: 建値の取得に一部失敗（${{ steps.scrape.outputs.failed }}） $(date +'%Y-%m-%d')"
+          elif [ "${{ steps.changes.outputs.changed }}" = "true" ]; then
             git commit -m "chore: 建値データを自動更新 $(date +'%Y-%m-%d')"
           else
             git commit -m "chore: 建値の取得を確認（改定なし） $(date +'%Y-%m-%d')"

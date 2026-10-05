@@ -1,25 +1,28 @@
 import type { NextConfig } from "next";
 
-// 公開先に応じた basePath。
-// - ローカル開発                                        : ''
-// - GitHub Pages のサブパス公開 (/PURA-RECYCLE/)        : '/PURA-RECYCLE'
-// - 独自ドメイン公開 (https://pura-recycle.com/)        : ''
+// basePath は CI では必ず GitHub Pages の設定そのもの（configure-pages の
+// base_path）から受け取る。サブパス公開なら "/PURA-RECYCLE"、
+// カスタムドメインなら空文字が渡る。
 //
-// GITHUB_ACTIONS は Actions 上で常に true になるため、それだけでは
-// 独自ドメインへ切り替えられない。移管時は deploy.yml の env に
-// SITE_BASE_PATH: '' を足す。これでページ・画像・建値JSONの参照先は切り替わるが、
-// 他にも変更が要る（robots / sitemap / Pages のカスタムドメイン / DNS）。
-// 手順は docs/ドメイン移管手順.md を参照すること。
-//
-// 不正な値（先頭が / でない等）はビルドが落ちるので黙って公開されることはない。
-// ただし空文字が undefined に化けると GITHUB_ACTIONS 側に落ちてビルドは通るため、
-// 採用した値をログに出して確かめられるようにしている。
-const basePath =
-  process.env.SITE_BASE_PATH !== undefined
-    ? process.env.SITE_BASE_PATH
-    : process.env.GITHUB_ACTIONS === 'true'
-      ? '/PURA-RECYCLE'
-      : '';
+// CI で未設定なら推測せずに落とす。以前はここで GITHUB_ACTIONS を見て
+// "/PURA-RECYCLE" を補っていたが、その分岐が発動するのは
+// 「カスタムドメインへ移管したのに空文字が届かなかったとき」だけで、
+// しかもビルドは成功してしまう（全アセットが /PURA-RECYCLE/_next/... を指す
+// 壊れたサイトが公開される）。落とせば前回の公開物が残る。
+const inCI = process.env.GITHUB_ACTIONS === 'true';
+const rawBasePath = process.env.SITE_BASE_PATH;
+
+if (inCI && rawBasePath === undefined) {
+  throw new Error(
+    'CI では SITE_BASE_PATH（actions/configure-pages の base_path）を必ず渡すこと。推測しない。'
+  );
+}
+
+const basePath = rawBasePath ?? '';
+
+// どちらの basePath でビルドしたかをデプロイログに残す。
+// 移管時の取り違えを後から判別できるようにするため。
+console.log('[next.config] basePath =', JSON.stringify(basePath));
 
 const nextConfig: NextConfig = {
   output: 'export',
@@ -32,10 +35,5 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_BASE_PATH: basePath,
   },
 };
-
-// どちらの basePath でビルドしたかをデプロイログに残す。
-// 移管時の取り違え（/PURA-RECYCLE 付きの成果物を独自ドメイン直下に置く）を
-// ログから判別できるようにするため。
-console.log('[next.config] basePath =', JSON.stringify(basePath));
 
 export default nextConfig;

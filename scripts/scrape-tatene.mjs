@@ -41,8 +41,11 @@ const PRICE_RANGE = {
 };
 
 // 改定日がこれより古ければ採用しない。古い年の表を掴んだ場合の最後の砦。
-// 建値は3社とも最低でも月初に改定されるため、90日空くこと自体が異常。
-const MAX_AGE_DAYS = 90;
+// 実測（2026-10-05）の改定間隔は 銅 最大14日・平均3.8日、亜鉛 最大10日・平均5.4日。
+// 鉛も最低で月初に改定される。45日空くこと自体が異常。
+// 以前は90日にしていたが、年の境目で前年の表を掴んだ場合に3ヶ月近く
+// 気づけないため縮めた。
+const MAX_AGE_DAYS = 45;
 
 // 前回値からこの割合を超えて動いたら報告する（値は採用する）。
 // 拒否にはしない。正しい値を捨てて古い価格を掲示し続ける方が害が大きいため。
@@ -51,12 +54,27 @@ const CHANGE_WARN_RATIO = 0.2;
 // 取り違え検知。取得元ページが自分で載せている「月間平均」と突き合わせ、
 // これを超えて食い違うなら別の表から拾ったとみなして採用しない。
 //
-// 実測（2026-10-05）:
-//   正しい値   銅 0.7% / 亜鉛 0.0% / 鉛 0.3%
-//   過去のバグ値 銅 63.0% / 亜鉛 29.2%
-// 相場が1ヶ月で20%動くのは歴史的な急変時に限られる。その場合は採用を見送り、
-// 前回値を据え置いたうえでジョブを落として知らせる（黙って誤値を出さない）。
-const CROSS_CHECK_RATIO = 0.2;
+// 閾値が金属ごとに違うのは、比較対象の性質が違うため。
+//   銅  : 月間平均は月が終わってから載る。比較相手は前月平均で、ラグが大きい
+//   亜鉛: 当月の行が進行中の平均として載る。現値に近い
+//   鉛  : 同じJSの月平均。現値に近い
+//
+// 根拠（実測・2026-10-05）:
+//   銅 2022〜2026の改定346件を前月平均と突き合わせた最大乖離 18.1%（2024/5/21）。
+//     15%超が8件、20%超は0件。20%では余裕が1.9ポイントしかなく、相場が大きく
+//     動いた日に正しい値を拒否してしまう。35%なら余裕17ポイント。
+//   亜鉛 2026の12件で同月平均との最大乖離 6.8%、前月平均とは 11.3%。
+//   正しい値の乖離は 銅0.7% / 亜鉛0.0% / 鉛0.3%。
+//   過去のバグ値は 銅63.0% / 亜鉛29.2% なので、この閾値でも両方とも捕まる。
+const CROSS_CHECK_RATIO = {
+  '銅': 0.35,
+  '鉛': 0.15,
+  '亜鉛': 0.15,
+};
+
+// 照合できない状態がこの日数続いたら、取得失敗と同じ扱いにしてジョブを落とす。
+// 一時的な改装と、恒久的に照合が効かなくなった状態を区別するため。
+const CROSS_CHECK_UNAVAILABLE_LIMIT_DAYS = 7;
 
 // 状態ファイル。建値そのものとは別に「最後に確認できた日時」を持つ。
 // 改定が無い日と、取得できていない日を、画面と運用の両方で区別するため。
@@ -111,7 +129,8 @@ function latestMonthlyAverage(html) {
     // 年が3つ以上並ぶ見出しを持つ表＝月間平均推移（改定履歴の表は年が1つ）
     if (years.length < 3) continue;
 
-    let latest = null;
+    let latest = null;    // 最新年の、確定している直近の月
+    let prevYear = null;  // 最新年の列がまだ空のとき用（前年の直近の月）
     for (const row of rows.slice(1)) {
       const text = stripTags(row);
       if (!/^\d{1,2}月/.test(text)) continue;
@@ -119,8 +138,12 @@ function latestMonthlyAverage(html) {
         Number(m[1].replace(/,/g, ''))
       );
       if (values.length === years.length) latest = values[values.length - 1];
+      else if (values.length === years.length - 1) prevYear = values[values.length - 1];
     }
+    // 年が明けた直後は最新年の列が全部空になる。そのまま null を返すと
+    // 1ヶ月ほど取り違え検知が消えるので、前年12月の平均で代用する。
     if (latest) return latest;
+    if (prevYear) return prevYear;
   }
   return null;
 }
@@ -128,24 +151,31 @@ function latestMonthlyAverage(html) {
 // 抽出した建値が、同じページの月間平均と大きく食い違っていないかを見る。
 // 「もっともらしいが別の表から拾った値」を捕まえるのはこの検査だけ。
 // 妥当域（PRICE_RANGE）では今回のバグを捕まえられなかった。
+// 'ok'（照合して問題なし） / 'unavailable'（照合材料が無い） / 'mismatch'（食い違う）
 function crossCheck(metal, price, monthlyAverage) {
+  if (process.env.SKIP_CROSS_CHECK === 'true') {
+    console.log(`::warning::${metal}: 照合を手動で省略しました（SKIP_CROSS_CHECK）。`);
+    return 'unavailable';
+  }
   if (!monthlyAverage) {
     console.log(
       `::warning::${metal}: 月間平均の表が見つからず、取り違えの照合ができませんでした。` +
         `取得元の構造が変わった可能性があります。`
     );
-    return true;
+    return 'unavailable';
   }
   const ratio = Math.abs(Number(price) - monthlyAverage) / monthlyAverage;
-  if (ratio > CROSS_CHECK_RATIO) {
+  if (ratio > CROSS_CHECK_RATIO[metal]) {
     console.error(
       `${metal}: 月間平均(${monthlyAverage.toLocaleString()})と` +
         `${(ratio * 100).toFixed(1)}%食い違います (${Number(price).toLocaleString()})。` +
-        `別の表から拾った可能性があるため採用しません。`
+        `別の表から拾った可能性があるため採用しません。` +
+        `相場の急変で正しい値が拒否された場合は、` +
+        `scrape-tatene の手動実行で skip_cross_check を true にして一度だけ通せます。`
     );
-    return false;
+    return 'mismatch';
   }
-  return true;
+  return 'ok';
 }
 
 // 取得した値が採用に足るかを一箇所で判定する
@@ -158,8 +188,9 @@ function accept(metal, price, date, source, monthlyAverage) {
     console.error(`${metal}: 改定日が古すぎるか不正です (${date})`);
     return null;
   }
-  if (!crossCheck(metal, price, monthlyAverage)) return null;
-  return { price, source, date };
+  const checked = crossCheck(metal, price, monthlyAverage);
+  if (checked === 'mismatch') return null;
+  return { price, source, date, crossCheck: checked };
 }
 
 // 銅建値: JX金属
@@ -211,7 +242,11 @@ async function scrapeLeadPrice() {
       return null;
     }
     const date = dateMatch ? `${dateMatch[1]}/${dateMatch[2]}/${dateMatch[3]}` : '';
-    // 同じJSが月平均を持っているのでそれを照合に使う
+    // 同じJSが月平均を持っているのでそれを照合に使う。
+    // f_monthlylAve が「月平均」である前提。三菱が年平均に差し替えると
+    // トレンドのある年に恒常的にずれ、正しい値を拒否し続ける側に倒れる。
+    // 拒否が連日続いたらまずこの変数の意味を疑うこと
+    // （f_pricelAve は現値と同じ値なので取り違えない）。
     const aveMatch = js.match(/f_monthlylAve\s*=\s*(\d+)/);
     const monthlyAverage = aveMatch ? Number(aveMatch[1]) : null;
     return accept('鉛', priceMatch[1], date, '三菱マテリアル', monthlyAverage);
@@ -268,6 +303,14 @@ async function scrapeZincPrice() {
   }
 }
 
+function loadStatus() {
+  try {
+    return JSON.parse(readFileSync(STATUS_PATH, 'utf-8'));
+  } catch {
+    return {};
+  }
+}
+
 async function main() {
   console.log('建値スクレイピング開始...');
 
@@ -276,6 +319,7 @@ async function main() {
   for (const item of prev) {
     prevMap[item.metal] = item;
   }
+  const prevStatus = loadStatus();
 
   const [copper, lead, zinc] = await Promise.all([
     scrapeCopperPrice(),
@@ -286,44 +330,65 @@ async function main() {
   const scraped = { '銅': copper, '鉛': lead, '亜鉛': zinc };
   const result = [];
   const failed = [];
+  const checks = {};
+  const now = new Date();
 
   for (const metal of ['銅', '鉛', '亜鉛']) {
     const got = scraped[metal];
 
-    if (got) {
-      const before = Number(prevMap[metal]?.price);
-      if (Number.isFinite(before) && before > 0) {
-        const ratio = Math.abs(Number(got.price) - before) / before;
-        if (ratio > CHANGE_WARN_RATIO) {
-          console.log(
-            `::warning::${metal}の建値が前回から${(ratio * 100).toFixed(0)}%動きました ` +
-              `(${before} → ${got.price})。採用しますが、取得元の構造変更でないか確認してください。`
-          );
-        }
+    if (!got) {
+      // 取得できなかった金属は、前回値を残す。
+      // 消すと画面からその金属が丸ごと消え、利用者には理由が分からないため。
+      // 日付も前回のまま出るので、利用者から見て「更新が止まっている」と分かる。
+      failed.push(metal);
+      checks[metal] = { crossCheck: 'failed' };
+      if (prevMap[metal]) {
+        result.push(prevMap[metal]);
+        console.log(
+          `${metal}: 取得失敗。前回値を据え置き (${prevMap[metal].price} / ${prevMap[metal].date})`
+        );
       }
-
-      result.push({
-        metal,
-        price: got.price,
-        direction: getDirection(got.price, prevMap[metal]?.price),
-        source: got.source,
-        url: SOURCE_URLS[metal],
-        date: got.date || '',
-      });
-      console.log(`${metal}: ${Number(got.price).toLocaleString()}円/t (${got.date})`);
       continue;
     }
 
-    // 取得できなかった金属は、前回値を残す。
-    // 消すと画面からその金属が丸ごと消え、利用者には理由が分からないため。
-    // 日付も前回のまま出るので、利用者から見て「更新が止まっている」と分かる。
-    failed.push(metal);
-    if (prevMap[metal]) {
-      result.push(prevMap[metal]);
-      console.log(
-        `${metal}: 取得失敗。前回値を据え置き (${prevMap[metal].price} / ${prevMap[metal].date})`
-      );
+    // 照合できない状態が続いていないかを見る。一時的な改装なら数日で戻る。
+    // 戻らないなら取り違え検知が恒久的に失われているので、取得失敗と同じ扱いにする。
+    let since = null;
+    if (got.crossCheck === 'unavailable') {
+      since = prevStatus?.checks?.[metal]?.unavailableSince ?? now.toISOString();
+      const days = (now.getTime() - Date.parse(since)) / 86400000;
+      if (days > CROSS_CHECK_UNAVAILABLE_LIMIT_DAYS) {
+        console.error(
+          `${metal}: 取り違えの照合ができない状態が${Math.floor(days)}日続いています。` +
+            `取得元の構造が変わったまま直っていない可能性が高いため、要確認として扱います。`
+        );
+        failed.push(metal);
+      }
     }
+    checks[metal] = since
+      ? { crossCheck: 'unavailable', unavailableSince: since }
+      : { crossCheck: 'ok' };
+
+    const before = Number(prevMap[metal]?.price);
+    if (Number.isFinite(before) && before > 0) {
+      const ratio = Math.abs(Number(got.price) - before) / before;
+      if (ratio > CHANGE_WARN_RATIO) {
+        console.log(
+          `::warning::${metal}の建値が前回から${(ratio * 100).toFixed(0)}%動きました ` +
+            `(${before} → ${got.price})。採用しますが、取得元の構造変更でないか確認してください。`
+        );
+      }
+    }
+
+    result.push({
+      metal,
+      price: got.price,
+      direction: getDirection(got.price, prevMap[metal]?.price),
+      source: got.source,
+      url: SOURCE_URLS[metal],
+      date: got.date || '',
+    });
+    console.log(`${metal}: ${Number(got.price).toLocaleString()}円/t (${got.date})`);
   }
 
   if (failed.length > 0) {
@@ -348,11 +413,9 @@ async function main() {
   // 「最後に確認できた日時」を建値そのものとは別に残す。
   // 改定が無い日（建値は変わらない）と、取得できていない日を区別するため。
   // 画面はこれを見て、確認が止まっているときに注意を出す。
-  // 毎日必ず変わるので、リポジトリに活動が生まれ、
-  // GitHub が60日間の無活動で scheduled workflow を止めることも防げる。
   writeFileSync(
     STATUS_PATH,
-    JSON.stringify({ checkedAt: new Date().toISOString(), failed }, null, 2),
+    JSON.stringify({ checkedAt: now.toISOString(), failed, checks }, null, 2),
     'utf-8'
   );
   console.log(`tatene-status.json を更新しました (失敗 ${failed.length}件)`);
