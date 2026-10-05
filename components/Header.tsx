@@ -84,7 +84,7 @@ export function Header() {
                 </span>
                 <a
                   href="tel:048-483-6687"
-                  className="flex items-center gap-1 font-black text-lg tracking-tight whitespace-nowrap text-gray-900 hover:underline"
+                  className="flex items-center gap-1 font-black text-base sm:text-lg tracking-tight whitespace-nowrap text-gray-900 hover:underline"
                   aria-label="048-483-6687 に電話する"
                 >
                   <svg className="w-4 h-4 text-brand-dark" fill="currentColor" viewBox="0 0 20 20">

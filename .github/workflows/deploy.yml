@@ -18,19 +18,32 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
-      - run: npm ci
-      # 独自ドメインへ移管したら env に SITE_BASE_PATH: '' を足す。
-      # 手順は docs/ドメイン移管手順.md を参照（robots/sitemap/DNS も併せて要変更）。
-      - run: npm run build
+      # Pages の設定そのものから base_path を受け取る。
+      # サブパス公開なら "/PURA-RECYCLE"、カスタムドメインなら ""。
+      # これにより、独自ドメインへ移管するとき Settings → Pages で
+      # ドメインを設定するだけで basePath が自動で外れる。
+      # コードもワークフローも触らずに済むので、取り違えが起きない。
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v6
 
-      - uses: actions/upload-pages-artifact@v3
+      - run: npm ci
+      # base_path と base_url の両方を Pages の設定から受け取る。
+      # これで Settings → Pages でカスタムドメインを設定するだけで、
+      # basePath も robots/sitemap の絶対URLも同時に切り替わる。
+      - run: npm run build
+        env:
+          SITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
+
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: out
 
@@ -43,18 +56,24 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      # 公開物がリポジトリと一致しているかを実際に取得して確かめる。
-      # basePath の取り違え・配信の停止・Pages のルーティング変更を
-      # まとめて検知する。建値が4ヶ月古いまま誰も気づかなかったことへの再発防止。
-      - name: Verify published data
+      # 公開物が壊れていないかを、実際に取得して確かめる。
+      # 建値が4ヶ月古いまま誰も気づかなかったことへの再発防止。
+      #
+      # 2つ見る。
+      #  1. 建値JSONがリポジトリと一致するか（配信の停止・取りこぼしの検知）
+      #  2. トップHTMLが参照しているJSが実在するか（basePath 取り違えの検知）
+      # 2が要るのは、public/ 配下は basePath に関係なく out/ 直下に出るため、
+      # 建値JSONの取得だけでは basePath を間違えても通ってしまうから。
+      - name: Verify published site
         env:
           PAGE_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
           set -euo pipefail
+
           for i in 1 2 3 4 5; do
             if curl -fsS "${PAGE_URL}data/tatene.json" -o published.json; then
               break
@@ -62,6 +81,7 @@ jobs:
             echo "取得できず。再試行 ${i}/5"
             sleep 10
           done
+
           node -e '
             const fs = require("fs");
             const key = (a) => a.map((x) => `${x.metal}:${x.price}:${x.date}`).join(" / ");
@@ -75,3 +95,21 @@ jobs:
             }
             console.log("公開中の建値はリポジトリと一致: " + repo);
           '
+
+          curl -fsS "${PAGE_URL}" -o index.html
+          # src 属性の値ごと取る。'/_next/...' だけを探すと
+          # '/PURA-RECYCLE/_next/...' の途中に一致して接頭辞を落とし、
+          # 正しく公開できていても404になる（実際に踏んだ）。
+          asset=$(grep -oE 'src="[^"]*/_next/static/[^"]*\.js"' index.html \
+                  | head -1 | sed 's/^src="//; s/"$//')
+          if [ -z "$asset" ]; then
+            echo "::error::トップHTMLからJSの参照が見つかりません。出力の形が変わった可能性があります。"
+            exit 1
+          fi
+          origin=$(node -e 'console.log(new URL(process.env.PAGE_URL).origin)')
+          if ! curl -fsS -o /dev/null "${origin}${asset}"; then
+            echo "::error::トップHTMLが参照するJSに到達できません: ${origin}${asset}"
+            echo "basePath が実際の公開パスとずれている可能性があります。"
+            exit 1
+          fi
+          echo "トップHTMLの参照アセットに到達: ${asset}"
