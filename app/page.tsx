@@ -47,12 +47,12 @@ export default function HomePage() {
 
   return (
     <div className="holographic-bg relative">
-      {/* ===== ヒーローセクション（モバイル専用・デザインバナー） ===== */}
+      {/* ===== ヒーローセクション（モバイル専用） ===== */}
       <section className="md:hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={withBasePath('/images/hero-banner.jpg')}
-          alt="非鉄金属買取 高価買取！安心・信頼のリサイクルパートナー｜株式会社プラ・リサイクル"
+          src={withBasePath('/images/top-yard.jpg')}
+          alt="株式会社プラ・リサイクルのヤード外観。ピカ銅・上銅・砲金・VA線の買取看板"
           className="w-full h-auto"
         />
       </section>
