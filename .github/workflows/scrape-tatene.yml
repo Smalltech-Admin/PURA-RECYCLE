@@ -22,6 +22,7 @@ jobs:
           node-version: 20
 
       - name: Run scraping script
+        id: scrape
         run: node scripts/scrape-tatene.mjs
 
       - name: Check for changes
@@ -44,6 +45,18 @@ jobs:
       # ここから毎日明示的に呼ぶ。更新が無い日も呼ぶことで、
       # 何らかの理由で公開内容がリポジトリとずれても翌日には揃う。
       - name: Trigger Pages deploy
+        if: ${{ !cancelled() }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: gh workflow run deploy.yml --ref main
+
+      # 取得に失敗した金属があればここでジョブを落とす。
+      # スクレイパ側で exit 1 すると、取得できた金属の更新と上のデプロイまで止まる。
+      # 配信を済ませてから落とすことで、GitHub からオーナーへ失敗メールが飛ぶ。
+      - name: Fail if any metal could not be scraped
+        if: ${{ steps.scrape.outputs.failed != '' }}
+        run: |
+          echo "建値の取得に失敗: ${{ steps.scrape.outputs.failed }}"
+          echo "取得元ページの構造が変わった可能性があります。scripts/scrape-tatene.mjs を確認してください。"
+          exit 1
