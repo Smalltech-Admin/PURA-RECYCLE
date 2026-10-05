@@ -26,6 +26,8 @@ jobs:
           cache: npm
 
       - run: npm ci
+      # 独自ドメインへ移管したら env に SITE_BASE_PATH: '' を足す。
+      # 手順は docs/ドメイン移管手順.md を参照（robots/sitemap/DNS も併せて要変更）。
       - run: npm run build
 
       - uses: actions/upload-pages-artifact@v3
@@ -42,3 +44,34 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - uses: actions/checkout@v4
+
+      # 公開物がリポジトリと一致しているかを実際に取得して確かめる。
+      # basePath の取り違え・配信の停止・Pages のルーティング変更を
+      # まとめて検知する。建値が4ヶ月古いまま誰も気づかなかったことへの再発防止。
+      - name: Verify published data
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          for i in 1 2 3 4 5; do
+            if curl -fsS "${PAGE_URL}data/tatene.json" -o published.json; then
+              break
+            fi
+            echo "取得できず。再試行 ${i}/5"
+            sleep 10
+          done
+          node -e '
+            const fs = require("fs");
+            const key = (a) => a.map((x) => `${x.metal}:${x.price}:${x.date}`).join(" / ");
+            const published = key(JSON.parse(fs.readFileSync("published.json", "utf-8")));
+            const repo = key(JSON.parse(fs.readFileSync("public/data/tatene.json", "utf-8")));
+            if (published !== repo) {
+              console.log("::error::公開中の建値がリポジトリと一致しません");
+              console.log("公開中    : " + published);
+              console.log("リポジトリ: " + repo);
+              process.exit(1);
+            }
+            console.log("公開中の建値はリポジトリと一致: " + repo);
+          '

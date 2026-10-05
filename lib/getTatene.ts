@@ -7,21 +7,28 @@ export type TateneItem = {
   date: string;
 };
 
-const FALLBACK_DATA: TateneItem[] = [
-  { metal: '銅', price: '2040000', direction: '⇧', source: 'JX金属', url: 'https://www.jx-nmm.com/cuprice/', date: '2026/04/04' },
-  { metal: '鉛', price: '366000', direction: '⇧', source: '三菱マテリアル', url: 'https://www.mmc.co.jp/corporate/ja/product/metalprice/lead-price.html', date: '2026/04/04' },
-  { metal: '亜鉛', price: '571000', direction: '→', source: '三井金属', url: 'https://www.mitsui-kinzoku.com/aen/', date: '2026/04/04' },
-];
+// 「取得できていない」と「値が無い」を混同しない。
+// 以前は取得に失敗すると半年前の固定値を返しており、それを画面が
+// 「◯◯ 現在」と表示していた。確認できていないものを確認できたように書かない。
+export type TateneResult =
+  | { status: 'ok'; items: TateneItem[] }
+  | { status: 'unavailable' };
 
-export async function fetchTatene(): Promise<TateneItem[]> {
+export async function fetchTatene(): Promise<TateneResult> {
   try {
     const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
-    const res = await fetch(`${basePath}/data/tatene.json`, { cache: 'no-store' });
-    if (!res.ok) return FALLBACK_DATA;
+    // 毎回その時点の建値を取りに行く。間にキャッシュが挟まって
+    // 古い建値が表示されることを避けるため、問い合わせ毎にURLを変える。
+    const res = await fetch(`${basePath}/data/tatene.json?t=${Date.now()}`, {
+      cache: 'no-store',
+    });
+    if (!res.ok) return { status: 'unavailable' };
+
     const data = await res.json();
-    if (Array.isArray(data) && data.length > 0) return data;
-    return FALLBACK_DATA;
+    if (!Array.isArray(data) || data.length === 0) return { status: 'unavailable' };
+
+    return { status: 'ok', items: data as TateneItem[] };
   } catch {
-    return FALLBACK_DATA;
+    return { status: 'unavailable' };
   }
 }

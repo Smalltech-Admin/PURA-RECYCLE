@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { fetchTatene, type TateneItem } from '@/lib/getTatene';
 
 /**
@@ -9,14 +10,55 @@ import { fetchTatene, type TateneItem } from '@/lib/getTatene';
  */
 export function TateneBar({ variant = 'pc' }: { variant?: 'pc' | 'mobile' }) {
   const [items, setItems] = useState<TateneItem[]>([]);
+  const [state, setState] = useState<'loading' | 'ok' | 'unavailable'>('loading');
 
   useEffect(() => {
-    fetchTatene().then(setItems);
+    fetchTatene().then((result) => {
+      if (result.status === 'ok') {
+        setItems(result.items);
+        setState('ok');
+      } else {
+        setState('unavailable');
+      }
+    });
   }, []);
 
-  if (items.length === 0) return null;
-
   const isMobile = variant === 'mobile';
+
+  // 取得中は何も出さない（一瞬だけ枠が出て消えるのを避ける）
+  if (state === 'loading') return null;
+
+  // 取得できなかったとき。価格も日付も出さない。
+  // 古い値を「現在」として出すと、利用者はそれを根拠に判断してしまう。
+  if (state === 'unavailable') {
+    return (
+      <div className="bg-yellow-50 border border-yellow-300 rounded-none p-3 h-full flex flex-col">
+        <h3
+          className={`font-bold text-gray-700 border-b border-yellow-300 pb-1 shrink-0 ${
+            isMobile ? 'text-base' : 'text-sm'
+          }`}
+        >
+          相場建値情報（円/トン）
+        </h3>
+        <div className="flex-1 flex flex-col justify-center gap-2 py-2">
+          <p className={`text-gray-700 ${isMobile ? 'text-base' : 'text-sm'}`}>
+            只今、建値を取得できません。
+            <br />
+            お手数ですが直接お問い合わせください。
+          </p>
+          <Link
+            href="/contact"
+            className={`text-blue-600 hover:underline font-bold ${
+              isMobile ? 'text-base' : 'text-sm'
+            }`}
+          >
+            お問い合わせはこちら
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   const tateneDate = items.find((i) => i.date)?.date;
 
   return (
