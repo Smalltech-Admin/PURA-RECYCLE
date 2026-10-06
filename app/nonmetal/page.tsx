@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AppImage as Image } from '@/components/AppImage';
-import { fetchPrices, type PriceItem } from '@/lib/getPrices';
+import { usePrices } from '@/lib/usePrices';
+import type { PriceItem } from '@/lib/getPrices';
 import { NonmetalSidebar } from '@/components/NonmetalSidebar';
 import { UpBadge } from '@/components/UpBadge';
 import { PriceTag } from '@/components/PriceTag';
@@ -11,14 +12,7 @@ import { PRODUCTS } from '@/lib/products';
 import { withBasePath } from '@/lib/basePath';
 
 export default function NonmetalPage() {
-  const [prices, setPrices] = useState<PriceItem[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchPrices()
-      .then(setPrices)
-      .finally(() => setLoading(false));
-  }, []);
+  const { prices, loading } = usePrices();
 
   // レンダリング後にURLハッシュへスクロール（stickyヘッダー高さ分オフセット）
   useEffect(() => {

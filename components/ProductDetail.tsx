@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { fetchPrices, type PriceItem } from '@/lib/getPrices';
+import { usePrices } from '@/lib/usePrices';
+import type { PriceItem } from '@/lib/getPrices';
 import { withBasePath } from '@/lib/basePath';
 import { UpBadge } from '@/components/UpBadge';
 import { PriceTag } from '@/components/PriceTag';
@@ -10,14 +11,7 @@ import type { Product } from '@/lib/products';
 import { PRODUCT_NOTES } from '@/lib/productNotes';
 
 export function ProductDetail({ product }: { product: Product }) {
-  const [prices, setPrices] = useState<PriceItem[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchPrices()
-      .then(setPrices)
-      .finally(() => setLoading(false));
-  }, []);
+  const { prices, loading } = usePrices();
 
   const price = prices.find((p) => p.subcategory === product.name);
   const notes = PRODUCT_NOTES[product.id];

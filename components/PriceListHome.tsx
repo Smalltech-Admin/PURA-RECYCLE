@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
-import { fetchPrices, type PriceItem } from '@/lib/getPrices';
+import { usePrices } from '@/lib/usePrices';
 import { UpBadge } from '@/components/UpBadge';
 import { withBasePath } from '@/lib/basePath';
 
@@ -86,15 +86,13 @@ const SUBCATEGORY_IMAGE: Record<string, string> = {
   '基板': '/images/000kiban.gif',
 };
 
+/**
+ * 到達不能。どこからも import されていない（2026-10-06 時点）。
+ * 画像の対応表（SUBCATEGORY_IMAGE）も旧スプレッドシートの品目名のままで、
+ * 表示には使われていない。消すか作り直すかは別途判断する。
+ */
 export function PriceListHome() {
-  const [items, setItems] = useState<PriceItem[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchPrices()
-      .then(setItems)
-      .finally(() => setLoading(false));
-  }, []);
+  const { prices: items, loading } = usePrices();
 
   const lastUpdated = '';
 

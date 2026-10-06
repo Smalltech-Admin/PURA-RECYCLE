@@ -3,22 +3,17 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { PRODUCTS } from '@/lib/products';
-import { fetchPrices, type PriceItem } from '@/lib/getPrices';
+import { usePrices } from '@/lib/usePrices';
+import type { PriceItem } from '@/lib/getPrices';
 
 export function NonmetalSidebar({ current }: { current: string }) {
   const [open, setOpen] = useState(false);
-  const [prices, setPrices] = useState<PriceItem[] | null>(null);
-
-  useEffect(() => {
-    fetchPrices()
-      .then(setPrices)
-      .catch(() => setPrices([]));
-  }, []);
+  const { prices, loading } = usePrices();
 
   // サイドバー候補のうち、シートに該当行があり「非表示」でないものだけ（読込中は全件）
   const items = PRODUCTS.filter((p) => {
     if (!p.sidebar) return false;
-    if (prices === null) return true;
+    if (loading) return true;
     const row = prices.find((pr) => pr.subcategory === p.name);
     return row !== undefined && !row.hidden;
   });

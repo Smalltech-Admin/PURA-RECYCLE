@@ -32,6 +32,13 @@ jobs:
           SKIP_CROSS_CHECK: ${{ inputs.skip_cross_check }}
         run: node scripts/scrape-tatene.mjs
 
+      # 買取価格の控え。画面は普段スプレッドシートを直接読むが、
+      # 応答が遅い日・届かない日に空白を出さないための保険。
+      # 失敗しても建値の更新と配信は止めない。
+      - name: Snapshot sheet data
+        continue-on-error: true
+        run: node scripts/snapshot-sheets.mjs
+
       - name: Check for price changes
         id: changes
         run: |

@@ -10,7 +10,8 @@ import { LineButton } from '@/components/LineButton';
 import { NonmetalSidebar } from '@/components/NonmetalSidebar';
 import { UpBadge } from '@/components/UpBadge';
 import { PriceTag } from '@/components/PriceTag';
-import { fetchPrices, type PriceItem } from '@/lib/getPrices';
+import { usePrices } from '@/lib/usePrices';
+import type { PriceItem } from '@/lib/getPrices';
 import { PRODUCTS } from '@/lib/products';
 import { withBasePath } from '@/lib/basePath';
 // import { ShineEffect } from '@/components/ShineEffect';
@@ -19,14 +20,7 @@ import { withBasePath } from '@/lib/basePath';
 const DEFAULT_TOP_IDS = ['pika', '1gou-a', '2gou'];
 
 export default function HomePage() {
-  const [prices, setPrices] = useState<PriceItem[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchPrices()
-      .then(setPrices)
-      .finally(() => setLoading(false));
-  }, []);
+  const { prices, loading } = usePrices();
 
   function findPrice(name: string) {
     return prices.find((p) => p.subcategory === name);

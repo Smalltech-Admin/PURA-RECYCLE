@@ -1,17 +1,27 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { fetchPrices, filterByCategory, type PriceItem } from './getPrices';
+import { useEffect, useState } from 'react';
+import { filterByCategory, subscribePrices, type PriceItem } from './getPrices';
 
-export function usePricesByCategory(category: string) {
-  const [items, setItems] = useState<PriceItem[]>([]);
+/**
+ * 価格を購読する。取得はページ全体で1回だけで、結果は全部品で共有される。
+ * 部品ごとに取りに行くと同じURLへ要求が重なり、かえって遅くなる。
+ */
+export function usePrices() {
+  const [prices, setPrices] = useState<PriceItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchPrices()
-      .then((all) => setItems(filterByCategory(all, category)))
-      .finally(() => setLoading(false));
-  }, [category]);
+    return subscribePrices((items) => {
+      setPrices(items);
+      setLoading(false);
+    });
+  }, []);
 
-  return { items, loading };
+  return { prices, loading };
+}
+
+export function usePricesByCategory(category: string) {
+  const { prices, loading } = usePrices();
+  return { items: filterByCategory(prices, category), loading };
 }
