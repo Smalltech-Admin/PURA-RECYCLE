@@ -1,14 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { fetchNews, type NewsItem } from '@/lib/getNews';
+import { subscribeNews, type NewsItem } from '@/lib/getNews';
 
 export function NewsSection() {
   const [items, setItems] = useState<NewsItem[]>([]);
 
   useEffect(() => {
-    fetchNews().then((data) => {
-      const sorted = data.sort((a, b) => b.date.localeCompare(a.date));
+    return subscribeNews((data) => {
+      const sorted = [...data].sort((a, b) => b.date.localeCompare(a.date));
       setItems(sorted.slice(0, 4));
     });
   }, []);

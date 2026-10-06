@@ -1,0 +1,405 @@
+{
+  "fetchedAt": "2026-10-06T07:23:54.291Z",
+  "items": [
+    {
+      "category": "主力",
+      "subcategory": "ピカ線",
+      "price": "1980",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "UP",
+      "hidden": false,
+      "top": true
+    },
+    {
+      "category": "主力",
+      "subcategory": "並銅A",
+      "price": "1930",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": true
+    },
+    {
+      "category": "主力",
+      "subcategory": "並銅B",
+      "price": "1900",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "主力",
+      "subcategory": "2号銅",
+      "price": "1760",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": true
+    },
+    {
+      "category": "主力",
+      "subcategory": "砲金",
+      "price": "1720",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "主力",
+      "subcategory": "込砲金",
+      "price": "1580",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "主力",
+      "subcategory": "込真鍮",
+      "price": "1200",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "主力",
+      "subcategory": "1本線（A）100（B）60",
+      "price": "1520",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "主力",
+      "subcategory": "1本線（38㎜）",
+      "price": "1300",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "主力",
+      "subcategory": "3本線（A）",
+      "price": "1100",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "主力",
+      "subcategory": "3本線（B）",
+      "price": "1000",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "主力",
+      "subcategory": "3本線（C）",
+      "price": "880",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "主力",
+      "subcategory": "Fケーブル",
+      "price": "850",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "主力",
+      "subcategory": "冷媒管",
+      "price": "970",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "主力",
+      "subcategory": "雑線",
+      "price": "550",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "主力",
+      "subcategory": "雑品（㎏）",
+      "price": "270",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "主力",
+      "subcategory": "雑品（セット）",
+      "price": "8500",
+      "unit": "円/セット",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "主力",
+      "subcategory": "給湯器",
+      "price": "410",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "主力",
+      "subcategory": "アルミサッシ",
+      "price": "360",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "主力",
+      "subcategory": "アルミホイール",
+      "price": "450",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "ステンレスA",
+      "price": "160",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "ステンレスB",
+      "price": "100",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "アルミ ガラ",
+      "price": "130",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "アルミ タイヤA",
+      "price": "2000",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "アルミ タイヤB",
+      "price": "1500",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "バッテリーA",
+      "price": "100",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "バッテリーB",
+      "price": "100",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": true,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "モーター",
+      "price": "120",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "鉛",
+      "price": "120",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "ガスメーター",
+      "price": "100",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "トランス",
+      "price": "150",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "ブレーカー",
+      "price": "200",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "基盤A",
+      "price": "3000",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "基盤B",
+      "price": "2000",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "ハードディスク",
+      "price": "100",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "アンテナ線",
+      "price": "50",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "自転車A",
+      "price": "500",
+      "unit": "円/個",
+      "note": "",
+      "direction": "",
+      "hidden": true,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "自転車B",
+      "price": "300",
+      "unit": "円/個",
+      "note": "",
+      "direction": "",
+      "hidden": true,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "鉄",
+      "price": "30",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": true,
+      "top": false
+    },
+    {
+      "category": "その他",
+      "subcategory": "ラジエーター",
+      "price": "930",
+      "unit": "円/kg",
+      "note": "",
+      "direction": "",
+      "hidden": false,
+      "top": false
+    }
+  ]
+}
