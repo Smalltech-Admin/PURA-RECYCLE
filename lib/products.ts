@@ -51,7 +51,7 @@ export const PRODUCTS: Product[] = [
   { no: 30, id: 'gas-meter', name: 'ガスメーター', image: '/images/products/gas-meter.jpg', sidebar: false },
   { no: 31, id: 'trans', name: 'トランス', image: '/images/products/trans.jpg', sidebar: false },
   { no: 32, id: 'breaker', name: 'ブレーカー', image: '/images/products/breaker.jpg', sidebar: false },
-  { no: 33, id: 'kiban-a', name: '基盤A', image: '/images/000kiban.gif', sidebar: false },
+  { no: 33, id: 'kiban-a', name: '基盤A', image: '/images/products/kiban-a.jpg', sidebar: false },
   { no: 34, id: 'kiban-b', name: '基盤B', image: '/images/000kiban.gif', sidebar: false },
   { no: 35, id: 'hdd', name: 'ハードディスク', image: '/images/products/hdd.jpg', sidebar: false },
   { no: 36, id: 'antenna', name: 'アンテナ線', image: '/images/000hanes.gif', sidebar: false },
