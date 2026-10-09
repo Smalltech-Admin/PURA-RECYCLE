@@ -26,7 +26,7 @@ export const PRODUCTS: Product[] = [
   { no: 7, id: 'komihoukin', name: '込砲金', image: '/images/products/komihoukin.jpg', sidebar: true },
   { no: 8, id: 'komishinchuu', name: '込真鍮', image: '/images/products/komishinchuu.jpg', sidebar: true },
   { no: 9, id: '1ponsen-a', name: '1本線（A）100（B）60', image: '/images/products/1ponsen.jpg', sidebar: true },
-  { no: 10, id: '1ponsen-38', name: '1本線（38㎜）', image: '/images/products/1ponsen.jpg', sidebar: true },
+  { no: 10, id: '1ponsen-38', name: '1本線（38㎜）', image: '/images/products/1ponsen-38.jpg', sidebar: true },
   { no: 11, id: '3ponsen-a', name: '3本線（A）', image: '/images/products/3ponsen-a.jpg', sidebar: true },
   { no: 12, id: '3ponsen-b', name: '3本線（B）', image: '/images/products/3ponsen-b.jpg', sidebar: true },
   { no: 13, id: '3ponsen-c', name: '3本線（C）', image: '/images/products/3ponsen-c.jpg', sidebar: true },
