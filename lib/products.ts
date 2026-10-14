@@ -40,8 +40,6 @@ export const PRODUCTS: Product[] = [
   { no: 20, id: 'arumi-hoile', name: 'アルミホイール', image: '/images/products/arumi-hoile.jpg', sidebar: true },
   // サブ品目（サイドバー非表示）
   { no: 21, id: 'stainless-a', name: 'ステンレスA', image: '/images/products/stainless.jpg', sidebar: false },
-  { no: 22, id: 'stainless-b', name: 'ステンレスB', image: '/images/products/stainless.jpg', sidebar: false },
-  { no: 23, id: 'arumi-gara', name: 'アルミ ガラ', image: '/images/000zappin2.gif', sidebar: false },
   { no: 24, id: 'arumi-tire-a', name: 'アルミ タイヤA', desc: '16インチアップ　タイヤ付アルミホイール。', image: '/images/products/arumi-tire-a.jpg', sidebar: false },
   { no: 25, id: 'arumi-tire-b', name: 'アルミ タイヤB', desc: '12.13.14.15インチ　タイヤ付アルミホイール。', image: '/images/products/arumi-tire-b.jpg', sidebar: false },
   { no: 26, id: 'battery-a', name: 'バッテリーA', image: '/images/products/battery.jpg', sidebar: false },
@@ -54,10 +52,12 @@ export const PRODUCTS: Product[] = [
   { no: 33, id: 'kiban-a', name: '基盤A', image: '/images/products/kiban-a.jpg', sidebar: false },
   { no: 34, id: 'kiban-b', name: '基盤B', image: '/images/000kiban.gif', sidebar: false },
   { no: 35, id: 'hdd', name: 'ハードディスク', image: '/images/products/hdd.jpg', sidebar: false },
-  { no: 36, id: 'antenna', name: 'アンテナ線', image: '/images/000hanes.gif', sidebar: false },
   { no: 37, id: 'zappin', name: '雑品', image: '/images/products/zappin.jpg', sidebar: false },
   { no: 38, id: 'jitensha-a', name: '自転車A', image: '', sidebar: false },
   { no: 39, id: 'jitensha-b', name: '自転車B', image: '', sidebar: false },
   { no: 40, id: 'tetsu', name: '鉄', image: '', sidebar: false },
   { no: 41, id: 'radiator', name: 'ラジエーター', image: '/images/products/radiator.jpg', sidebar: false },
+  { no: 43, id: 'gara-keitai', name: 'ガラ携帯', desc: '携帯電話本体のスクラップ。', image: '/images/products/gara-keitai.jpg', sidebar: false },
+  { no: 44, id: 'kuro-moter', name: '黒モーター', desc: '冷却用コンプレッサーの屑。', image: '/images/products/kuro-moter.jpg', sidebar: false },
+  { no: 45, id: 'memory', name: 'メモリー', desc: 'パソコンのメモリ基板。', image: '/images/products/memory.jpg', sidebar: false },
 ];
