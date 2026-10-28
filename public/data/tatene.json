@@ -1,11 +1,11 @@
 [
   {
     "metal": "銅",
-    "price": "2320000",
-    "direction": "→",
+    "price": "2380000",
+    "direction": "⇧",
     "source": "JX金属",
     "url": "https://www.jx-nmm.com/cuprice/",
-    "date": "2026/10/23"
+    "date": "2026/10/27"
   },
   {
     "metal": "鉛",
@@ -17,10 +17,10 @@
   },
   {
     "metal": "亜鉛",
-    "price": "667000",
-    "direction": "→",
+    "price": "682000",
+    "direction": "⇧",
     "source": "三井金属",
     "url": "https://www.mitsui-kinzoku.com/aen/",
-    "date": "2026/10/22"
+    "date": "2026/10/27"
   }
 ]
