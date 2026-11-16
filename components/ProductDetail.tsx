@@ -9,12 +9,14 @@ import { UpBadge } from '@/components/UpBadge';
 import { PriceTag } from '@/components/PriceTag';
 import type { Product } from '@/lib/products';
 import { PRODUCT_NOTES } from '@/lib/productNotes';
+import { PRODUCT_SPECS } from '@/lib/productSpecs';
 
 export function ProductDetail({ product }: { product: Product }) {
   const { prices, loading } = usePrices();
 
   const price = prices.find((p) => p.subcategory === product.name);
   const notes = PRODUCT_NOTES[product.id];
+  const specs = PRODUCT_SPECS[product.id];
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -50,6 +52,17 @@ export function ProductDetail({ product }: { product: Product }) {
             </div>
           )}
           {price?.direction === 'UP' && <UpBadge size="lg" />}
+          {specs && (
+            <div className="bg-brand/15 border-t-2 border-brand px-4 py-3">
+              <ul className="space-y-1">
+                {specs.map((spec) => (
+                  <li key={spec} className="text-base md:text-lg font-bold text-gray-900 leading-snug">
+                    {spec}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         {/* 価格 */}
