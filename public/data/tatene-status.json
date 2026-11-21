@@ -1,6 +1,8 @@
 {
-  "checkedAt": "2026-11-20T00:03:33.454Z",
-  "failed": [],
+  "checkedAt": "2026-11-21T00:03:48.268Z",
+  "failed": [
+    "亜鉛"
+  ],
   "checks": {
     "銅": {
       "crossCheck": "ok"
@@ -9,7 +11,7 @@
       "crossCheck": "ok"
     },
     "亜鉛": {
-      "crossCheck": "ok"
+      "crossCheck": "failed"
     }
   }
 }
